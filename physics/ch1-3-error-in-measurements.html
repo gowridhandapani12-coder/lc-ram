@@ -1,0 +1,1489 @@
+<title>Error in Measurements · LC Ram</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Lexend:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a study app. Sticky top bar (brand + view tabs), course sidebar on the left (strands, then this chapter's topics),
+   one view visible at a time. Palette: terracotta, blush, apricot, cream, sage, olive. */
+:root{
+  --bg:#f7efe5; --surface:#fffaf4; --surface-2:#f2e3d2; --ink:#3b2b21; --muted:#7a6555; --line:#e4d3c0; --grid:#efe2d3;
+  --terra:#b4673f; --terra-ink:#9a5130; --blush:#dfc0aa; --apricot:#d4956a; --cream:#f2e3d2; --sage:#cacbbc; --olive:#9d9a80; --olive-ink:#6b6850;
+  --accent:var(--terra); --on-accent:#fffaf4;
+  --ray:#b4532b; --ray2:#5f6f3a; --ray3:#c9832f; --img:#946a84;
+  --glass:rgba(157,154,128,.2); --glass-edge:#8f8b6c;
+  --good:#5d7a35; --bad:#b0442a; --warn:#c08022;
+  --f-display:"Fredoka", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Nunito", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211b16; --surface:#2a231d; --surface-2:#342b23; --ink:#f2e3d2; --muted:#bca996; --line:#463a30; --grid:#382e26;
+  --terra:#de8a5e; --terra-ink:#e9a079; --blush:#dfc0aa; --apricot:#e3a77c; --cream:#f2e3d2; --sage:#cacbbc; --olive:#b5b297; --olive-ink:#cacbbc;
+  --on-accent:#211b16;
+  --ray:#ec8a5c; --ray2:#b8c287; --ray3:#ebb673; --img:#d6a6c2;
+  --glass:rgba(202,203,188,.13); --glass-edge:#a9a68a;
+  --good:#a9c27a; --bad:#ef8d70; --warn:#ebb673; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#211b16; --surface:#2a231d; --surface-2:#342b23; --ink:#f2e3d2; --muted:#bca996; --line:#463a30; --grid:#382e26;
+  --terra:#de8a5e; --terra-ink:#e9a079; --blush:#dfc0aa; --apricot:#e3a77c; --cream:#f2e3d2; --sage:#cacbbc; --olive:#b5b297; --olive-ink:#cacbbc;
+  --on-accent:#211b16;
+  --ray:#ec8a5c; --ray2:#b8c287; --ray3:#ebb673; --img:#d6a6c2;
+  --glass:rgba(202,203,188,.13); --glass-edge:#a9a68a;
+  --good:#a9c27a; --bad:#ef8d70; --warn:#ebb673; color-scheme:dark;
+}
+/* Font pairings (switchable in the top bar) */
+:root[data-font="easy"]{ --f-display:"Lexend", system-ui, sans-serif; --f-body:"Lexend", system-ui, sans-serif; }
+:root[data-font="clear"]{ --f-display:"Bricolage Grotesque", system-ui, sans-serif; --f-body:"Atkinson Hyperlegible", system-ui, sans-serif; }
+:root[data-font="notebook"]{ --f-display:"Caveat", "Segoe Print", cursive; --f-body:"Nunito", system-ui, sans-serif; }
+:root[data-font="notebook"] h1, :root[data-font="notebook"] h2{ letter-spacing:0; font-size:calc(var(--hs,1)*1.25em) }
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0;font-weight:700}
+h1{font-size:clamp(2.2rem,5vw,3.5rem)}
+h2{font-size:clamp(1.45rem,2.6vw,1.95rem)}
+h3{font-size:1.12rem}
+p{margin:0}
+a{color:var(--terra-ink)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:2.5px solid var(--terra);outline-offset:2px;border-radius:6px}
+button,select{font:inherit}
+button{font-size:.9rem;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-weight:700}
+button:hover{border-color:var(--terra)}
+button.primary{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+button.ghost{background:transparent}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+select{font-size:.9rem;padding:7px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);max-width:100%}
+input[type=range]{width:100%;accent-color:var(--terra)}
+[hidden]{display:none!important}
+
+/* ---------- Top bar ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.logo{width:36px;height:36px;border-radius:11px;background:var(--terra);display:grid;place-items:center;color:var(--on-accent);flex:none}
+.brand b{font-family:var(--f-display);font-size:1.15rem;display:block;line-height:1.1}
+.brand span{font-size:.78rem;color:var(--muted);display:block}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tools label{font-size:.78rem;color:var(--muted)}
+#menuBtn{display:none}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px}
+.tabs a{flex:none;display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.92rem;padding:8px 14px;border-radius:999px}
+.tabs a svg{width:18px;height:18px}
+.tabs a:hover{color:var(--ink);background:var(--surface-2)}
+.tabs a.on{background:var(--terra);color:var(--on-accent)}
+
+/* ---------- Shell ---------- */
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;max-width:1360px;margin:0 auto;padding-block:22px 60px}
+.side{position:sticky;top:120px;align-self:start;max-height:calc(100vh - 140px);overflow:auto;display:grid;gap:18px;padding-right:4px}
+.side h4{margin:0 0 6px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.topiclist{display:grid;gap:3px}
+.topiclist button{display:flex;align-items:center;gap:10px;text-align:left;border:0;border-radius:12px;padding:8px 10px;background:transparent;font-weight:700;font-size:.92rem;color:var(--ink)}
+.topiclist button svg{width:22px;height:22px;flex:none;color:var(--terra)}
+.topiclist button:hover{background:var(--surface-2)}
+.topiclist button.on{background:var(--blush);color:#3b2b21}
+.topiclist button.on svg{color:#9a5130}
+.course details{border-radius:12px}
+.course summary{cursor:pointer;font-weight:800;font-size:.88rem;padding:6px 8px;border-radius:10px;list-style:none;display:flex;justify-content:space-between;gap:6px}
+.course summary::-webkit-details-marker{display:none}
+.course summary::after{content:"+";color:var(--muted)}
+.course details[open] summary::after{content:"–"}
+.course summary:hover{background:var(--surface-2)}
+.course ol{list-style:none;margin:2px 0 8px;padding:0 0 0 8px;display:grid;gap:1px}
+.course li{font-size:.83rem;color:var(--muted);padding:3px 8px;border-radius:8px;display:flex;gap:8px}
+.course li .mono{font-size:.72rem;min-width:2.1em;padding-top:2px}
+.course li.here{background:var(--terra);color:var(--on-accent);font-weight:800}
+.course li.here .mono{color:var(--on-accent)}
+.soon{font-size:.72rem;color:var(--muted);padding:0 8px}
+.course li a{display:flex;gap:8px;color:inherit;text-decoration:none;flex:1;min-width:0}
+.course li.link{color:var(--ink);font-weight:700}
+.course li.link:hover{background:var(--surface-2)}
+.scrim{display:none}
+
+/* ---------- Generic blocks ---------- */
+.view{display:grid;gap:28px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.pad{padding:20px}
+.head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:end;justify-content:space-between}
+.head p{color:var(--muted);max-width:60ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--sage);color:#3b2b21}
+.pill.t{background:var(--blush)} .pill.a{background:var(--apricot);color:#3b2b21}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.8rem;font-weight:800;padding:3px 11px;border-radius:999px;border:1.5px solid currentColor}
+.chip.real{color:var(--good)} .chip.virtual{color:var(--img)} .chip.neutral{color:var(--muted)} .chip.alert{color:var(--bad)}
+.formula{font-family:var(--f-mono);font-size:1rem;background:var(--surface-2);border-radius:12px;padding:10px 14px;display:inline-block}
+canvas{display:block;width:100%;touch-action:none}
+
+/* ---------- Overview ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.hero h1 em{font-style:normal;color:var(--terra)}
+.hero .lede{font-size:1.1rem;color:var(--muted);margin-top:12px;max-width:52ch}
+.cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.herobox{border-radius:22px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.stat{padding:16px 18px;display:grid;gap:6px}
+.stat b{font-family:var(--f-display);font-size:2rem;line-height:1}
+.stat span{font-size:.85rem;color:var(--muted)}
+.prog{height:8px;border-radius:999px;background:var(--grid);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--terra);border-radius:999px;transition:width .3s}
+.topics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tcard{padding:18px;display:grid;gap:10px;align-content:start;position:relative;overflow:hidden}
+.tcard .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;color:#3b2b21}
+.tcard .ico svg{width:28px;height:28px}
+.tcard p{color:var(--muted);font-size:.93rem}
+.tcard .row{display:flex;gap:6px;flex-wrap:wrap}
+.tcard button{font-size:.82rem;padding:6px 12px}
+.lo-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.lo-list label{display:grid;grid-template-columns:22px 3.3em minmax(0,1fr);gap:10px;align-items:start;cursor:pointer}
+.lo-list input{width:19px;height:19px;margin-top:3px;accent-color:var(--good)}
+.lo-list .mono{font-size:.78rem;color:var(--terra-ink);padding-top:3px}
+
+/* ---------- Learn ---------- */
+.learn{display:grid;gap:20px}
+.lcard{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0;overflow:hidden;scroll-margin-top:130px}
+.lcard .vis{background:var(--surface-2);display:grid;gap:8px;padding:14px;align-content:center}
+.lcard .vis canvas{border-radius:12px;background:var(--surface)}
+.lcard .vis .cap{font-size:.8rem;color:var(--muted);text-align:center}
+.lcard .txt{padding:20px 22px;display:grid;gap:14px;align-content:start}
+.keys{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.keys li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start}
+.keys li i{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-style:normal;font-weight:800;font-family:var(--f-display);color:#3b2b21}
+.mistake{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;background:var(--surface-2);border-radius:12px;padding:10px 12px;font-size:.92rem}
+.mistake b{color:var(--bad)}
+.vis3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vis2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+
+/* ---------- Labs ---------- */
+.labtabs{display:flex;gap:6px;flex-wrap:wrap}
+.labtabs button{display:flex;align-items:center;gap:8px}
+.labtabs button svg{width:18px;height:18px}
+.labtabs button.on{background:var(--terra);color:var(--on-accent);border-color:var(--terra)}
+.lab{display:grid;gap:14px}
+.labhead{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.labhead .goal{font-size:.98rem;color:var(--muted);max-width:70ch}
+.sim{overflow:hidden}
+.sim canvas{cursor:crosshair}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px 20px;padding:16px;border-top:1px solid var(--line);background:var(--surface-2)}
+.ctl{display:grid;gap:5px;min-width:0}
+.ctl label,.ctl .lbl{font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.ctl output{font-family:var(--f-mono);color:var(--ink);font-weight:600}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.btns button{font-size:.83rem;padding:6px 12px}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.readout div{background:var(--surface);padding:10px 14px;display:grid;gap:2px}
+.readout span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.readout b{font-family:var(--f-mono);font-size:1.04rem;font-weight:600}
+.simchips{padding:12px 16px;border-top:1px solid var(--line)}
+.working{font-family:var(--f-mono);font-size:.86rem;padding:12px 16px;border-top:1px solid var(--line);color:var(--muted);overflow-x:auto;white-space:nowrap}
+.working b{color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 0}
+.legend button{display:flex;align-items:center;gap:7px;font-size:.8rem;padding:4px 11px}
+.legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.legend button[aria-pressed=true]{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.legend button[aria-pressed=false]{opacity:.45}
+.tries{display:flex;flex-wrap:wrap;gap:8px}
+.try{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px dashed var(--olive);border-radius:12px;padding:8px 12px;font-size:.9rem}
+.try b{font-family:var(--f-display);color:var(--terra-ink)}
+.exp-grid{display:grid;grid-template-columns:minmax(0,1fr) 190px}
+.screen-view{border-left:1px solid var(--line);display:grid;align-content:start;gap:8px;padding:12px;background:var(--surface-2)}
+.screen-view canvas{border-radius:10px;cursor:default}
+.meter{height:9px;border-radius:999px;background:var(--grid);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--good);transition:width .15s}
+.datapanel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line)}
+.tablewrap{overflow:auto;max-height:260px;border-right:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:.84rem}
+th,td{padding:6px 10px;text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;border-bottom:1px solid var(--grid);white-space:nowrap}
+th{font-family:var(--f-body);font-weight:800;color:var(--muted);font-size:.75rem;position:sticky;top:0;background:var(--surface)}
+td button{padding:1px 8px;font-size:.75rem}
+.empty{padding:20px 16px;color:var(--muted);font-size:.9rem}
+.graphbox{padding:10px;display:grid;gap:6px}
+.graphbox canvas{cursor:default}
+.result{font-size:.88rem;color:var(--muted)}
+.result b{color:var(--ink);font-family:var(--f-mono)}
+
+/* ---------- Mind map ---------- */
+.mmwrap{overflow-x:auto}
+#mm{width:100%;min-width:760px;display:block}
+#mm .link{fill:none;stroke-width:3;stroke-linecap:round}
+#mm .node{cursor:pointer}
+#mm .node rect{stroke-width:1.5}
+#mm .node text{font-family:var(--f-body);fill:var(--ink);font-size:14px;font-weight:700}
+#mm .branch text{font-family:var(--f-display);font-size:17px;fill:#3b2b21}
+#mm .center text{font-family:var(--f-display);font-size:22px;fill:var(--on-accent)}
+#mm .node:hover rect,#mm .node:focus rect{stroke:var(--ink)}
+#mm .node.sel rect{stroke:var(--ink);stroke-width:2.5}
+.mmdetail{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center}
+.mmdetail .ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#3b2b21}
+.mmdetail .ico svg{width:26px;height:26px}
+
+/* ---------- Infographics ---------- */
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.case{padding:12px;display:grid;gap:8px;align-content:start}
+.case canvas{border-radius:10px;background:var(--surface-2);cursor:default}
+.case h3{font-size:1rem}
+.case .use{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted)}
+.case .use svg{width:22px;height:22px;color:var(--terra)}
+.boundary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.boundary .case p{font-size:.9rem;color:var(--muted)}
+.bars{display:grid;gap:10px}
+.barrow{display:grid;grid-template-columns:130px minmax(0,1fr) 120px;gap:12px;align-items:center;font-size:.9rem}
+.barrow .track{height:22px;background:var(--grid);border-radius:8px;overflow:hidden}
+.barrow .track i{display:block;height:100%;border-radius:8px;background:var(--apricot)}
+.barrow .v{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);text-align:right}
+.around{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.around .panel{padding:16px;display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:start}
+.around .ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:#3b2b21}
+.around .ico svg{width:30px;height:30px}
+.around p{font-size:.88rem;color:var(--muted)}
+.around .chips{margin-top:6px}
+.around .chip{font-size:.72rem;padding:2px 8px}
+
+/* ---------- Flashcards ---------- */
+.fc-wrap{display:grid;gap:16px;justify-items:center}
+.fc-filter{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.fc-filter button.on{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+.deck{perspective:1400px;width:min(560px,100%);aspect-ratio:3/2;max-width:100%}
+.card3d{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d;cursor:pointer}
+.card3d.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;padding:26px;display:grid;align-content:center;gap:12px;text-align:center;border:1px solid var(--line);box-shadow:0 10px 30px rgba(59,43,33,.12)}
+.face.front{background:var(--surface)}
+.face.back{background:var(--blush);color:#3b2b21;transform:rotateY(180deg)}
+.face .tag{justify-self:center}
+.face h3{font-size:clamp(1.3rem,3.2vw,1.9rem)}
+.face .ans{font-size:clamp(1rem,2.4vw,1.2rem);line-height:1.45}
+.face .hint{font-size:.78rem;color:var(--muted);position:absolute;bottom:14px;left:0;right:0}
+.face.back .hint{color:#6b5545}
+.fc-controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.fc-meta{font-size:.9rem;color:var(--muted);text-align:center}
+button.got{background:var(--good);border-color:var(--good);color:var(--on-accent)}
+button.again{border-color:var(--bad);color:var(--bad)}
+
+/* ---------- Quiz ---------- */
+.qz{max-width:760px;width:100%;margin:0 auto;display:grid;gap:16px}
+.qz-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--grid);display:block}
+.dots i.cur{background:var(--ink)} .dots i.ok{background:var(--good)} .dots i.no{background:var(--bad)}
+.qcard{padding:24px;display:grid;gap:14px}
+.qcard h3{font-size:1.3rem}
+.opts{display:grid;gap:8px}
+.opts button{text-align:left;border-radius:14px;padding:12px 14px;font-weight:700;display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;align-items:center}
+.opts button span{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);font-family:var(--f-display)}
+.opts button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.opts button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surface))}
+.why{background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:.95rem}
+.final{padding:28px;display:grid;gap:14px;justify-items:center;text-align:center}
+.ring{width:150px;height:150px}
+.review{width:100%;display:grid;gap:8px;text-align:left}
+.review div{background:var(--surface-2);border-radius:12px;padding:10px 14px;font-size:.92rem}
+
+/* ---------- Formulae ---------- */
+.sheet{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fcell{padding:18px;display:grid;gap:10px;align-content:start}
+.fcell .big{font-family:var(--f-mono);font-size:1.35rem;font-weight:600}
+.fcell dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 10px;font-size:.88rem}
+.fcell dt{font-family:var(--f-mono);font-weight:600;color:var(--terra-ink)}
+.fcell dd{margin:0;color:var(--muted)}
+.fcell .ex{font-size:.86rem;background:var(--surface-2);border-radius:10px;padding:8px 10px;font-family:var(--f-mono)}
+footer{color:var(--muted);font-size:.84rem;display:grid;gap:4px;padding-top:10px}
+
+/* ---------- Glossary ---------- */
+.glbar{display:grid;gap:12px}
+input[type=search],input[type=text]{font:inherit;font-size:1rem;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);width:100%;min-width:0}
+input:focus{outline:none;border-color:var(--terra)}
+#glTopics button.on{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+.letters{display:flex;flex-wrap:wrap;gap:4px}
+.letters button{width:32px;height:32px;padding:0;border-radius:9px;font-size:.85rem}
+.letters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.letters button:disabled{opacity:.3;cursor:default}
+.gllist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gl-item{padding:16px 18px;display:grid;gap:8px;align-content:start;scroll-margin-top:130px}
+.gl-item header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px}
+.gl-item h3{font-size:1.2rem}
+.gl-item .aka{font-family:var(--f-mono);font-size:.78rem;color:var(--terra-ink)}
+.gl-item p{font-size:.95rem}
+.gl-item .foot{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.gl-item .foot button{font-size:.78rem;padding:4px 10px}
+.gl-item.flash{outline:3px solid var(--apricot)}
+.gl{all:unset;cursor:help;border-bottom:2px dotted var(--terra);font-weight:800;color:inherit}
+.gl:focus-visible{outline:2px solid var(--terra)}
+#glPop{position:absolute;z-index:50;max-width:min(340px,calc(100vw - 32px));background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 14px;font-size:.9rem;box-shadow:0 12px 30px rgba(0,0,0,.25);display:grid;gap:6px}
+#glPop b{font-family:var(--f-display);font-size:1.05rem}
+#glPop button{justify-self:start;font-size:.78rem;padding:3px 10px;background:transparent;color:var(--bg);border-color:var(--bg)}
+
+/* ---------- Exam prep ---------- */
+.exgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.donutbox{display:grid;grid-template-columns:150px minmax(0,1fr);gap:18px;align-items:center}
+.donut{width:150px;height:150px}
+.dn1{font:700 24px var(--f-display);fill:var(--ink)} .dn2{font:600 11px var(--f-body);fill:var(--muted)}
+.splits{display:grid;gap:12px}
+.splits>div{display:grid;grid-template-columns:14px minmax(0,1fr);gap:10px}
+.splits i{width:14px;height:14px;border-radius:4px;margin-top:4px}
+.splits p{font-size:.88rem;color:var(--muted)}
+.tips{margin:0;padding-left:1.3em;display:grid;gap:6px;font-size:.94rem}
+.cmds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.cmd{background:var(--surface-2);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.cmd b{font-family:var(--f-display);font-size:1.1rem;color:var(--terra-ink)}
+.cmd p{font-size:.88rem}
+.cmd em{font-style:normal;font-size:.82rem;color:var(--muted)}
+.practice,.predict{display:grid;gap:12px}
+#prType button.on{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+.pq{font-size:1.08rem;background:var(--surface-2);border-radius:14px;padding:14px 16px;min-height:72px}
+.pa{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pa input{flex:1 1 140px;width:auto}
+.fb{border-radius:12px;padding:12px 14px;font-size:.94rem;display:grid;gap:4px}
+.fb.ok{background:color-mix(in srgb,var(--good) 16%,var(--surface))}
+.fb.no{background:color-mix(in srgb,var(--bad) 13%,var(--surface))}
+.fb .steps{font-family:var(--f-mono);font-size:.86rem;display:grid;gap:2px;overflow-x:auto}
+.predict canvas{border-radius:12px;background:var(--surface-2);cursor:default}
+.predopts{display:grid;gap:8px}
+.predopts button.sel{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.longqs{display:grid;gap:14px}
+.lq{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.lq>header{background:var(--surface-2);padding:14px 16px;display:grid;gap:6px}
+.lq table{font-size:.86rem;width:auto}
+.lq .parts{display:grid}
+.lq .part{padding:12px 16px;border-top:1px solid var(--line);display:grid;gap:6px}
+.lq .part .q{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start}
+.lq .part .q b{font-family:var(--f-display)}
+.lq .marks{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);white-space:nowrap}
+.lq details summary{font-size:.86rem;font-weight:800;color:var(--terra-ink);cursor:pointer}
+.lq .ms{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:.9rem;margin-top:6px;display:grid;gap:4px}
+.rag,.skills{display:grid;gap:6px}
+.ragrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--surface-2);font-size:.92rem}
+.ragrow .btns button{width:30px;height:30px;padding:0;border-radius:50%}
+.ragrow button[data-c="r"]{border-color:var(--bad)} .ragrow button[data-c="a"]{border-color:var(--warn)} .ragrow button[data-c="g"]{border-color:var(--good)}
+.ragrow button.r{background:var(--bad);border-color:var(--bad)} .ragrow button.a{background:var(--warn);border-color:var(--warn)} .ragrow button.g{background:var(--good);border-color:var(--good)}
+.skills label{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;padding:8px 10px;border-radius:12px;background:var(--surface-2);font-size:.92rem;cursor:pointer}
+.skills input{width:18px;height:18px;margin-top:2px;accent-color:var(--good)}
+.skills small{display:block;color:var(--muted);font-size:.82rem}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1080px){ .topics,.cases,.around,.cmds{grid-template-columns:repeat(2,minmax(0,1fr))} .exgrid{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:680px){ .gllist,.cmds{grid-template-columns:minmax(0,1fr)} .donutbox{grid-template-columns:minmax(0,1fr);justify-items:center} }
+@media (max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  #menuBtn{display:inline-flex}
+  .side{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;z-index:40;background:var(--surface);padding:calc(18px + env(safe-area-inset-top,0px)) 16px 24px max(16px,env(safe-area-inset-left,0px));border-right:1px solid var(--line);transform:translateX(-105%);transition:transform .25s}
+  body.menu .side{transform:none}
+  body.menu .scrim{display:block;position:fixed;inset:0;z-index:35;background:rgba(33,27,22,.4)}
+  .hero,.lcard{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:680px){
+  body{font-size:16px}
+  .topics,.cases,.around,.boundary,.stats{grid-template-columns:minmax(0,1fr)}
+  .exp-grid{grid-template-columns:minmax(0,1fr)}
+  .screen-view{border-left:0;border-top:1px solid var(--line);grid-template-columns:110px minmax(0,1fr);align-items:center}
+  .datapanel{grid-template-columns:minmax(0,1fr)}
+  .tablewrap{border-right:0;border-bottom:1px solid var(--line)}
+  .barrow{grid-template-columns:90px minmax(0,1fr);}
+  .barrow .v{grid-column:2;text-align:left;margin-top:-6px}
+  .mmdetail{grid-template-columns:auto minmax(0,1fr)}
+  .mmdetail button{grid-column:1/-1}
+  .brand span{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+.course li a{display:flex;gap:8px;color:inherit;text-decoration:none;flex:1;min-width:0}
+.course li.link{color:var(--ink);font-weight:700}
+.course li.link:hover{background:var(--surface-2)}
+.sh-card{display:grid;gap:8px;padding:16px;align-content:start}
+.sh-card .ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#3b2b21}
+.sh-card .ico svg{width:24px;height:24px}
+.sh-card p{font-size:.9rem;margin:0}
+.sh-card ul{margin:0;padding-left:18px;font-size:.88rem;color:var(--muted);display:grid;gap:3px}
+.fbbox{padding:0 16px 14px}
+.predopts .btns button{min-width:100px}
+.ctl button[disabled]{opacity:.5}
+</style>
+
+<style>
+.cards2{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px}
+.cards2 button{text-align:left;max-width:100%;white-space:normal}
+.cards2 button.done{opacity:.45}
+.cards2 button.sel{outline:3px solid var(--terra)}
+</style>
+<!-- ================= TOP BAR ================= -->
+<!--subj-nav--><style id="subj-css">
+.subj{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;max-width:100%;min-width:0;margin-right:auto}
+.subj::-webkit-scrollbar{display:none}
+.subj a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:700;font-size:.86rem;padding:6px 12px;border-radius:999px;border:1.5px solid transparent}
+.subj a:hover{color:var(--ink);background:var(--surface-2)}
+.subj a.on{color:var(--ink);background:color-mix(in srgb,var(--terra) 16%,transparent);border-color:color-mix(in srgb,var(--terra) 40%,transparent)}
+@media (max-width:1180px){.subj{order:3;flex-basis:100%;margin-right:0}}
+</style><!--/subj-nav-->
+<header class="top">
+  <div class="gut">
+    <div class="brandrow" style="max-width:1360px;margin:0 auto">
+      <div class="brand">
+        <button id="menuBtn" class="ghost" aria-label="Open course menu" style="padding:6px 10px">☰</button>
+        <div class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12a8 8 0 01-14.3 4.9M4 12a8 8 0 0114.3-4.9"/><path d="M18 3v4.5h-4.5M6 21v-4.5h4.5"/></svg></div>
+        <div style="min-width:0"><b>Error in Measurements</b><span>LC Ram Physics · Chapter 1 · 1.3</span></div>
+      </div>
+      
+      
+      
+      <!--subj-nav--><nav class="subj" aria-label="Subjects"><a href="../index.html">Home</a><a href="../physics/index.html" class="on" aria-current="page">Physics</a></nav><!--/subj-nav-->
+      <div class="tools">
+        <label for="fontSel">Font</label>
+        <select id="fontSel">
+          <option value="playful">Playful: Fredoka + Nunito</option>
+          <option value="easy">Easy-read: Lexend</option>
+          <option value="clear">Clear: Bricolage + Atkinson</option>
+          <option value="notebook">Notebook: Caveat + Nunito</option>
+        </select>
+        <button id="themeBtn" class="ghost" aria-label="Change colour theme" title="Theme">◐ <span id="themeLbl">Auto</span></button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="Views" style="max-width:1360px;margin:0 auto">
+      <a href="#overview" data-v="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>Overview</a>
+      <a href="#learn" data-v="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/></svg>Learn</a>
+      <a href="#labs" data-v="labs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6M10 3v6L4 19a1 1 0 001 2h14a1 1 0 001-2l-6-10V3"/></svg>Labs</a>
+      <a href="#mindmap" data-v="mindmap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><path d="M6 6l4 4M18 6l-4 4M6 18l4-4M18 18l-4-4"/></svg>Mind map</a>
+      <a href="#infographics" data-v="infographics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Infographics</a>
+      <a href="#flashcards" data-v="flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 6V4h14v14h-4"/></svg>Flashcards</a>
+      <a href="#quiz" data-v="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 .5c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></svg>Quiz</a>
+      <a href="#exam" data-v="exam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 13l2 2 4-4"/></svg>Exam prep</a>
+      <a href="#glossary" data-v="glossary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h10a4 4 0 014 4v12H8a4 4 0 01-4-4z"/><path d="M8 9h6M8 13h4"/></svg>Glossary</a>
+      <a href="#formulae" data-v="formulae"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Formulae</a>
+    </nav>
+  </div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+<div class="gut">
+<div class="shell">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="side" id="side" aria-label="Course navigation">
+    <div>
+      <h4>This section</h4>
+      <div class="topiclist" id="topicList"></div>
+    </div>
+    <div class="course">
+      <h4>Chapters</h4>
+      <details open><summary>1 · The Nature of Science</summary><ol><li><span class="mono">1.1</span>The nature of scientific knowledge</li><li><span class="mono">1.2</span>Measurement and units</li><li class="here"><span class="mono">1.3</span>Error in measurements</li><li><span class="mono">1.4</span>Basic units and derived units</li><li><span class="mono">1.5</span>Scientific notation</li><li><span class="mono">1.6</span>Unit analysis</li></ol></details>
+      <details><summary>2 · Reflection of Light</summary><ol><li><span class="mono">2.1</span>Understanding the nature of light</li><li><span class="mono">2.2</span>Vision and light</li><li><span class="mono">2.3</span>Types of reflection</li><li><span class="mono">2.4</span>The laws of reflection of light</li><li class="link"><a href="ch2-5-plane-mirror-image.html"><span class="mono">2.5</span>The image produced in a plane mirror</a></li><li><span class="mono">2.6</span>Uses of mirrors in technological and medical contexts</li></ol></details>
+      <details><summary>3 · Refraction of Light</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>4 · Lenses</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>5 · Speed, Displacement and Velocity</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>6 · Acceleration</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>7 · Vectors and Scalars</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>8 · Force, Mass and Momentum</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>9 · Density, Pressure and Gravity</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>10 · Work, Energy and Power</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>11 · Circular Motion</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>12 · Elasticity and Hooke's Law</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>13 · Temperature and Thermometers</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>14 · Heat Transfer and Temperature Change</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>15 · Waves and Wave Motion</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>16 · Vibrations and Sound</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>17 · The Wave Nature of Light</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>18 · Static Electricity</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>19 · Potential Difference</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>20 · Current and Charge</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>21 · Potential Difference and Electromotive Force</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>22 · Resistance</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>23 · Heating Effect of an Electric Current</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>24 · Semiconductors</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>25 · Magnets and Magnetic Fields</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <p class="soon">Bold sections are ready. Others are coming soon. Chapters follow Real World Physics (2nd edition).</p>
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- ================= OVERVIEW ================= -->
+    <section class="view" data-view="overview">
+      <div class="hero">
+        <div>
+          <span class="pill t">Chapter 1 · The Nature of Science · 1.3</span>
+          <h1 style="margin-top:12px">Every measurement<br>has some error.<br><em>Know which kind.</em></h1>
+          <p class="lede">A badly zeroed balance, a reading taken from the wrong angle, a shaky stopwatch thumb: errors are part of every experiment. Learn to tell systematic from random error, accuracy from precision, and how to put a number on how wrong you might be.</p>
+          <div class="cta"><button class="primary" data-go="learn">Start learning</button><button data-go="labs">Open the labs</button><button data-go="quiz">Test yourself</button></div>
+        </div>
+        <div class="herobox"><canvas id="heroCanvas" aria-label="Animated targets showing accurate, precise, both and neither"></canvas></div>
+      </div>
+      <div class="stats">
+        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/5</b><div class="prog"><i id="stLOb"></i></div></div>
+        <div class="panel stat"><span>Flashcards you know</span><b id="stFC">0</b><div class="prog"><i id="stFCb"></i></div></div>
+        <div class="panel stat"><span>Best quiz score</span><b id="stQZ">–</b><div class="prog"><i id="stQZb"></i></div></div>
+      </div>
+      <div>
+        <div class="head" style="margin-bottom:14px"><h2>Six topics</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
+        <div class="topics" id="topicCards"></div>
+      </div>
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">By the end of this section</p><h2>You should be able to</h2></div><p style="font-size:.88rem">Tick each one when you're confident. Saved on this device.</p></div>
+        <ul class="lo-list" id="loList"></ul>
+        <p class="result" style="margin-top:10px">This page follows section 1.3 of Real World Physics (2nd edition), in Chapter 1 The Nature of Science. The explanations, labs and questions here are our own. Error and uncertainty matter in every experiment you do, including your Physics in Practice Investigation.</p>
+      </div>
+    </section>
+
+    <!-- ================= LEARN ================= -->
+    <section class="view" data-view="learn" hidden>
+      <div class="head"><div><p class="eyebrow">Visual notes</p><h2>Learn</h2></div><p>Picture first, three key ideas, one common mistake. Then open the lab and try it.</p></div>
+      <div class="learn" id="learnList"></div>
+    </section>
+
+    <!-- ================= LABS ================= -->
+    <section class="view" data-view="labs" hidden>
+      <div class="head"><div><p class="eyebrow">Interactive</p><h2>Labs</h2></div><p>Sort errors, fix a faulty balance, time a pendulum, aim at targets and read scales. Every result updates live.</p></div>
+      <div class="labtabs" id="labTabs"></div>
+
+      <div class="lab" data-lab="sources">
+        <div class="labhead"><span class="pill t">Error detective</span><p class="goal">Tap a situation, then tap the box it belongs in: systematic error or random error.</p></div>
+        <div class="panel sim">
+          <canvas id="edC" aria-label="Two boxes, systematic and random. Tap a box to place the selected situation."></canvas>
+          <div class="cards2" id="edCards"></div>
+          <div class="controls"><div class="ctl"><span class="lbl">Sorter</span><div class="btns"><button id="edReset">Shuffle &amp; reset</button></div></div></div>
+          <div class="readout" id="edOut"></div>
+          <div class="fbbox" id="edFb"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Sort all ten. Which ones caught you out?</div><div class="try"><b>2</b>For each one, was the cause the instrument, the person or the design?</div><div class="try"><b>3</b>Pick one systematic error and say how to remove it.</div></div>
+      </div>
+
+      <div class="lab" data-lab="systematic" hidden>
+        <div class="labhead"><span class="pill t">Collect &amp; fit</span><p class="goal">This electronic balance has a zero error you can't see. Weigh standard masses, plot reading against true mass, and fit a line: the intercept reveals the zero error.</p></div>
+        <div class="panel sim">
+          <canvas id="zeC" aria-label="Graph of balance reading against true mass with a fitted line"></canvas>
+          <div class="controls">
+            <div class="ctl" style="grid-column:1/-1"><span class="lbl">Weigh a standard mass</span><div class="btns" id="zeM"></div></div>
+            <div class="ctl"><span class="lbl">Balance</span><div class="btns"><button id="zeNew">New balance</button><button id="zeClr">Clear data</button></div></div>
+          </div>
+          <div class="datapanel" style="grid-template-columns:minmax(0,1fr)">
+            <div class="tablewrap" style="border-right:0"><table><thead><tr><th>True mass (g)</th><th>Reading (g)</th><th>Reading − true (g)</th></tr></thead><tbody id="zeTable"></tbody></table></div>
+          </div>
+          <div class="readout" id="zeOut"></div>
+          <div class="working" id="zeWork"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Weigh four masses. Is "reading − true" roughly the same each time?</div><div class="try"><b>2</b>What are the gradient and intercept of the line? What should they be?</div><div class="try"><b>3</b>Would averaging more readings remove this error? Why not?</div></div>
+      </div>
+
+      <div class="lab" data-lab="random" hidden>
+        <div class="labhead"><span class="pill t">Stopwatch timing</span><p class="goal">Time one swing of a pendulum by hand. Your reaction time makes each reading a little different. Take many readings and watch the average settle.</p></div>
+        <div class="panel sim">
+          <canvas id="rtC" aria-label="Dot plot of timings with the running average and the true value"></canvas>
+          <div class="controls">
+            <div class="ctl"><span class="lbl">Measure</span><div class="btns"><button class="primary" id="rt1">Time 1 swing</button><button id="rt10">Time 10 swings at once</button><button id="rtR">Reset</button></div></div>
+            <div class="ctl"><label for="rtS">How steady is your thumb? (spread) <output id="rtSo">0.10 s</output></label><input type="range" id="rtS" min="0.02" max="0.25" step="0.01" value="0.10"></div>
+          </div>
+          <div class="readout" id="rtOut"></div>
+          <div class="working" id="rtWork"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Take 5 readings, then 30. How does the average change?</div><div class="try"><b>2</b>Use "time 10 swings at once". Why is the error per swing so much smaller?</div><div class="try"><b>3</b>Make your thumb steadier. Which error does that reduce?</div></div>
+      </div>
+
+      <div class="lab" data-lab="accprec" hidden>
+        <div class="labhead"><span class="pill t">Target practice</span><p class="goal">Each dot is one measurement; the centre is the true value. Change the bias (systematic error) and the spread (random error) and see what happens to accuracy and precision.</p></div>
+        <div class="panel sim">
+          <canvas id="tgC" aria-label="Target with measurement dots; the centre is the true value"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="tgB">Systematic error (bias) <output id="tgBo">0</output></label><input type="range" id="tgB" min="0" max="10" step="1" value="0"></div>
+            <div class="ctl"><label for="tgSp">Random error (spread) <output id="tgSpo">3</output></label><input type="range" id="tgSp" min="0" max="10" step="1" value="3"></div>
+            <div class="ctl"><span class="lbl">Shots</span><div class="btns"><button id="tgNew">New set of readings</button></div></div>
+          </div>
+          <div class="readout" id="tgOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Make the readings precise but not accurate.</div><div class="try"><b>2</b>Make them accurate on average but not precise.</div><div class="try"><b>3</b>Which slider does averaging help with? Which does calibration fix?</div></div>
+      </div>
+
+      <div class="lab" data-lab="percent" hidden>
+        <div class="labhead"><span class="pill t">Percentage error</span><p class="goal">Compare your measured value with the true value. See how the same error is a big or small percentage depending on the size of the quantity.</p></div>
+        <div class="panel sim">
+          <canvas id="peC" aria-label="Bars comparing the true and measured values, with the error highlighted"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="peT">True value <output id="peTo">20.0 cm</output></label><input type="range" id="peT" min="1" max="100" step="0.5" value="20"></div>
+            <div class="ctl"><label for="peM">Measured value <output id="peMo">20.4 cm</output></label><input type="range" id="peM" min="0.5" max="110" step="0.1" value="20.4"></div>
+          </div>
+          <div class="readout" id="peOut"></div>
+          <div class="working" id="peWork"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Keep the error at 0.4 cm. Compare a 2 cm object with a 100 cm one.</div><div class="try"><b>2</b>What percentage error would you call "accurate"? Why?</div><div class="try"><b>3</b>Does a measured value below the true value give a negative % error? (We use the size.)</div></div>
+      </div>
+
+      <div class="lab" data-lab="estimate" hidden>
+        <div class="labhead"><span class="pill t">Read the scale</span><p class="goal">No true value? Estimate the error as half the smallest division of the instrument. Choose an instrument and see how much the percentage error drops.</p></div>
+        <div class="panel sim">
+          <canvas id="scC" aria-label="Zoomed-in instrument scale with the object and the reading"></canvas>
+          <div class="controls">
+            <div class="ctl" style="grid-column:1/-1"><span class="lbl">Instrument</span><div class="btns" id="scI"></div></div>
+            <div class="ctl" style="grid-column:1/-1"><span class="lbl">Object</span><div class="btns" id="scO"></div></div>
+          </div>
+          <div class="readout" id="scOut"></div>
+          <div class="working" id="scWork"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Measure the wire with the ruler, then the micrometer. By what factor does the % error drop?</div><div class="try"><b>2</b>Why is a metre stick fine for a bench but useless for a wire?</div><div class="try"><b>3</b>Which object and instrument give the smallest % error?</div></div>
+      </div>
+    </section>
+
+    <!-- ================= MIND MAP ================= -->
+    <section class="view" data-view="mindmap" hidden>
+      <div class="head"><div><p class="eyebrow">See the big picture</p><h2>Mind map</h2></div><p>Tap any bubble to see what it means and jump to its lab.</p></div>
+      <div class="panel pad mmdetail" id="mmDetail"></div>
+      <div class="panel mmwrap"><svg id="mm" viewBox="0 0 1100 780" role="img" aria-label="Mind map of errors in measurement"></svg></div>
+    </section>
+
+    <!-- ================= INFOGRAPHICS ================= -->
+    <section class="view" data-view="infographics" hidden>
+      <div class="head"><div><p class="eyebrow">Picture it</p><h2>Systematic vs random</h2></div><p>The two families of error, side by side.</p></div>
+      <div class="cases" id="cases"></div>
+
+      <div class="head"><div><p class="eyebrow">Three pictures</p><h2>Targets, offset, spread</h2></div></div>
+      <div class="boundary">
+        <div class="panel case"><canvas class="mini" data-mini="target"></canvas><h3>Precise, not accurate</h3><p>Tightly grouped but off-centre: a systematic error.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="zero"></canvas><h3>A zero error</h3><p>Every reading is shifted by the same amount: the line doesn't pass through the origin.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="spread"></canvas><h3>Random spread</h3><p>Readings scatter both ways around the true value; their average gets closer as you repeat.</p></div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:16px"><div><p class="eyebrow">Same object, different instruments</p><h2>Percentage error measuring a 0.35 mm wire</h2></div><p>Estimated error = half the smallest division.</p></div>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="head"><div><p class="eyebrow">Error in the real world</p><h2>When small errors matter</h2></div></div>
+      <div class="around" id="around"></div>
+    </section>
+
+<!-- ================= FLASHCARDS ================= -->
+    <section class="view" data-view="flashcards" hidden>
+      <div class="head"><div><p class="eyebrow">Spaced practice</p><h2>Flashcards</h2></div><p>Tap the card (or press Space) to flip it. Mark it "Got it" or "Again". Cards you know are saved.</p></div>
+      <div class="fc-wrap">
+        <div class="fc-filter" id="fcFilter"></div>
+        <div class="deck"><div class="card3d" id="fcCard" tabindex="0" role="button" aria-label="Flashcard, press to flip">
+          <div class="face front"><span class="pill tag" id="fcTag"></span><h3 id="fcQ"></h3><span class="hint">Tap to flip</span></div>
+          <div class="face back"><span class="pill tag a" id="fcTag2"></span><p class="ans" id="fcA"></p><span class="hint">Did you get it?</span></div>
+        </div></div>
+        <div class="fc-controls"><button id="fcPrev" aria-label="Previous card">←</button><button class="again" id="fcAgain">Again</button><button class="got" id="fcGot">Got it</button><button id="fcNext" aria-label="Next card">→</button></div>
+        <p class="fc-meta" id="fcMeta"></p>
+        <div class="fc-controls"><button class="ghost" id="fcShuffle">Shuffle</button><button class="ghost" id="fcUnknown">Only cards I don't know</button><button class="ghost" id="fcReset">Reset progress</button></div>
+      </div>
+    </section>
+
+    <!-- ================= QUIZ ================= -->
+    <section class="view" data-view="quiz" hidden>
+      <div class="qz" id="qz"></div>
+    </section>
+
+    <!-- ================= EXAM PREP ================= -->
+    <section class="view" data-view="exam" hidden>
+      <div class="head"><div><p class="eyebrow">Get exam ready</p><h2>Exam prep</h2></div><p>How Physics is assessed, what the question words mean, and unlimited practice with worked solutions.</p></div>
+
+      <div class="exgrid">
+        <div class="panel pad donutbox">
+          <svg viewBox="0 0 160 160" class="donut" aria-label="Assessment split: 60% written exam, 40% Physics in Practice Investigation">
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--sage)" stroke-width="26"/>
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--terra)" stroke-width="26" stroke-dasharray="218.7 364.4" transform="rotate(-90 80 80)"/>
+            <text x="80" y="76" text-anchor="middle" class="dn1">60 / 40</text><text x="80" y="96" text-anchor="middle" class="dn2">of your grade</text>
+          </svg>
+          <div class="splits">
+            <div><i style="background:var(--terra)"></i><div><b>Written exam · 60%</b><p>Higher or Ordinary level, set by the SEC.</p></div></div>
+            <div><i style="background:var(--sage)"></i><div><b>Physics in Practice Investigation · 40%</b><p>Done in 6th year from an SEC brief. Identifying and reducing errors is a big part of it.</p></div></div>
+          </div>
+        </div>
+        <div class="panel pad">
+          <h3 style="margin-bottom:10px">Top exam tips for errors</h3>
+          <ol class="tips">
+            <li>Name the <b>type</b> (systematic or random) <b>and the source</b> (instrument, person or design).</li>
+            <li>Systematic errors push readings <b>one way</b>; repeating doesn't remove them. Fix them by <b>calibrating</b> or changing the method.</li>
+            <li>Random errors scatter readings <b>both ways</b>; reduce them by <b>repeating and averaging</b> (or with a graph).</li>
+            <li><b>Accuracy</b> = close to the true value. <b>Precision</b> = close to each other. Don't swap them.</li>
+            <li>% error = error ÷ true value × 100. With no true value, use the <b>estimated error</b> (half the smallest division) ÷ the measured value.</li>
+            <li>Parallax: read scales with your eye <b>perpendicular</b> to the scale.</li>
+            <li>Give % errors to sensible precision (one or two significant figures) and always say what they mean.</li>
+            <li>The questions here are practice questions, not official SEC papers.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Read the question</p><h2>Question words</h2></div><p>Common instructions in questions on measurement and error. The meanings are plain-English summaries.</p></div>
+        <div class="cmds" id="cmds"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad practice">
+          <div class="head"><div><p class="eyebrow">Error calculations</p><h2>Calculation trainer</h2></div></div>
+          <div class="btns" id="prType"></div>
+          <div class="pq" id="pq"></div>
+          <div class="pa"><input id="paIn" type="text" inputmode="decimal" placeholder="Your answer" aria-label="Your answer" autocomplete="off"><span id="paUnit" class="mono"></span><button class="primary" id="paCheck">Check</button><button id="paShow">Show solution</button><button id="paNext">New question</button></div>
+          <div id="paFb"></div>
+          <p class="result" id="paScore"></p>
+        </div>
+        <div class="panel pad predict">
+          <div class="head"><div><p class="eyebrow">Quick-fire drill</p><h2>Systematic or random?</h2></div></div>
+          <canvas id="predC" aria-label="Two boxes, systematic and random; the right one lights up after you check"></canvas>
+          <p class="result" id="predQ"></p>
+          <div class="predopts" id="predOpts"><div class="btns"><button data-a="0">Systematic</button><button data-a="1">Random</button></div></div>
+          <div class="btns"><button class="primary" id="predCheck">Check</button><button id="predNext">Next one</button></div>
+          <div id="predFb"></div>
+        </div>
+      </div>
+
+<div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Practice questions in exam style (not official SEC papers)</p><h2>Long questions with marking guides</h2></div><p>Try each part on paper first, then open the marking guide and mark yourself.</p></div>
+        <div class="longqs" id="longqs"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad">
+          <div class="head" style="margin-bottom:12px"><div><p class="eyebrow">Self-check</p><h2>Revision checklist</h2></div></div>
+          <p class="result" style="margin-bottom:10px">Rate yourself on each one: red = not yet, amber = nearly, green = confident. Saved on this device.</p>
+          <div class="rag" id="rag"></div>
+        </div>
+        <div class="panel pad">
+          <div class="head" style="margin-bottom:12px"><div><p class="eyebrow">40% of your grade</p><h2>Investigation skills</h2></div></div>
+          <p class="result" style="margin-bottom:10px">Skills the Physics in Practice Investigation rewards. Tick them off as you practise.</p>
+          <div class="skills" id="skills"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GLOSSARY ================= -->
+    <section class="view" data-view="glossary" hidden>
+      <div class="head"><div><p class="eyebrow">Key words</p><h2>Glossary</h2></div><p>Every term and symbol in this chapter. Precise words earn marks in "define" and "explain" questions.</p></div>
+      <div class="panel pad glbar">
+        <input id="glSearch" type="search" placeholder="Search: systematic, precision, parallax…" aria-label="Search the glossary" autocomplete="off">
+        <div class="btns" id="glTopics"></div>
+        <div class="letters" id="glLetters"></div>
+      </div>
+      <p class="result" id="glCount"></p>
+      <div class="gllist" id="glList"></div>
+    </section>
+
+    <!-- ================= FORMULAE ================= -->
+    <section class="view" data-view="formulae" hidden>
+      <div class="head"><div><p class="eyebrow">Revision</p><h2>Formula sheet</h2></div><p>Error in measurements on one page.</p></div>
+      <div class="sheet">
+        <div class="panel fcell"><span class="pill">Sources</span><span class="big">Instrument · Person · Design</span><dl><dt>Ask</dt><dd>where could the error come from?</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Systematic</span><span class="big">Same direction, every time</span><dl><dt>Fix</dt><dd>calibrate, correct the procedure, improve the design</dd><dt>Affects</dt><dd>accuracy, not precision</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Random</span><span class="big">Both directions, unpredictable</span><dl><dt>Reduce</dt><dd>repeat and average; use a graph</dd><dt>Affects</dt><dd>precision (and the accuracy of a single reading)</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Accuracy</span><span class="big">Close to the true value</span></div>
+        <div class="panel fcell"><span class="pill">Precision</span><span class="big">Close to each other</span></div>
+        <div class="panel fcell"><span class="pill a">Error</span><span class="big">error = |true value − measured value|</span></div>
+        <div class="panel fcell"><span class="pill a">% error (true value known)</span><span class="big">% error = error ÷ true value × 100</span><div class="ex">0.3 ÷ 16.0 × 100 = 1.9%</div></div>
+        <div class="panel fcell"><span class="pill a">Estimated error</span><span class="big">½ × smallest division</span><div class="ex">metre stick (1 mm): ± 0.5 mm</div></div>
+        <div class="panel fcell"><span class="pill a">% error (no true value)</span><span class="big">estimated error ÷ measured value × 100</span><div class="ex">0.05 ÷ 16.7 × 100 ≈ 0.3%</div></div>
+        <div class="panel fcell"><span class="pill a">Average</span><span class="big">mean = sum of readings ÷ number of readings</span></div>
+        <div class="panel fcell"><span class="pill a">Zero error</span><span class="big">corrected = reading − zero error</span><div class="ex">5.32 g − 0.05 g = 5.27 g</div></div>
+        <div class="panel fcell"><span class="pill">Timing tip</span><span class="big">Time many swings, then divide</span><div class="ex">±0.2 s over 20 swings = ±0.01 s per swing</div></div>
+      </div>
+      <footer>
+        <p>Follows the structure of section 1.3 of Real World Physics (2nd edition, Folens). All explanations, labs and questions on this page are original. Scenarios and data are illustrative.</p>
+      </footer>
+    </section>
+  </main>
+</div>
+</div>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch(e){return d;} }, set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} } };
+
+/* ---------- theme + font ---------- */
+const root = document.documentElement;
+const C = {};
+function readColors(){
+  const cs = getComputedStyle(root);
+  ["--bg","--surface","--surface-2","--ink","--muted","--line","--grid","--terra","--terra-ink","--blush","--apricot","--sage","--olive","--olive-ink","--ray","--ray2","--ray3","--img","--glass","--glass-edge","--good","--bad","--warn","--on-accent"].forEach(k=>C[k.slice(2)]=cs.getPropertyValue(k).trim());
+  C.fb = cs.getPropertyValue("--f-body").trim(); C.fd = cs.getPropertyValue("--f-display").trim(); C.fm = cs.getPropertyValue("--f-mono").trim();
+}
+const F = (size,w=700) => `${w} ${size}px ${C.fb}`;
+const M = size => `${size}px ${C.fm}`;
+let theme = store.get("lr-theme","auto"), font = store.get("lr-font","playful");
+function applyTheme(){ if(theme==="auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme",theme); $("themeLbl").textContent = theme==="auto"?"Auto":theme==="light"?"Light":"Dark"; }
+function applyFont(){ if(font==="playful") root.removeAttribute("data-font"); else root.setAttribute("data-font",font); $("fontSel").value=font; }
+applyTheme(); applyFont(); readColors();
+$("themeBtn").addEventListener("click",()=>{ theme = theme==="auto"?"light":theme==="light"?"dark":"auto"; store.set("lr-theme",theme); applyTheme(); });
+$("fontSel").addEventListener("change",e=>{ font=e.target.value; store.set("lr-font",font); applyFont(); });
+
+/* ---------- icons + topics ---------- */
+const ICON = {
+  sources:'<circle cx="11" cy="11" r="7"/><path d="M16 16l5 5M11 8v3l2 2"/>',
+  systematic:'<path d="M3 20h18M5 16l4-4 4 4 6-6"/><path d="M15 10h4v4"/>',
+  random:'<circle cx="6" cy="8" r="1.5"/><circle cx="12" cy="14" r="1.5"/><circle cx="18" cy="7" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="17" cy="16" r="1.5"/>',
+  accprec:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+  percent:'<path d="M5 19L19 5"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/>',
+  estimate:'<rect x="2" y="8" width="20" height="8" rx="1"/><path d="M5 8v3M8 8v2M11 8v3M14 8v2M17 8v3M20 8v2"/>',
+  gps:'<path d="M12 21s-7-6.5-7-12a7 7 0 0114 0c0 5.5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+  pill:'<rect x="3" y="9" width="18" height="6" rx="3"/><path d="M12 9v6"/>',
+  rocket:'<path d="M12 2c4 3 5 8 4 13H8C7 10 8 5 12 2z"/><path d="M8 15l-3 4h4M16 15l3 4h-4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+};
+const svg = (k,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
+const TOPICS = [
+  {id:"sources", name:"Where errors come from", short:"Instruments, the person, and the design of the experiment.", tint:"var(--blush)"},
+  {id:"systematic", name:"Systematic errors", short:"Errors that push every reading the same way, like a zero error or parallax.", tint:"var(--apricot)"},
+  {id:"random", name:"Random errors", short:"Unpredictable scatter both ways; reduce it by repeating and averaging.", tint:"var(--sage)"},
+  {id:"accprec", name:"Accuracy & precision", short:"Close to the true value, or close to each other? Not the same thing.", tint:"var(--cream)"},
+  {id:"percent", name:"Percentage error", short:"How big the error is compared with the true value.", tint:"var(--blush)"},
+  {id:"estimate", name:"Estimating error", short:"No true value? Use half the smallest division, and choose a better instrument.", tint:"var(--sage)"},
+];
+const tname = id => TOPICS.find(t=>t.id===id).name;
+const LO = [
+  ["sources","identify possible sources of error in a measurement: the instrument, the person and the design of the experiment"],
+  ["systematic","distinguish between systematic and random errors and explain how each can be reduced or removed"],
+  ["accprec","distinguish between accuracy and precision"],
+  ["percent","calculate the error and the percentage error in a measurement when the true value is known"],
+  ["estimate","estimate the error in a reading from the smallest division of the instrument, and calculate the percentage error"],
+];
+const LO_HEAD = {sources:"Section 1.3",systematic:"Section 1.3",accprec:"Section 1.3",percent:"Section 1.3",estimate:"Section 1.3"};
+
+/* ---------- glossary ---------- */
+const GLOSS = [
+  ["Measurement","","Comparing a quantity with a standard amount (a unit).","sources"],
+  ["True value","actual value, correct value","The value a quantity really has. In practice it's the best accepted value.","sources"],
+  ["Error","","The difference between a measured value and the true value.","percent","error = |true − measured|"],
+  ["Uncertainty","","The range within which the true value probably lies, e.g. 16.7 ± 0.05 cm.","estimate"],
+  ["Source of error","","What causes an error: the instrument, the person using it, or the design of the experiment.","sources"],
+  ["Instrumental error","","Error caused by the measuring instrument, e.g. a badly calibrated balance or a slow meter.","sources"],
+  ["Human error","","Error caused by the person measuring, e.g. reaction time or reading at an angle. (Mistakes like misreading a scale are blunders, not errors.)","sources"],
+  ["Design limitation","","Error caused by the way the experiment is set up, e.g. heat lost to the surroundings.","sources"],
+  ["Systematic error","","An error that makes every reading too high or every reading too low, by about the same amount.","systematic"],
+  ["Zero error","","A systematic error where an instrument doesn't read zero when it should, e.g. a balance showing 0.05 g with nothing on it.","systematic","corrected = reading − zero error"],
+  ["Calibration","","Checking an instrument against known standards and adjusting it so it reads correctly.","systematic"],
+  ["Parallax error","","Error from reading a scale at an angle instead of straight on. Systematic if you always look from the same wrong angle.","systematic"],
+  ["Heat loss","","A design limitation in heat experiments: energy escapes, so temperature rises are always too small.","systematic"],
+  ["Random error","","An unpredictable error that makes readings scatter above and below the true value.","random"],
+  ["Reaction time","","The delay between seeing an event and pressing a button, about 0.1–0.3 s for most people.","random"],
+  ["Repeat readings","","Taking the same measurement several times so random errors can be averaged out.","random"],
+  ["Mean","average","The sum of the readings divided by the number of readings.","random","mean = Σx ÷ n"],
+  ["Outlier","anomalous result","A reading far from the others. Check it, and leave it out of the average if there's a good reason.","random"],
+  ["Spread","range","How far apart repeated readings are. A small spread means high precision.","random"],
+  ["Accuracy","","How close a measurement is to the true value.","accprec"],
+  ["Precision","","How close repeated measurements are to each other.","accprec"],
+  ["Bias","","A consistent shift in one direction: the effect of a systematic error.","accprec"],
+  ["Percentage error","","The error expressed as a percentage of the true (or measured) value.","percent","% error = error ÷ true value × 100"],
+  ["Absolute error","","The size of the error in the units of the measurement, e.g. 0.03 cm.","percent"],
+  ["Estimated error","","When the true value is unknown: usually half the smallest division on the scale.","estimate","½ × smallest division"],
+  ["Smallest division","resolution","The gap between the closest marks on a scale, e.g. 1 mm on a metre stick.","estimate"],
+  ["Metre stick","ruler","Smallest division 1 mm, so estimated error ± 0.5 mm.","estimate"],
+  ["Vernier callipers","","An instrument for small lengths, typically reading to 0.1 mm.","estimate"],
+  ["Micrometer screw gauge","micrometer","An instrument for very small lengths, typically reading to 0.01 mm.","estimate"],
+  ["Significant figures","","The digits in a value that carry meaning; don't quote more than the measurement justifies.","estimate"],
+  ["Electronic balance","","Measures mass; check it reads zero before use (tare).","systematic"],
+  ["Tare","","Resetting a balance to zero, removing a zero error or the mass of a container.","systematic"],
+  ["Stopwatch","","Measures time; human reaction time causes random errors.","random"],
+  ["Investigation","","An experiment you design yourself, where identifying and reducing errors is essential.","sources"],
+  ["Reliability","","Whether repeated measurements give similar results (closely linked to precision).","accprec"],
+].map(([t,aka,d,topic,f])=>({t,aka,d,topic,f,id:"g-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+t.length}));
+const glossBy = t => GLOSS.find(g=>g.t===t);
+const GL_LINKS = [["systematic error","Systematic error"],["random error","Random error"],["zero error","Zero error"],["calibrating","Calibration"],["parallax","Parallax error"],["accuracy","Accuracy"],["precision","Precision"],["percentage error","Percentage error"],["smallest division","Smallest division"],["reaction time","Reaction time"],["average","Mean"]];
+function autoLink(str){
+  const tokens=[];
+  GL_LINKS.forEach(([pat,key,cs])=>{ if(!glossBy(key)) return;
+    const re=new RegExp(`(^|[^\\w\\u0000])(${pat.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")})(?![\\w])`, cs?"":"i");
+    str=str.replace(re,(m,pre,word)=>{ tokens.push(`<button class="gl" data-g="${key}">${word}</button>`); return pre+"\u0000"+(tokens.length-1)+"\u0000"; });
+  });
+  return str.replace(/\u0000(\d+)\u0000/g,(m,i)=>tokens[+i]);
+}
+
+/* ---------- canvas helpers ---------- */
+const sims = [];
+function makeCanvas(el, ratio, minH, draw, maxH=10000){
+  const ctx = el.getContext("2d");
+  const s = { el, ctx, w:0, h:0, draw };
+  const fit = () => {
+    const w = el.clientWidth || el.parentElement.clientWidth;
+    if(w<20) return;
+    const h = Math.min(maxH, Math.max(minH, Math.round(w*ratio)));
+    const dpr = Math.min(window.devicePixelRatio||1, 2.5);
+    el.style.height = h+"px"; el.width = Math.round(w*dpr); el.height = Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0); s.w=w; s.h=h; draw(s);
+  };
+  s.fit = fit; s.redraw = () => { if(s.w<20) return fit(); ctx.save(); draw(s); ctx.restore(); };
+  new ResizeObserver(fit).observe(el.parentElement);
+  sims.push(s); fit(); return s;
+}
+function line(ctx,x1,y1,x2,y2,color,w=2,dash){ ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=w; ctx.lineCap="round"; if(dash) ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.restore(); }
+function text(ctx,t,x,y,color,font,align="left",base="alphabetic"){ ctx.save(); ctx.fillStyle=color; ctx.font=font||M(12); ctx.textAlign=align; ctx.textBaseline=base; ctx.fillText(t,x,y); ctx.restore(); }
+function bg(ctx,w,h,col){ ctx.clearRect(0,0,w,h); ctx.fillStyle=col||C.surface; ctx.fillRect(0,0,w,h); }
+function circle(ctx,x,y,r,fill,stroke,lw=2){ ctx.beginPath(); ctx.arc(x,y,r,0,7); if(fill){ ctx.fillStyle=fill; ctx.fill(); } if(stroke){ ctx.strokeStyle=stroke; ctx.lineWidth=lw; ctx.stroke(); } }
+function rr(ctx,x,y,w,h,r){ if(w<0){ x+=w; w=-w; } if(h<0){ y+=h; h=-h; } r=Math.max(0,Math.min(r,h/2,w/2)); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function arrowHead(ctx,x,y,dx,dy,col,s=8){ ctx.save(); ctx.fillStyle=col; ctx.beginPath(); ctx.moveTo(x+dx*s,y+dy*s); ctx.lineTo(x-dx*s*0.6-dy*s*0.7,y-dy*s*0.6+dx*s*0.7); ctx.lineTo(x-dx*s*0.6+dy*s*0.7,y-dy*s*0.6-dx*s*0.7); ctx.closePath(); ctx.fill(); ctx.restore(); }
+function setReadout(el, items){ el.innerHTML = items.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join(""); }
+function pressGroup(btns, active){ btns.forEach(b=>b.setAttribute("aria-pressed", b===active?"true":"false")); }
+const chipsHTML = list => list.map(([t,c])=>`<span class="chip ${c}">${t}</span>`).join("");
+const nf = (x,d=0) => { const s=(Math.round(x*10**d)/10**d).toFixed(d); const [i,f]=s.split("."); return i.replace(/\B(?=(\d{3})+(?!\d))/g," ")+(f?"."+f:""); };
+const eur = x => "€"+nf(x, Math.abs(x-Math.round(x))>0.004?2:0);
+const niceStep = (range,n) => { const r=range/Math.max(1,n), p=10**Math.floor(Math.log10(r)), m=r/p; return (m<=1?1:m<=2?2:m<=5?5:10)*p; };
+const tick = v => String(+v.toFixed(6));
+function rng(seed){ return ()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+// Axes: returns mapping functions. o: x0,x1,y0,y1,xl,yl,compact
+function frame(ctx,w,h,o){
+  const cp=o.compact, L=cp?36:50, R=12, T=cp?12:16, B=cp?24:34, fs=cp?9:11;
+  const X=v=>L+(v-o.x0)/(o.x1-o.x0)*(w-L-R), Y=v=>h-B-(v-o.y0)/(o.y1-o.y0)*(h-B-T);
+  const xs=o.xt||niceStep(o.x1-o.x0, Math.max(3,Math.floor((w-L)/70))), ys=o.yt||niceStep(o.y1-o.y0, Math.max(3,Math.floor((h-B)/45)));
+  for(let v=Math.ceil(o.x0/xs)*xs; v<=o.x1+1e-9; v+=xs){ line(ctx,X(v),T,X(v),h-B,C.grid,1); text(ctx,tick(v),X(v),h-B+(cp?11:14),C.muted,M(fs),"center"); }
+  for(let v=Math.ceil(o.y0/ys)*ys; v<=o.y1+1e-9; v+=ys){ line(ctx,L,Y(v),w-R,Y(v),C.grid,1); text(ctx,tick(v),L-5,Y(v)+3,C.muted,M(fs),"right"); }
+  const y0=Y(Math.max(o.y0,Math.min(o.y1,0)));
+  line(ctx,L,y0,w-R,y0,C.ink,1.5); line(ctx,L,T,L,h-B,C.ink,1.5);
+  if(o.xl) text(ctx,o.xl,w-R,h-B+(cp?22:30),C.muted,F(cp?10:12),"right");
+  if(o.yl) text(ctx,o.yl,L+6,T+(cp?10:12),C.muted,F(cp?10:12),"left");
+  return {X,Y,L,R,T,B};
+}
+function curve(ctx,f,x0,x1,X,Y,col,lw=2.5,dash,clip){ ctx.save(); if(clip){ ctx.beginPath(); ctx.rect(clip[0],clip[1],clip[2],clip[3]); ctx.clip(); } ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.lineJoin="round"; if(dash) ctx.setLineDash(dash); ctx.beginPath(); const n=120; for(let i=0;i<=n;i++){ const x=x0+(x1-x0)*i/n, y=f(x); if(i) ctx.lineTo(X(x),Y(y)); else ctx.moveTo(X(x),Y(y)); } ctx.stroke(); ctx.restore(); }
+
+/* ================= MODELS + DRAWINGS ================= */
+function pointerTap(el,fn){ el.addEventListener("pointerdown",e=>{ const r=el.getBoundingClientRect(); fn(e.clientX-r.left,e.clientY-r.top); }); }
+const gauss = r => { let u=0,v=0; while(!u) u=r(); while(!v) v=r(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); };
+// Sorter boxes
+function drawBins(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, gap=cp?8:12, bw=(w-3*gap)/2, top=cp?8:12, bh=h-2*top, P=[];
+  [["Systematic","same direction every time",C.apricot,0],["Random","scatter both ways",C.sage,1]].forEach(([n,sub,col,k],i)=>{ const x=gap+i*(bw+gap); P.push([x,top,bw,bh,k]); rr(ctx,x,top,bw,bh,14); ctx.fillStyle=C["surface-2"]; ctx.fill(); ctx.strokeStyle=o.armed?C.terra:C.line; ctx.lineWidth=o.armed?2.5:1.5; ctx.stroke();
+    text(ctx,n,x+bw/2,top+(cp?16:24),C.ink,F(cp?12:15,800),"center"); if(!cp) text(ctx,sub,x+bw/2,top+42,C.muted,F(11),"center");
+    (o.placed||[]).filter(p=>p.bin===k).forEach((p,j)=>{ const y=top+(cp?26:56)+j*(cp?16:22); rr(ctx,x+8,y,bw-16,cp?13:18,6); ctx.fillStyle=p.ok?col:C.bad; ctx.fill(); text(ctx,(p.ok?"✓ ":"✗ ")+p.short,x+bw/2,y+(cp?10:13),"#3b2b21",F(cp?8:11),"center"); }); });
+  return P; }
+// Zero-error graph
+function drawZero(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const pts=o.pts||[], fit=o.fit;
+  const fr=frame(ctx,w,h,{x0:0,x1:220,y0:0,y1:230,xl:"true mass (g)",yl:"reading (g)",compact:o.compact});
+  line(ctx,fr.X(0),fr.Y(0),fr.X(220),fr.Y(220),C.muted,1.5,[5,5]); if(!o.compact) text(ctx,"perfect balance (y = x)",fr.X(150),fr.Y(150)+18,C.muted,F(11),"left");
+  if(fit) line(ctx,fr.X(0),fr.Y(fit.c),fr.X(220),fr.Y(fit.c+fit.m*220),C.terra,2.5);
+  pts.forEach(([x,y])=>circle(ctx,fr.X(x),fr.Y(y),o.compact?3:4.5,C.surface,C.ink,2));
+  if(fit&&!o.compact) text(ctx,`intercept ≈ ${nf(fit.c,2)} g`,fr.L+10,fr.T+28,C.terra,F(12,800),"left"); }
+// Timing dot plot
+function drawTiming(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, T=o.T, rd=o.rd||[], L=cp?14:40, R=14, x0=T-0.5, x1=T+0.5, X=v=>L+(v-x0)/(x1-x0)*(w-L-R), base=h*(cp?0.62:0.58);
+  line(ctx,L,base,w-R,base,C.ink,1.5); for(let v=Math.ceil(x0*10)/10; v<=x1+1e-9; v+=0.1){ line(ctx,X(v),base,X(v),base+5,C.ink,1); if(!cp) text(ctx,v.toFixed(1),X(v),base+18,C.muted,M(10),"center"); }
+  line(ctx,X(T),cp?8:16,X(T),base,C.olive,2,[6,5]); text(ctx,`true ${T.toFixed(2)} s`,X(T)+4,cp?16:28,C.olive,F(cp?9:12,800),"left");
+  const bins={}; rd.forEach(v=>{ const b=Math.round((v-x0)/0.02); bins[b]=(bins[b]||0)+1; const k=bins[b]; circle(ctx,X(x0+b*0.02),base-(cp?4:6)-(k-1)*(cp?6:9),cp?2.5:4,C.apricot,C.terra,1); });
+  if(rd.length){ const m=rd.reduce((a,b)=>a+b,0)/rd.length; line(ctx,X(m),cp?8:16,X(m),base,C.terra,2.5); text(ctx,`mean ${m.toFixed(3)} s`,X(m)+4,cp?30:48,C.terra,F(cp?9:12,800),m>T?"left":"right"); }
+  if(!cp) text(ctx,"time for one swing (s)",w-R,base+34,C.muted,F(12),"right"); }
+// Target
+function drawTarget(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cx=w/2, cy=h/2, R=Math.min(w,h)*0.42; [1,0.75,0.5,0.25].forEach((f,i)=>circle(ctx,cx,cy,R*f,i%2?C["surface-2"]:C.surface,C.line,1.5)); circle(ctx,cx,cy,R*0.06,C.olive);
+  (o.shots||[]).forEach(([x,y])=>circle(ctx,cx+x*R/12,cy+y*R/12,o.compact?3:5,C.terra,C.surface,1.5));
+  if(o.label) text(ctx,o.label,cx,h-8,C.ink,F(o.compact?10:13,800),"center"); }
+function shotsFor(bias,spread,seed){ const r=rng(seed), out=[]; for(let i=0;i<8;i++) out.push([bias*0.8+gauss(r)*spread*0.45, -bias*0.6+gauss(r)*spread*0.45]); return out; }
+// Percentage-error bars
+function drawPerc(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, mx=Math.max(o.t,o.m)*1.1, L=cp?70:110, W=w-L-(cp?50:90), bh=cp?22:32, y1=h*0.22, y2=h*0.55;
+  [["True",o.t,C.olive,y1],["Measured",o.m,C.apricot,y2]].forEach(([n,v,c,y])=>{ text(ctx,n,L-8,y+bh/2+4,C.ink,F(cp?11:13,800),"right"); rr(ctx,L,y,W*v/mx,bh,8); ctx.fillStyle=c; ctx.fill(); text(ctx,nf(v,1)+" cm",L+W*v/mx+6,y+bh/2+4,C.ink,M(cp?10:12),"left"); });
+  const a=Math.min(o.t,o.m), b=Math.max(o.t,o.m); rr(ctx,L+W*a/mx,y2+bh+8,Math.max(2,W*(b-a)/mx),cp?8:12,4); ctx.fillStyle=C.terra; ctx.fill(); if(!cp) text(ctx,`error ${nf(b-a,2)} cm`,L+W*b/mx+6,y2+bh+18,C.terra,F(12,800),"left"); }
+// Scale reader
+const INSTR = [["Metre stick",1],["Vernier callipers",0.1],["Micrometer",0.01]];
+const OBJS = [["Lab bench",1840.3],["Pencil",172.46],["Coin thickness",2.33],["Wire diameter",0.354]];
+function drawScale(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, d=INSTR[o.i][1], L=OBJS[o.o][1], read=Math.round(L/d)*d, view=d*20, x0=read-view*0.6, X=v=>20+(v-x0)/view*(w-40), y=h*0.55;
+  rr(ctx,10,y,w-20,cp?24:34,4); ctx.fillStyle=C["surface-2"]; ctx.fill();
+  for(let k=Math.ceil(x0/d); k*d<=x0+view; k++){ const v=k*d, big=k%10===0, mid=k%5===0; line(ctx,X(v),y,X(v),y+(big?(cp?16:24):mid?(cp?11:16):(cp?7:10)),C.ink,big?2:1); if(big&&!cp) text(ctx,nf(v,Math.max(0,-Math.floor(Math.log10(d)))),X(v),y+(cp?24:30)+12,C.muted,M(10),"center"); }
+  rr(ctx,X(x0),y-(cp?18:28),X(L)-X(x0),cp?14:22,4); ctx.fillStyle=C.apricot; ctx.fill(); line(ctx,X(L),y-(cp?22:34),X(L),y+(cp?24:34),C.terra,2.5);
+  text(ctx,`${OBJS[o.o][0]}: reading ${nf(read,Math.max(0,-Math.floor(Math.log10(d))))} mm ± ${d/2} mm`,w/2,cp?16:26,C.ink,F(cp?11:14,800),"center");
+  if(!cp) text(ctx,`zoomed in: smallest division ${d} mm`,w/2,h-10,C.muted,F(11),"center"); }
+
+/* ================= ROUTER ================= */
+const VIEWS = ["overview","learn","labs","mindmap","infographics","flashcards","quiz","exam","glossary","formulae"];
+let view = "overview", lab = "sources", curTopic = null;
+function show(v, opts={}){
+  if(!VIEWS.includes(v)) v="overview";
+  view=v;
+  document.querySelectorAll(".view").forEach(s=>s.hidden = s.dataset.view!==v);
+  document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on", a.dataset.v===v));
+  const on=document.querySelector("#tabs a.on"); if(on) on.scrollIntoView({block:"nearest",inline:"nearest"});
+  if(!opts.keepScroll) window.scrollTo(0,0);
+  if(v==="labs") showLab(lab);
+  if(v==="mindmap") drawMindMap();
+  if(v==="overview") refreshStats();
+  fitVisible();
+  markTopics();
+  document.body.classList.remove("menu");
+}
+function showLab(id){
+  lab=id; curTopic=id;
+  document.querySelectorAll(".lab").forEach(l=>l.hidden = l.dataset.lab!==id);
+  document.querySelectorAll("#labTabs button").forEach(b=>b.classList.toggle("on", b.dataset.lab===id));
+  fitVisible();
+  markTopics();
+}
+function fitVisible(){ sims.forEach(s=>{ if(s.el.offsetParent) s.fit(); }); }
+function goTopic(id){
+  curTopic=id;
+  if(view==="labs") showLab(id);
+  else if(view==="flashcards") fcSetFilter(id);
+  else if(view==="quiz") qzStart(id);
+  else { if(view!=="learn") show("learn"); const el=$("l-"+id); if(el) el.scrollIntoView({behavior: reduce?"auto":"smooth"}); }
+  markTopics(); document.body.classList.remove("menu");
+}
+function markTopics(){ document.querySelectorAll("#topicList button").forEach(b=>b.classList.toggle("on", b.dataset.t===curTopic && ["labs","learn","flashcards","quiz"].includes(view))); }
+$("topicList").innerHTML = TOPICS.map(t=>`<button data-t="${t.id}">${svg(t.id)}${t.name}</button>`).join("");
+$("topicList").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) goTopic(b.dataset.t); });
+$("labTabs").innerHTML = TOPICS.map(t=>`<button data-lab="${t.id}">${svg(t.id)}${t.name}</button>`).join("");
+$("labTabs").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) showLab(b.dataset.lab); });
+$("tabs").addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; e.preventDefault(); history.replaceState(null,"","#"+a.dataset.v); show(a.dataset.v); });
+document.addEventListener("click",e=>{ const g=e.target.closest("[data-go]"); if(!g) return; const v=g.dataset.go; if(g.dataset.lab){ lab=g.dataset.lab; } if(g.dataset.topic){ curTopic=g.dataset.topic; } history.replaceState(null,"","#"+v); show(v); if(v==="learn"&&g.dataset.topic){ const el=$("l-"+g.dataset.topic); if(el) setTimeout(()=>el.scrollIntoView(),30); } if(v==="flashcards"&&g.dataset.topic) fcSetFilter(g.dataset.topic); });
+$("menuBtn").addEventListener("click",()=>document.body.classList.toggle("menu"));
+$("scrim").addEventListener("click",()=>document.body.classList.remove("menu"));
+
+/* ================= OVERVIEW ================= */
+$("topicCards").innerHTML = TOPICS.map(t=>`<div class="panel tcard"><div class="ico" style="background:${t.tint}">${svg(t.id)}</div><h3>${t.name}</h3><p>${t.short}</p><div class="row"><button data-go="learn" data-topic="${t.id}">Learn</button><button data-go="labs" data-lab="${t.id}">Lab</button><button data-go="flashcards" data-topic="${t.id}">Cards</button></div></div>`).join("");
+$("loList").innerHTML = LO.map(([t,s],i)=>`<li><label><input type="checkbox" id="lo${i}"><span class="mono">${i+1}</span><span>${s} <small style="color:var(--muted)">· ${LO_HEAD[t]}</small></span></label></li>`).join("");
+const loState=store.get("lr13-lo",{});
+LO.forEach((x,i)=>{ const id="lo"+i; $(id).checked=!!loState[id]; $(id).addEventListener("change",()=>{ loState[id]=$(id).checked; store.set("lr13-lo",loState); refreshStats(); }); });
+function refreshStats(){
+  const lo=LO.filter((x,i)=>$("lo"+i).checked).length; $("stLO").textContent=`${lo}/${LO.length}`; $("stLOb").style.width=(lo/LO.length*100)+"%";
+  const kn=Object.keys(fcKnown).length; $("stFC").textContent=`${kn}/${CARDS.length}`; $("stFCb").style.width=(kn/CARDS.length*100)+"%";
+  const best=store.get("lr13-best",null); $("stQZ").textContent= best==null? "–" : best+"%"; $("stQZb").style.width=(best||0)+"%";
+}
+let heroT=0;
+
+/* ================= LEARN ================= */
+const LEARN = {
+  sources:{ vis:[["bins",{placed:[{bin:0,ok:true,short:"zero error"},{bin:0,ok:true,short:"parallax (same angle)"},{bin:1,ok:true,short:"reaction time"},{bin:1,ok:true,short:"draughts on balance"}]}]], cap:"Errors fall into two families, and each comes from the instrument, the person or the design.",
+    keys:[["⚙","Instrument: badly calibrated, a zero error, or small fluctuations in the reading."],["👁","Person: reading at an angle (parallax), reaction time when timing."],["🧪","Design: the method itself, e.g. heat escaping in a heating experiment."]],
+    f:"Source: instrument · person · design", mistake:"Calling every problem \"human error\". Name the actual cause and say how it affects the reading." },
+  systematic:{ vis:[["zero",{pts:[[20,20.6],[50,50.5],[100,100.6],[200,200.6]],fit:{m:1,c:0.58}}]], cap:"A balance with a zero error: every reading is about 0.6 g too high, so the line misses the origin.",
+    keys:[["→","A systematic error shifts every reading the same way: always too high or always too low."],["✗","Repeating and averaging doesn't help: the average is just as wrong."],["🔧","Remove it: calibrate the instrument, correct for the zero error, fix the method."]],
+    f:"corrected reading = reading − zero error", mistake:"Thinking more readings fix a systematic error. They only make you more sure of the wrong answer." },
+  random:{ vis:[["timing",{T:1.42,rd:[1.31,1.38,1.47,1.40,1.52,1.36,1.44,1.45,1.39,1.49,1.41]}]], cap:"Timing a swing by hand: readings scatter both ways; the mean (terracotta) sits close to the true value (olive).",
+    keys:[["↔","Random errors make readings scatter unpredictably above and below the true value."],["⌀","Reduce them by repeating and averaging, or by plotting a graph of many readings."],["×10","Timing many swings and dividing shrinks the error per swing."]],
+    f:"mean = sum of readings ÷ number of readings", mistake:"Including an obvious outlier in the average without checking why it's so different." },
+  accprec:{ vis:[["target",{shots:shotsFor(5,1,3),label:"precise, not accurate"}]], cap:"Grouped tightly but off-centre: precise but not accurate. A systematic error is shifting everything.",
+    keys:[["◎","Accuracy: how close a measurement is to the true value."],["∴","Precision: how close repeated measurements are to each other."],["⇄","Systematic error spoils accuracy; random error spoils precision."]],
+    f:"Accurate = on target · Precise = tightly grouped", mistake:"Swapping the words. Precise readings can all be wrong if the instrument is off." },
+  percent:{ vis:[["perc",{t:16.0,m:16.3}]], cap:"True 16.0 cm, measured 16.3 cm: error 0.3 cm, percentage error 0.3 ÷ 16.0 × 100 ≈ 1.9%.",
+    keys:[["−","Error = the size of the difference between the true and measured values."],["%","Percentage error = error ÷ true value × 100."],["⚖","The same error is a big percentage of a small quantity and a small percentage of a big one."]],
+    f:"% error = |true − measured| ÷ true × 100", mistake:"Dividing by the measured value when the true value is given. Use the true value whenever you know it." },
+  estimate:{ vis:[["scale",{i:0,o:1}]], cap:"Reading a pencil on a metre stick: to the nearest mm, so the estimated error is ± 0.5 mm.",
+    keys:[["½","No true value? Estimated error = half the smallest division of the instrument."],["%","% error ≈ estimated error ÷ measured value × 100."],["🔍","A finer instrument (vernier, micrometer) or a bigger quantity reduces the % error."]],
+    f:"% error = (½ × smallest division) ÷ measured value × 100", mistake:"Quoting more decimal places than the instrument can measure, e.g. 16.73 cm from a metre stick." },
+};
+$("learnList").innerHTML = TOPICS.map(t=>{ const L=LEARN[t.id];
+  const vis = L.vis.map((v,k)=>`<canvas class="mini" data-learn="${t.id}" data-k="${k}"></canvas>`).join("");
+  return `<article class="panel lcard" id="l-${t.id}">
+    <div class="vis"><div style="display:grid;gap:8px">${vis}</div><p class="cap">${L.cap}</p></div>
+    <div class="txt"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:${t.tint};color:#3b2b21">${svg(t.id,'width="24" height="24"')}</div><h2 style="font-size:1.5rem">${t.name}</h2></div>
+      <ul class="keys">${L.keys.map(([k,s])=>`<li><i style="background:${t.tint}">${k}</i><span>${autoLink(s)}</span></li>`).join("")}</ul>
+      <div><span class="formula">${L.f}</span></div>
+      <div class="mistake"><b>✕</b><span><b style="color:var(--bad)">Common mistake:</b> ${autoLink(L.mistake)}</span></div>
+      <div class="btns"><button class="primary" data-go="labs" data-lab="${t.id}">Open the lab</button><button data-go="flashcards" data-topic="${t.id}">Flashcards</button></div>
+    </div></article>`; }).join("");
+
+/* ================= INFOGRAPHICS ================= */
+const CASES = [
+  ["systematic","Systematic error","var(--apricot)",["Shifts every reading the same way","Caused by: zero error, poor calibration, parallax from the same angle, heat loss","Not reduced by repeating","Fix: calibrate, correct, redesign","Spoils accuracy"]],
+  ["random","Random error","var(--sage)",["Readings scatter both ways","Caused by: reaction time, fluctuating readings, draughts, reading slightly differently each time","Reduced by repeating and averaging","Fix: more readings, a graph, a better technique","Spoils precision"]],
+];
+$("cases").innerHTML = CASES.map(([i,n,tn,rows])=>`<div class="panel sh-card"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="background:${tn}">${svg(i)}</div><h3>${n}</h3></div><ul>${rows.map(r=>`<li>${r}</li>`).join("")}</ul></div>`).join("");
+(()=>{ const D=0.354, rows=INSTR.map(([n,d])=>[n,d/2/D*100]), mx=rows[0][1];
+  $("bars").innerHTML = rows.map(([n,p],i)=>`<div class="barrow"><span><b>${n}</b></span><div class="track"><i style="width:${(p/mx*100).toFixed(1)}%;background:var(--${["terra","apricot","sage"][i]})"></i></div><span class="v">${nf(p,p<10?1:0)}%</span></div>`).join("") + `<p class="result">The metre stick's ± 0.5 mm is bigger than the wire itself (141%): useless. The micrometer's ± 0.005 mm gives about 1.4%.</p>`; })();
+const AROUND = [
+  ["gps","Sat-nav","GPS satellites time signals to a few nanoseconds; a tiny timing error becomes metres of position error on the ground.",[["Accuracy","real"]],"var(--blush)"],
+  ["pill","Medicine doses","Pharmacists weigh tiny amounts. A zero error on the balance would give every patient the wrong dose.",[["Systematic","alert"]],"var(--apricot)"],
+  ["clock","Sports timing","Hand timing adds reaction-time errors of tenths of a second; electronic timing removes them.",[["Random","neutral"]],"var(--sage)"],
+  ["rocket","Space missions","A spacecraft was lost when one team worked in imperial units and another in metric: a systematic error no repeat could fix.",[["Units","alert"]],"var(--cream)"],
+];
+$("around").innerHTML = AROUND.map(([i,t,p,ch,tn])=>`<div class="panel"><div class="ico" style="background:${tn}">${svg(i)}</div><div><h3>${t}</h3><p>${p}</p><div class="chips">${chipsHTML(ch)}</div></div></div>`).join("");
+
+/* ================= MIND MAP ================= */
+const MM = [
+  {id:"sources",label:"Sources",col:"var(--blush)",leaves:[["Instrument","Calibration, zero error."],["Person","Parallax, reaction time."],["Design","Heat loss, method."]]},
+  {id:"systematic",label:"Systematic",col:"var(--apricot)",leaves:[["One way","Always high or always low."],["Zero error","Subtract it."],["Fix","Calibrate, redesign."]]},
+  {id:"random",label:"Random",col:"var(--sage)",leaves:[["Both ways","Unpredictable scatter."],["Average","Repeat readings."],["Time many","Divide the total."]]},
+  {id:"accprec",label:"Acc. & prec.",col:"var(--cream)",leaves:[["Accurate","Near the true value."],["Precise","Near each other."],["Both?","Aim for both."]]},
+  {id:"percent",label:"% error",col:"var(--blush)",leaves:[["Error","|true − measured|"],["%","÷ true × 100"],["Context","Size of quantity matters."]]},
+  {id:"estimate",label:"Estimate",col:"var(--sage)",leaves:[["½ division","Estimated error."],["÷ measured","% error."],["Better tool","Vernier, micrometer."]]},
+];
+let mmSel = {b:0,l:-1};
+function drawMindMap(){
+  const S=$("mm"), cx=550, cy=390, R1=200; let out="";
+  const nodes=[];
+  MM.forEach((b,k)=>{
+    const a=-Math.PI/2 + k*(2*Math.PI/MM.length);
+    const bx=cx+Math.cos(a)*R1*1.3, by=cy+Math.sin(a)*R1*0.85;
+    out+=`<path class="link" d="M${cx},${cy} Q${(cx+bx)/2+Math.sin(a)*30},${(cy+by)/2-Math.cos(a)*30} ${bx},${by}" stroke="${b.col}"/>`;
+    const n=b.leaves.length, side=Math.abs(Math.cos(a))>0.3;
+    b.leaves.forEach((lf,j)=>{
+      const off=j-(n-1)/2;
+      const lx = side? bx+Math.sign(Math.cos(a))*200 : bx+off*150;
+      const ly = side? by+off*40+Math.sin(a)*34 :by+Math.sign(Math.sin(a))*(78+(j%2)*40);
+      out+=`<path class="link" d="M${bx},${by} L${lx},${ly}" stroke="${b.col}" stroke-width="2" opacity=".85"/>`;
+      nodes.push({x:lx,y:ly,t:lf[0],b:k,l:j,cls:""});
+    });
+    nodes.push({x:bx,y:by,t:b.label,b:k,l:-1,cls:"branch",col:b.col});
+  });
+  nodes.forEach(nd=>{
+    const fs = nd.cls==="branch"?17:14, wdt = Math.max(60, nd.t.length*(fs*0.56)+24), ht = nd.cls==="branch"?42:32;
+    const x=Math.max(wdt/2+4,Math.min(1100-wdt/2-4,nd.x)), y=Math.max(ht/2+4,Math.min(776-ht/2,nd.y));
+    const sel = mmSel.b===nd.b && mmSel.l===nd.l;
+    const fill = nd.cls==="branch"? nd.col : "var(--surface)";
+    const stroke = nd.cls==="branch"? nd.col : MM[nd.b].col;
+    out+=`<g class="node ${nd.cls}${sel?" sel":""}" tabindex="0" role="button" data-b="${nd.b}" data-l="${nd.l}"><rect x="${x-wdt/2}" y="${y-ht/2}" width="${wdt}" height="${ht}" rx="${ht/2}" fill="${fill}" stroke="${stroke}"/><text x="${x}" y="${y+5}" text-anchor="middle">${nd.t}</text></g>`;
+  });
+  out+=`<g class="node center"><circle cx="${cx}" cy="${cy}" r="78" fill="var(--terra)"/><text x="${cx}" y="${cy-4}" text-anchor="middle">Error in</text><text x="${cx}" y="${cy+22}" text-anchor="middle">measurements</text></g>`;
+  S.innerHTML=out; mmDetail();
+}
+function mmDetail(){
+  const b=MM[mmSel.b], t=TOPICS.find(x=>x.id===b.id);
+  const title = mmSel.l<0? b.label : b.leaves[mmSel.l][0];
+  const body = mmSel.l<0? t.short + " Tap a smaller bubble for detail." : b.leaves[mmSel.l][1];
+  $("mmDetail").innerHTML = `<div class="ico" style="background:${b.col}">${svg(b.id)}</div><div><p class="eyebrow">${b.label}</p><h3 style="font-size:1.25rem">${title}</h3><p style="color:var(--muted)">${body}</p></div><button class="primary" data-go="labs" data-lab="${b.id}">Try the lab</button>`;
+}
+$("mm").addEventListener("click",e=>{ const g=e.target.closest(".node[data-b]"); if(!g) return; mmSel={b:+g.dataset.b,l:+g.dataset.l}; drawMindMap(); });
+$("mm").addEventListener("keydown",e=>{ if(e.key!=="Enter"&&e.key!==" ") return; const g=e.target.closest(".node[data-b]"); if(!g) return; e.preventDefault(); mmSel={b:+g.dataset.b,l:+g.dataset.l}; drawMindMap(); });
+
+/* ================= FLASHCARDS ================= */
+const CARDS = [
+  ["sources","Name three sources of error in an experiment.","The measuring instrument, the person using it, and the overall design of the experiment."],
+  ["sources","What is the true value?","The value the quantity really has (in practice, the best accepted value)."],
+  ["sources","Give an example of a design limitation.","Heat lost to the surroundings when heating a liquid, so the temperature rise is always too small."],
+  ["systematic","What is a systematic error?","An error that makes every reading too high, or every reading too low, by about the same amount."],
+  ["systematic","Give two examples of systematic error.","A balance with a zero error; reading a scale from the same wrong angle every time (parallax); heat loss in a heating experiment."],
+  ["systematic","Does repeating readings reduce systematic error?","No. Every reading is shifted the same way, so the average is still wrong."],
+  ["systematic","How do you remove a zero error?","Tare (reset) the instrument, or subtract the zero error from every reading."],
+  ["systematic","How do you avoid parallax error?","Read the scale with your eye directly in line with (perpendicular to) the mark."],
+  ["random","What is a random error?","An unpredictable error that scatters readings above and below the true value."],
+  ["random","Give two examples of random error.","Reaction time when using a stopwatch; small fluctuations in an electronic reading caused by draughts or vibrations."],
+  ["random","How do you reduce random error?","Repeat the measurement and take the average, or use a graph of many readings."],
+  ["random","Why time 20 swings instead of 1?","The reaction-time error is the same for the whole timing, so dividing by 20 makes the error per swing 20 times smaller."],
+  ["accprec","Define accuracy.","How close a measurement is to the true value."],
+  ["accprec","Define precision.","How close repeated measurements are to each other."],
+  ["accprec","Readings 66.23 g, 66.22 g, 66.24 g of a 65.00 g mass. Accurate? Precise?","Precise (very close to each other) but not accurate (all far from 65.00 g): a systematic error."],
+  ["accprec","Which type of error mainly spoils accuracy? Precision?","Systematic error spoils accuracy; random error spoils precision."],
+  ["percent","Formula for percentage error when the true value is known?","% error = |true value − measured value| ÷ true value × 100."],
+  ["percent","True 95.25 cm, measured 95.22 cm. % error?","0.03 ÷ 95.25 × 100 ≈ 0.03%."],
+  ["percent","Why is a 1 mm error worse on a 2 mm object than on a 2 m one?","It's 50% of the small object but only 0.05% of the large one."],
+  ["estimate","How do you estimate the error when the true value is unknown?","Take half the smallest division of the instrument's scale."],
+  ["estimate","Estimated error for a metre stick (1 mm divisions)?","± 0.5 mm (0.05 cm)."],
+  ["estimate","16.7 cm measured with a metre stick. % error?","0.05 ÷ 16.7 × 100 ≈ 0.3%."],
+  ["estimate","Name two ways to reduce percentage error.","Use an instrument with smaller divisions (vernier, micrometer) or measure a larger quantity (e.g. many swings, a stack of coins)."],
+  ["estimate","Smallest divisions of a vernier calliper and a micrometer?","Typically 0.1 mm and 0.01 mm."],
+  ["estimate","Why shouldn't you write 16.73 cm from a metre stick reading?","The metre stick can only measure to the nearest mm (0.1 cm); the extra digit isn't meaningful."],
+];
+let fcKnown = store.get("lr13-fc",{}), fcFilter="all", fcOnlyUnknown=false, fcOrder=[], fcIdx=0;
+$("fcFilter").innerHTML = `<button data-f="all">All topics</button>` + TOPICS.map(t=>`<button data-f="${t.id}">${t.name}</button>`).join("");
+$("fcFilter").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) fcSetFilter(b.dataset.f); });
+function fcSetFilter(f){ fcFilter=f; curTopic = f==="all"? null : f; fcBuild(); markTopics(); }
+function fcBuild(){
+  fcOrder = CARDS.map((c,k)=>k).filter(k=>(fcFilter==="all"||CARDS[k][0]===fcFilter) && (!fcOnlyUnknown || !fcKnown[k]));
+  fcIdx=0; document.querySelectorAll("#fcFilter button").forEach(b=>b.classList.toggle("on", b.dataset.f===fcFilter));
+  $("fcUnknown").setAttribute("aria-pressed", fcOnlyUnknown); fcRender();
+}
+function fcRender(){
+  $("fcCard").classList.remove("flip");
+  if(!fcOrder.length){ $("fcTag").textContent="Done"; $("fcQ").textContent="You know every card in this set."; $("fcA").textContent="Reset progress or pick another topic."; $("fcTag2").textContent="Done"; $("fcMeta").textContent=""; return; }
+  const k=fcOrder[fcIdx], [t,q,a]=CARDS[k];
+  setTimeout(()=>{ $("fcA").textContent=a; $("fcTag2").textContent=tname(t); }, reduce?0:200);
+  $("fcTag").textContent=tname(t); $("fcQ").textContent=q;
+  const inSet=CARDS.filter(c=>fcFilter==="all"||c[0]===fcFilter), known=inSet.filter(c=>fcKnown[CARDS.indexOf(c)]).length;
+  $("fcMeta").textContent = `Card ${fcIdx+1} of ${fcOrder.length} · you know ${known} of ${inSet.length} in this set${fcKnown[k]?" · ✓ known":""}`;
+}
+function fcFlip(){ $("fcCard").classList.toggle("flip"); }
+function fcMove(d){ if(!fcOrder.length) return; fcIdx=(fcIdx+d+fcOrder.length)%fcOrder.length; fcRender(); }
+$("fcCard").addEventListener("click",fcFlip);
+$("fcCard").addEventListener("keydown",e=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); fcFlip(); } });
+document.addEventListener("keydown",e=>{ if(view!=="flashcards"||e.target.tagName==="SELECT") return; if(e.key==="ArrowRight") fcMove(1); if(e.key==="ArrowLeft") fcMove(-1); if(e.key===" "&&e.target===document.body){ e.preventDefault(); fcFlip(); } });
+$("fcPrev").addEventListener("click",()=>fcMove(-1)); $("fcNext").addEventListener("click",()=>fcMove(1));
+$("fcGot").addEventListener("click",()=>{ if(!fcOrder.length) return; fcKnown[fcOrder[fcIdx]]=1; store.set("lr13-fc",fcKnown); if(fcOnlyUnknown){ fcOrder.splice(fcIdx,1); if(fcIdx>=fcOrder.length) fcIdx=0; fcRender(); } else fcMove(1); });
+$("fcAgain").addEventListener("click",()=>{ if(!fcOrder.length) return; delete fcKnown[fcOrder[fcIdx]]; store.set("lr13-fc",fcKnown); const k=fcOrder.splice(fcIdx,1)[0]; fcOrder.splice(Math.min(fcOrder.length, fcIdx+3),0,k); fcRender(); });
+$("fcShuffle").addEventListener("click",()=>{ for(let i=fcOrder.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]]; } fcIdx=0; fcRender(); });
+$("fcUnknown").addEventListener("click",()=>{ fcOnlyUnknown=!fcOnlyUnknown; fcBuild(); });
+$("fcReset").addEventListener("click",()=>{ fcKnown={}; store.set("lr13-fc",fcKnown); fcBuild(); });
+fcBuild();
+
+/* ================= QUIZ ================= */
+const QUIZ = [
+  ["sources","Which of these is a design limitation rather than an instrument or person error?",["A balance that reads 0.05 g with nothing on it","Heat escaping from a liquid while it's heated","Reading a ruler at an angle","Slow reactions with a stopwatch"],1,"Heat loss comes from how the experiment is set up, not from the instrument or the person."],
+  ["systematic","A systematic error:",["scatters readings both ways","makes every reading too high or every reading too low","can be removed by averaging","only affects precision"],1,"Systematic errors push all readings in the same direction."],
+  ["systematic","An ammeter reads 0.02 A with no current flowing. It then reads 0.47 A. The corrected current is:",["0.49 A","0.47 A","0.45 A","0.02 A"],2,"Subtract the zero error: 0.47 − 0.02 = 0.45 A."],
+  ["systematic","Which method removes a systematic error?",["Taking more readings","Calibrating the instrument","Averaging the results","Using a bigger sample"],1,"Calibration corrects the instrument; repeating doesn't help."],
+  ["systematic","Parallax error is avoided by:",["using a longer ruler","reading the scale with your eye perpendicular to it","taking an average","using a calculator"],1,"Look straight at the mark so you don't read it at an angle."],
+  ["random","Which is a random error?",["A wrongly calibrated thermometer","Reaction time when starting and stopping a stopwatch","Heat lost to the air","A balance with a zero error"],1,"Reaction time varies each time, so readings scatter both ways."],
+  ["random","The best way to reduce random error is to:",["calibrate the instrument","repeat the measurement and average","change the units","use only one reading"],1,"Random errors partly cancel when you average many readings."],
+  ["random","The timings 2.31 s, 2.29 s, 2.35 s and 2.33 s have a mean of:",["2.31 s","2.32 s","2.33 s","9.28 s"],1,"(2.31 + 2.29 + 2.35 + 2.33) ÷ 4 = 9.28 ÷ 4 = 2.32 s."],
+  ["accprec","Accuracy describes how close a measurement is to:",["other measurements","the true value","zero","the average"],1,"Accuracy compares with the true value; precision compares readings with each other."],
+  ["accprec","Readings of a 16.0 cm focal length: 16.1, 15.9, 15.9 and 16.1 cm. These show:",["systematic error only","some random error but no clear systematic error","large systematic error","no error at all"],1,"They scatter both sides of 16.0 cm (random) and aren't all shifted one way (no clear systematic error)."],
+  ["accprec","Readings that are close together but all far from the true value are:",["accurate and precise","accurate but not precise","precise but not accurate","neither"],2,"Tight grouping means precise; far from the true value means not accurate."],
+  ["percent","True length 20.0 cm, measured 20.5 cm. The percentage error is:",["0.5%","2.4%","2.5%","5%"],2,"0.5 ÷ 20.0 × 100 = 2.5%."],
+  ["percent","The same 1 mm error gives the smallest percentage error when measuring:",["a 5 mm screw","a 30 cm ruler","a 2 m door","a 1 cm coin"],2,"1 mm is a tiny fraction of 2 m (0.05%)."],
+  ["estimate","A metre stick has 1 mm divisions. The estimated error in a reading is:",["± 1 mm","± 0.5 mm","± 0.1 mm","± 1 cm"],1,"Half the smallest division: ½ × 1 mm = 0.5 mm."],
+  ["estimate","A wire 0.4 mm thick is measured with 0.1 mm graduations. The percentage error is about:",["1.25%","2.5%","12.5%","25%"],2,"Estimated error 0.05 mm: 0.05 ÷ 0.4 × 100 = 12.5%."],
+  ["estimate","Which change reduces the percentage error most when measuring a wire's diameter?",["Using a metre stick","Using a micrometer instead of vernier callipers","Measuring at an angle","Rounding the answer"],1,"The micrometer's divisions are 10 times smaller, so the % error is about 10 times smaller."],
+];
+let qz = { set:[], idx:0, ans:[], topic:"all" };
+function qzStart(topic="all"){
+  qz.topic=topic; curTopic = topic==="all"? null : topic;
+  qz.set = QUIZ.map((q,k)=>k).filter(k=>topic==="all"||QUIZ[k][0]===topic);
+  for(let i=qz.set.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [qz.set[i],qz.set[j]]=[qz.set[j],qz.set[i]]; }
+  qz.idx=0; qz.ans=[]; qzRender(); markTopics();
+}
+function qzRender(){
+  const el=$("qz"), n=qz.set.length;
+  const sel = `<select id="qzTopic" aria-label="Quiz topic"><option value="all">All topics (${QUIZ.length})</option>${TOPICS.map(t=>`<option value="${t.id}" ${qz.topic===t.id?"selected":""}>${t.name}</option>`).join("")}</select>`;
+  const dots = qz.set.map((k,i)=>`<i class="${i<qz.ans.length?(qz.ans[i]?"ok":"no"):i===qz.idx?"cur":""}"></i>`).join("");
+  if(qz.idx>=n){
+    const r=qz.ans.filter(Boolean).length, pct=Math.round(r/n*100);
+    if(qz.topic==="all"){ const best=store.get("lr13-best",null); if(best==null||pct>best) store.set("lr13-best",pct); }
+    const circ=2*Math.PI*62;
+    el.innerHTML = `<div class="qz-top"><h2>Quiz</h2>${sel}</div><div class="panel final">
+      <svg class="ring" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--grid)" stroke-width="14"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pct>=70?"var(--good)":pct>=40?"var(--apricot)":"var(--bad)"}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${circ*pct/100} ${circ}" transform="rotate(-90 75 75)"/><text x="75" y="84" text-anchor="middle" style="font:700 30px ${C.fd};fill:var(--ink)">${pct}%</text></svg>
+      <h3 style="font-size:1.5rem">${r} out of ${n} correct</h3><p style="color:var(--muted)">${pct>=80?"Excellent work. You're ready for exam questions.":pct>=50?"Good start. Review the ones you missed, then try again.":"Have another look at the Learn cards and labs, then try again."}</p>
+      <div class="btns"><button class="primary" id="qzAgain">Try again</button><button data-go="flashcards">Practise with flashcards</button></div>
+      <div class="review">${qz.set.map((k,i)=>qz.ans[i]?"":`<div><b>${QUIZ[k][1]}</b><br><span style="color:var(--good)">✓ ${QUIZ[k][2][QUIZ[k][3]]}</span> · ${QUIZ[k][4]}</div>`).join("")}</div></div>`;
+    $("qzAgain").addEventListener("click",()=>qzStart(qz.topic));
+  } else {
+    const k=qz.set[qz.idx], [t,q,opts]=QUIZ[k];
+    el.innerHTML = `<div class="qz-top"><div><p class="eyebrow">Question ${qz.idx+1} of ${n}</p><h2>Quiz</h2></div>${sel}</div><div class="dots">${dots}</div>
+      <div class="panel qcard"><span class="pill t" style="justify-self:start">${tname(t)}</span><h3>${q}</h3><div class="opts">${opts.map((o,j)=>`<button data-o="${j}"><span>${"ABCD"[j]}</span>${o}</button>`).join("")}</div><div id="qzWhy"></div></div>`;
+    el.querySelector(".opts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||qz.ans.length>qz.idx) return; const j=+b.dataset.o, right=QUIZ[k][3];
+      qz.ans.push(j===right);
+      el.querySelectorAll(".opts button").forEach((x,i)=>{ if(i===right) x.classList.add("right"); else if(i===j) x.classList.add("wrong"); x.disabled=true; });
+      $("qzWhy").innerHTML = `<div class="why"><b style="color:${j===right?"var(--good)":"var(--bad)"}">${j===right?"Correct!":"Not quite."}</b> ${QUIZ[k][4]}</div><div class="btns" style="margin-top:12px"><button class="primary" id="qzNext">${qz.idx+1<n?"Next question →":"See my score"}</button><button data-go="labs" data-lab="${t}">Open the lab</button></div>`;
+      el.querySelectorAll(".dots i")[qz.idx].className = j===right?"ok":"no";
+      $("qzNext").addEventListener("click",()=>{ qz.idx++; qzRender(); }); $("qzNext").focus(); });
+  }
+  $("qzTopic").addEventListener("change",e=>qzStart(e.target.value));
+}
+qzStart("all");
+
+/* ================= GLOSSARY ================= */
+let glTopic="all", glLetter=null;
+const glFirst = g => { const c=g.t[0].normalize("NFD")[0]; return /[A-Za-z]/.test(c) ? c.toUpperCase() : "#"; };
+GLOSS.sort((a,b)=>a.t.localeCompare(b.t));
+$("glTopics").innerHTML = `<button data-t="all">All</button>` + TOPICS.map(t=>`<button data-t="${t.id}">${t.name}</button>`).join("");
+$("glTopics").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; glTopic=b.dataset.t; glLetter=null; glRender(); });
+$("glLetters").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||b.disabled) return; glLetter = glLetter===b.dataset.l? null : b.dataset.l; glRender(); });
+$("glSearch").addEventListener("input",()=>{ glLetter=null; glRender(); });
+function glRender(){
+  const q=$("glSearch").value.trim().toLowerCase();
+  const base=GLOSS.filter(g=>(glTopic==="all"||g.topic===glTopic) && (!q || (g.t+" "+g.aka+" "+g.d+" "+(g.f||"")).toLowerCase().includes(q)));
+  const have=new Set(base.map(glFirst));
+  $("glLetters").innerHTML = ["#",..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map(l=>`<button data-l="${l}" ${have.has(l)?"":"disabled"} class="${glLetter===l?"on":""}">${l}</button>`).join("");
+  document.querySelectorAll("#glTopics button").forEach(b=>b.classList.toggle("on",b.dataset.t===glTopic));
+  const list=base.filter(g=>!glLetter||glFirst(g)===glLetter);
+  $("glCount").textContent = `${list.length} term${list.length===1?"":"s"}`;
+  $("glList").innerHTML = list.length? list.map(g=>`<article class="panel gl-item" id="${g.id}"><header><h3>${g.t}</h3>${g.aka?`<span class="aka">${g.aka}</span>`:""}</header><p>${g.d}</p>${g.f?`<div><span class="formula">${g.f}</span></div>`:""}<div class="foot"><span class="pill t">${tname(g.topic)}</span><button data-go="labs" data-lab="${g.topic}">Open the lab</button></div></article>`).join("")
+    : `<div class="panel pad empty">No terms match "${$("glSearch").value.replace(/</g,"&lt;")}". Try a shorter word or pick "All".</div>`;
+}
+glRender();
+function glJump(term){
+  const g=glossBy(term); if(!g) return;
+  $("glSearch").value=""; glTopic="all"; glLetter=null; glRender();
+  history.replaceState(null,"","#glossary"); show("glossary");
+  const el=$(g.id); if(el){ el.scrollIntoView({block:"center"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"),1600); }
+}
+const glPop=document.createElement("div"); glPop.id="glPop"; glPop.hidden=true; glPop.setAttribute("role","dialog"); document.body.appendChild(glPop);
+document.addEventListener("click",e=>{
+  const t=e.target.closest(".gl");
+  if(t){ e.preventDefault(); const g=glossBy(t.dataset.g); if(!g) return;
+    glPop.innerHTML=`<b>${g.t}${g.aka?` <span style="font:500 .8rem ${C.fm};opacity:.75">(${g.aka})</span>`:""}</b><span>${g.d}</span>${g.f?`<span class="mono">${g.f}</span>`:""}<button data-gj="${g.t}">Open in glossary</button>`;
+    glPop.hidden=false; const r=t.getBoundingClientRect(), pw=glPop.offsetWidth;
+    glPop.style.left=Math.max(16,Math.min(innerWidth-pw-16,r.left))+scrollX+"px"; glPop.style.top=r.bottom+scrollY+8+"px"; return; }
+  const j=e.target.closest("[data-gj]"); if(j){ glPop.hidden=true; glJump(j.dataset.gj); return; }
+  if(!e.target.closest("#glPop")) glPop.hidden=true;
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") glPop.hidden=true; });
+
+/* ================= EXAM PREP ================= */
+const CMDS = [
+  ["Identify","Name or pick out, without explaining.","Identify one source of systematic error in this experiment."],
+  ["State","Give a short answer with no explanation needed.","State what is meant by precision."],
+  ["Distinguish","Make the difference between two things clear.","Distinguish between systematic and random errors."],
+  ["Explain","Give reasons for how or why.","Explain why repeating readings reduces random error."],
+  ["Justify","Back up your answer with evidence from the data.","Is there evidence of systematic error? Justify your answer."],
+  ["Calculate","Work out a numerical answer, showing your working.","Calculate the percentage error in the measurement."],
+  ["Suggest","Propose a sensible idea; there may be several right answers.","Suggest how the experiment could be improved."],
+  ["Evaluate","Judge the quality of results or a method, with reasons.","Evaluate the accuracy and precision of these results."],
+];
+$("cmds").innerHTML = CMDS.map(([w,m,e])=>`<div class="cmd"><b>${w}</b><p>${m}</p><em>e.g. "${e}"</em></div>`).join("");
+
+// Calculation trainer
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)), pick=a=>a[Math.floor(Math.random()*a.length)];
+const PTYPES = {
+  perr:{ name:"% error (true value)", gen(){ const T=rnd(80,600)/10, sgn=Math.random()<0.5?-1:1, M=+(T+sgn*rnd(1,15)/10).toFixed(1), e=+Math.abs(M-T).toFixed(2), ans=e/T*100;
+      return { q:`The true length of an object is <b>${T.toFixed(1)} cm</b>. A student measures it as <b>${M.toFixed(1)} cm</b>. Calculate the percentage error, to two decimal places.`, ans, unit:"%",
+        steps:[`Error = |${T.toFixed(1)} − ${M.toFixed(1)}| = ${e} cm`,`% error = error ÷ true value × 100`,`= ${e} ÷ ${T.toFixed(1)} × 100 = ${ans.toFixed(2)}%`] }; } },
+  est:{ name:"% error (estimated)", gen(){ const [n,d,u]=pick([["metre stick",0.1,"cm"],["vernier callipers",0.1,"mm"],["micrometer",0.01,"mm"],["stopwatch",0.01,"s"],["thermometer",1,"°C"]]);
+      const val = u==="cm"? rnd(50,950)/10 : u==="°C"? rnd(15,90) : d===0.01&&u==="mm"? rnd(20,250)/100 : u==="s"? rnd(150,900)/100 : rnd(50,400)/10, err=d/2, ans=err/val*100, dp = d===1?0 : d===0.1?1 : 2;
+      return { q:`A reading of <b>${val.toFixed(dp)} ${u}</b> is taken with a <b>${n}</b> whose smallest division is <b>${d} ${u}</b>. Estimate the percentage error, to two decimal places.`, ans, unit:"%",
+        steps:[`Estimated error = ½ × ${d} = ${err} ${u}`,`% error = ${err} ÷ ${val.toFixed(dp)} × 100 = ${ans.toFixed(2)}%`] }; } },
+  mean:{ name:"Mean of readings", gen(){ const T=rnd(150,350)/100, n=rnd(4,6), rd=[...Array(n)].map(()=>+(T+(Math.random()-0.5)*0.12).toFixed(2)), s=rd.reduce((a,b)=>a+b,0), ans=s/n;
+      return { q:`A student times one oscillation of a pendulum ${n} times: <b>${rd.map(x=>x.toFixed(2)).join(" s, ")} s</b>. Calculate the mean time, to three decimal places.`, ans, unit:"s",
+        steps:[`Sum = ${rd.map(x=>x.toFixed(2)).join(" + ")} = ${s.toFixed(2)} s`,`Mean = ${s.toFixed(2)} ÷ ${n} = ${ans.toFixed(3)} s`] }; } },
+  zero:{ name:"Zero error", gen(){ const [inst,u,dp]=pick([["electronic balance","g",2],["ammeter","A",2],["newton meter","N",1]]), z=dp===2? rnd(1,9)/100*(Math.random()<0.7?1:-1) : rnd(1,5)/10, R=dp===2? rnd(150,900)/100 : rnd(20,90)/10, ans=+(R-z).toFixed(dp);
+      return { q:`The ${inst} reads <b>${z.toFixed(dp)} ${u}</b> when nothing is being measured. It then gives a reading of <b>${R.toFixed(dp)} ${u}</b>. What is the corrected value?`, ans, unit:u,
+        steps:[`The zero error is ${z.toFixed(dp)} ${u} (a systematic error)`,`Corrected = reading − zero error = ${R.toFixed(dp)} − (${z.toFixed(dp)})`,`= ${ans.toFixed(dp)} ${u}`] }; } },
+  many:{ name:"Time many swings", gen(){ const N=pick([10,20,25,50]), t1=rnd(80,250)/100, tot=+(t1*N).toFixed(1), e=pick([0.1,0.2,0.3]), ans=tot/N;
+      return { q:`A student times <b>${N}</b> oscillations of a pendulum and gets <b>${tot.toFixed(1)} s</b>, with a reaction-time error of about ± ${e} s. What is the time for one oscillation, to three decimal places?`, ans, unit:"s",
+        steps:[`One oscillation = ${tot.toFixed(1)} ÷ ${N} = ${ans.toFixed(3)} s`,`The ± ${e} s error is shared over ${N} swings: ± ${(e/N).toFixed(3)} s each`,`That's why timing many oscillations improves the result`] }; } },
+  improve:{ name:"Better instrument (HL)", gen(){ const D=rnd(20,90)/100, a=0.05/D*100, b=0.005/D*100, ans=a-b;
+      return { q:`The diameter of a wire is <b>${D.toFixed(2)} mm</b>. It is measured first with vernier callipers (0.1 mm divisions) and then with a micrometer (0.01 mm divisions). By how many percentage points does the percentage error fall? (two decimal places)`, ans, unit:"% points",
+        steps:[`Vernier: estimated error 0.05 mm → 0.05 ÷ ${D.toFixed(2)} × 100 = ${a.toFixed(2)}%`,`Micrometer: estimated error 0.005 mm → 0.005 ÷ ${D.toFixed(2)} × 100 = ${b.toFixed(2)}%`,`Reduction = ${a.toFixed(2)} − ${b.toFixed(2)} = ${ans.toFixed(2)} percentage points`] }; } },
+};
+let pType="perr", pCur=null, pRight=0, pTried=0, pDone=false;
+$("prType").innerHTML = Object.entries(PTYPES).map(([k,v])=>`<button data-k="${k}">${v.name}</button>`).join("");
+$("prType").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; pType=b.dataset.k; pNew(); });
+function pNew(){ pCur=PTYPES[pType].gen(); pDone=false; $("pq").innerHTML=pCur.q; $("paUnit").textContent=pCur.unit; $("paIn").value=""; $("paFb").innerHTML="";
+  document.querySelectorAll("#prType button").forEach(b=>b.classList.toggle("on",b.dataset.k===pType)); }
+function pSteps(){ return `<div class="steps">${pCur.steps.map(s=>`<span>${s}</span>`).join("")}</div>`; }
+$("paCheck").addEventListener("click",()=>{
+  const raw=$("paIn").value.replace(/[^\d.,\-]/g,"").replace(/,(?=\d{3}(\D|$))/g,"").replace(",",".");
+  const x=parseFloat(raw);
+  if(!Number.isFinite(x)){ $("paFb").innerHTML=`<div class="fb no">Type a number first, for example 12.5 or 66.</div>`; return; }
+  const ok=Math.abs(x-pCur.ans) <= Math.max(0.051, Math.abs(pCur.ans)*0.005);
+  if(!pDone){ pTried++; if(ok) pRight++; pDone=true; }
+  $("paFb").innerHTML = ok? `<div class="fb ok"><b style="color:var(--good)">Correct!</b>${pSteps()}</div>`
+    : `<div class="fb no"><b style="color:var(--bad)">Not quite.</b> Check: error = |true − measured|; divide by the true value (or the measured value if you're using an estimated error); × 100. Round only at the end. Try again or show the solution.</div>`;
+  $("paScore").textContent=`This session: ${pRight} correct out of ${pTried}.`;
+});
+$("paIn").addEventListener("keydown",e=>{ if(e.key==="Enter") $("paCheck").click(); });
+$("paShow").addEventListener("click",()=>{ if(!pDone){ pTried++; pDone=true; $("paScore").textContent=`This session: ${pRight} correct out of ${pTried}.`; } $("paFb").innerHTML=`<div class="fb"><b>Worked solution</b>${pSteps()}</div>`; });
+$("paNext").addEventListener("click",pNew);
+pNew();
+
+// Systematic or random? [situation, 0 systematic / 1 random, why]
+const PRED = [
+  ["A balance reads 0.08 g with nothing on it.",0,"Every reading is 0.08 g too high: a zero error."],
+  ["A student's reaction time varies each time she starts and stops a stopwatch.",1,"Sometimes too early, sometimes too late: readings scatter both ways."],
+  ["A thermometer was never calibrated and always reads 1.5 °C too low.",0,"Always low by the same amount: systematic."],
+  ["Draughts in the room make an electronic balance flicker between readings.",1,"Fluctuations go both ways: random."],
+  ["Heat escapes from a calorimeter during a specific heat capacity experiment.",0,"The temperature rise is always too small: systematic, from the design."],
+  ["A student reads a metre stick from a slightly different angle each time.",1,"Different angles give errors in different directions: random."],
+  ["A student always reads a metre stick from the same angle, above and to the left.",0,"Always the same angle, so always the same shift: systematic parallax."],
+  ["The needle on an analogue ammeter points slightly below zero before it's used.",0,"Every reading is too low by that amount: a zero error."],
+  ["Vibrations from passing traffic make a reading wobble.",1,"Unpredictable wobble both ways: random."],
+  ["A stretched measuring tape always gives lengths that are too short.",0,"The tape's own scale is wrong in one direction: systematic."],
+  ["When timing a falling ball by eye, the starts and stops are sometimes early and sometimes late.",1,"Human timing scatters both ways: random."],
+];
+let pd = { k:-1, shown:false, sel:null, streak:0 };
+let predC=null;
+function pdNew(){ let k; do{ k=Math.floor(Math.random()*PRED.length); }while(k===pd.k); pd={...pd,k,shown:false,sel:null};
+  document.querySelectorAll("#predOpts button").forEach(b=>b.classList.remove("sel")); $("predFb").innerHTML="";
+  $("predQ").innerHTML=`<b>${PRED[k][0]}</b> Systematic or random?`; if(predC) predC.redraw(); }
+$("predOpts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||pd.shown) return; pd.sel=+b.dataset.a; b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b)); });
+$("predCheck").addEventListener("click",()=>{
+  if(pd.sel==null){ $("predFb").innerHTML=`<div class="fb no">Pick an answer first.</div>`; return; }
+  const [,ans,why]=PRED[pd.k], ok=pd.sel===ans; pd.streak = ok? pd.streak+1 : 0; pd.shown=true; predC.redraw();
+  $("predFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Correct!":"Not quite."}</b> ${why}${ok?` Streak: ${pd.streak} 🔥`:""}</div>`;
+});
+$("predNext").addEventListener("click",pdNew);
+
+// Long questions
+const LONGQ = [
+  { title:"Timing a pendulum", intro:"A student uses a stopwatch to find the period (time for one oscillation) of a pendulum. She times one oscillation five times and gets 1.48 s, 1.62 s, 1.55 s, 1.41 s and 1.59 s.",
+    parts:[["a","Calculate the mean period.",6,"Sum = 7.65 s (3); mean = 7.65 ÷ 5 = 1.53 s (3)."],
+      ["b","Identify the main source of error and state whether it is systematic or random. Justify your answer.",9,"Reaction time in starting and stopping the stopwatch (3). Random (3): the readings are spread above and below the mean, not shifted one way (3)."],
+      ["c","Explain how timing 20 oscillations and dividing by 20 would improve the result.",8,"The reaction-time error (about ± 0.2 s) happens once for the whole timing (3); divided by 20 it becomes about ± 0.01 s per oscillation (3), so the percentage error is much smaller (2)."],
+      ["d","The accepted value of the period is 1.50 s. Calculate the percentage error in the mean.",7,"Error = 1.53 − 1.50 = 0.03 s (3); % error = 0.03 ÷ 1.50 × 100 = 2% (4)."]] },
+  { title:"A faulty balance", intro:"A student measures a 50.00 g standard mass four times on an electronic balance and gets 50.62 g, 50.61 g, 50.63 g and 50.62 g. With nothing on the pan, the balance shows 0.60 g.",
+    parts:[["a","Are the readings accurate, precise, both or neither? Justify your answer.",8,"Precise (3): all within 0.02 g of each other. Not accurate (3): all about 0.6 g above 50.00 g (2)."],
+      ["b","What type of error is present? Name it.",6,"Systematic error (3), a zero error of 0.60 g (3)."],
+      ["c","Correct the mean reading for the zero error.",6,"Mean = 50.62 g (3); corrected = 50.62 − 0.60 = 50.02 g (3)."],
+      ["d","Explain why taking more readings would not fix this problem, and say what would.",10,"Every reading is shifted by the same 0.6 g, so the average is also 0.6 g too high (4). Fix it by taring/zeroing the balance or calibrating it against standard masses (4), or subtracting the zero error from each reading (2)."]] },
+  { title:"Measuring a wire (HL style)", intro:"The diameter of a wire is measured as 0.3 mm with vernier callipers (0.1 mm divisions). It is then measured as 0.31 mm with a micrometer (0.01 mm divisions).",
+    parts:[["a","Estimate the error in each measurement.",6,"Vernier: ½ × 0.1 = 0.05 mm (3). Micrometer: ½ × 0.01 = 0.005 mm (3)."],
+      ["b","Calculate the percentage error in each measurement.",10,"Vernier: 0.05 ÷ 0.3 × 100 ≈ 16.7% (5). Micrometer: 0.005 ÷ 0.31 × 100 ≈ 1.6% (5)."],
+      ["c","Explain why the micrometer gives the better result.",6,"Its smallest division is 10 times smaller (3), so the estimated error and the percentage error are about 10 times smaller (3)."],
+      ["d","Suggest one way to reduce the percentage error without changing the instrument.",8,"Measure a bigger quantity: e.g. wind 20 turns of the wire tightly round a pencil, measure the total width and divide by 20 (5); the same estimated error is then a much smaller percentage of the measured value (3)."]] },
+];
+$("longqs").innerHTML = LONGQ.map((L,i)=>`<article class="lq"><header><p class="eyebrow">Question ${i+1} · ${L.parts.reduce((a,p)=>a+p[2],0)} marks</p><h3>${L.title}</h3><p>${L.intro}</p></header>
+  <div class="parts">${L.parts.map(([l,q,m,ms])=>`<div class="part"><div class="q"><b>(${l})</b><span>${q}</span><span class="marks">${m} marks</span></div><details><summary>Show marking guide</summary><div class="ms">${ms}</div></details></div>`).join("")}</div></article>`).join("");
+
+// Revision checklist (red / amber / green)
+const RAG = ["Name the three sources of error","Define systematic error with an example","Define random error with an example","Explain why averaging doesn't fix systematic error","Correct a reading for a zero error","Avoid parallax error","Reduce random error by repeating and by timing many cycles","Define accuracy and precision","Judge data as accurate, precise, both or neither","Calculate % error when the true value is known","Estimate error as half the smallest division","Choose an instrument to reduce % error"];
+const ragState=store.get("lr13-rag",{});
+function ragRender(){ $("rag").innerHTML = RAG.map((s,i)=>`<div class="ragrow"><span>${s}</span><div class="btns">${["r","a","g"].map(c=>`<button data-i="${i}" data-c="${c}" class="${ragState[i]===c?c:""}" aria-label="${{r:"Not yet",a:"Nearly",g:"Confident"}[c]}" aria-pressed="${ragState[i]===c}"></button>`).join("")}</div></div>`).join(""); }
+$("rag").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; const i=b.dataset.i; ragState[i] = ragState[i]===b.dataset.c? undefined : b.dataset.c; store.set("lr13-rag",ragState); ragRender(); });
+ragRender();
+const SKILLS = [["Spot sources of error","List what could go wrong with the instrument, the person and the method.","Error detective lab"],["Calibrate first","Check zero readings and known standards before you start.","Zero error lab"],["Repeat and average","Take at least three readings and check for outliers.","Stopwatch lab"],["Choose the right tool","Pick an instrument whose divisions suit the size of the quantity.","Read the scale lab"],["Use graphs","A line of best fit through many points reduces random error and shows systematic offsets.","Zero error lab"],["Evaluate","Say how accurate and precise your results are, with % errors.","Percentage error lab"]];
+const skState=store.get("lr13-skills",{});
+$("skills").innerHTML = SKILLS.map(([t,d,w],i)=>`<label><input type="checkbox" data-i="${i}" ${skState[i]?"checked":""}><span><b>${t}</b><small>${d} Practise in: ${w}.</small></span></label>`).join("");
+$("skills").addEventListener("change",e=>{ skState[e.target.dataset.i]=e.target.checked; store.set("lr13-skills",skState); });
+
+/* ================= LAB STATE + WIRING ================= */
+// Error detective
+const SIT = [["A balance reading 0.05 g with nothing on it",0,"zero error"],["Starting a stopwatch a bit late or early each time",1,"reaction time"],["An uncalibrated thermometer that reads 2 °C high",0,"bad calibration"],["A reading that flickers because of draughts",1,"fluctuations"],["Heat lost while heating a liquid",0,"heat loss (design)"],["Reading a ruler from slightly different angles each go",1,"varying angle"],["Always reading a meter from the same side angle",0,"parallax (same angle)"],["An ammeter needle that sits below zero",0,"zero error"],["Vibrations making a spring balance wobble",1,"vibrations"],["Releasing a pendulum slightly differently each time",1,"release varies"]];
+const ed = {order:[], placed:[], sel:null, P:[]};
+function edNew(){ ed.order=SIT.map((x,i)=>i).sort(()=>Math.random()-.5); ed.placed=[]; ed.sel=null; $("edFb").innerHTML=""; edUpd(); }
+function edUpd(){ $("edCards").innerHTML = ed.order.map(i=>{ const done=ed.placed.some(p=>p.i===i); return `<button data-i="${i}" class="${done?"done":""}${ed.sel===i?" sel":""}" ${done?"disabled":""}>${SIT[i][0]}</button>`; }).join("");
+  setReadout($("edOut"),[["Sorted",`${ed.placed.length} of ${SIT.length}`],["Correct",ed.placed.filter(p=>p.ok).length],["Selected",ed.sel==null?"tap a situation":SIT[ed.sel][2]]]); if(edC) edC.redraw(); }
+$("edCards").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; ed.sel=+b.dataset.i; edUpd(); });
+$("edReset").addEventListener("click",edNew);
+// Zero error
+const ze = {z:0.6, gain:1, pts:[], seed:1};
+const STD = [10,20,50,100,150,200];
+$("zeM").innerHTML = STD.map(m=>`<button data-m="${m}">${m} g</button>`).join("");
+function zeNewBal(){ ze.z=+((Math.random()<0.8?1:-1)*(0.2+Math.random()*0.9)).toFixed(2); ze.pts=[]; zeUpd(); }
+function zeFit(){ const p=ze.pts; if(p.length<2) return null; const mx=p.reduce((a,b)=>a+b[0],0)/p.length, my=p.reduce((a,b)=>a+b[1],0)/p.length; let sxy=0,sxx=0; p.forEach(([x,y])=>{ sxy+=(x-mx)*(y-my); sxx+=(x-mx)**2; }); if(!sxx) return null; const m=sxy/sxx; return {m,c:my-m*mx}; }
+function zeUpd(){ const f=zeFit();
+  $("zeTable").innerHTML = ze.pts.map(([x,y])=>`<tr><td>${x}</td><td>${y.toFixed(2)}</td><td>${(y-x>=0?"+":"")+(y-x).toFixed(2)}</td></tr>`).join("") || `<tr><td colspan="3">No readings yet. Weigh some standard masses.</td></tr>`;
+  setReadout($("zeOut"),[["Readings",ze.pts.length],["Gradient",f?nf(f.m,3):"–"],["Intercept (zero error)",f?`${f.c>=0?"+":""}${nf(f.c,2)} g`:"–"],["Verdict",f? (Math.abs(f.c)>0.1? (f.c>0?"Reads too high: systematic":"Reads too low: systematic") : "No significant zero error") : "Weigh at least two masses"]]);
+  $("zeWork").innerHTML = f? `<b>Line of best fit:</b> reading = ${nf(f.m,3)} × true ${f.c<0?"−":"+"} ${nf(Math.abs(f.c),2)} g. A perfect balance gives gradient 1, intercept 0. <b>Fix:</b> tare the balance, or subtract ${nf(f.c,2)} g from every reading.` : "Each reading also has a tiny random error (± 0.02 g).";
+  if(zeC) zeC.redraw(); }
+$("zeM").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; const m=+b.dataset.m; ze.pts.push([m, +(m+ze.z+(Math.random()-0.5)*0.04).toFixed(2)]); zeUpd(); });
+$("zeNew").addEventListener("click",zeNewBal); $("zeClr").addEventListener("click",()=>{ ze.pts=[]; zeUpd(); });
+// Timing
+const rt = {T:1.42, s:0.10, rd:[], r:rng(17)};
+function rtAdd(n){ for(let i=0;i<n;i++){ rt.rd.push(+(rt.T+gauss(rt.r)*rt.s/(n>1?10:1)).toFixed(2)); } rtUpd(n); }
+function rtUpd(n){ $("rtSo").textContent=`${rt.s.toFixed(2)} s`; const N=rt.rd.length, m=N? rt.rd.reduce((a,b)=>a+b,0)/N : null, sp=N>1? Math.max(...rt.rd)-Math.min(...rt.rd) : 0;
+  setReadout($("rtOut"),[["Readings",N],["Mean",m==null?"–":`${m.toFixed(3)} s`],["Range (spread)",N>1?`${sp.toFixed(2)} s`:"–"],["Mean − true",m==null?"–":`${(m-rt.T>=0?"+":"")+(m-rt.T).toFixed(3)} s`]]);
+  $("rtWork").innerHTML = n===10? `<b>10 swings at once:</b> the reaction-time error (± ${rt.s.toFixed(2)} s) is spread over 10 swings, so each reading is only about ± ${(rt.s/10).toFixed(3)} s out.` : `<b>Random error:</b> each reading is off by your reaction time, sometimes high, sometimes low. More readings → the mean gets closer to the true ${rt.T} s.`;
+  if(rtC) rtC.redraw(); }
+$("rt1").addEventListener("click",()=>rtAdd(1)); $("rt10").addEventListener("click",()=>rtAdd(10)); $("rtR").addEventListener("click",()=>{ rt.rd=[]; rtUpd(); });
+$("rtS").addEventListener("input",e=>{ rt.s=+e.target.value; rtUpd(); });
+// Target
+const tg = {b:0, s:3, seed:5};
+function tgUpd(){ $("tgBo").textContent=tg.b; $("tgSpo").textContent=tg.s; const acc=tg.b<=2, pre=tg.s<=3;
+  setReadout($("tgOut"),[["Accurate?",acc?"Yes":"No"],["Precise?",pre?"Yes":"No"],["Verdict",acc&&pre?"Accurate and precise: small errors of both kinds":acc?"Accurate on average, not precise: large random error":pre?"Precise, not accurate: a systematic error":"Neither: large errors of both kinds"]]); if(tgC) tgC.redraw(); }
+$("tgB").addEventListener("input",e=>{ tg.b=+e.target.value; tgUpd(); }); $("tgSp").addEventListener("input",e=>{ tg.s=+e.target.value; tgUpd(); }); $("tgNew").addEventListener("click",()=>{ tg.seed++; tgUpd(); });
+// Percentage error
+const pe = {t:20, m:20.4};
+function peUpd(){ $("peTo").textContent=`${nf(pe.t,1)} cm`; $("peMo").textContent=`${nf(pe.m,1)} cm`; const e=Math.abs(pe.m-pe.t), p=e/pe.t*100;
+  setReadout($("peOut"),[["Error",`${nf(e,2)} cm`],["Percentage error",`${nf(p,p<1?2:1)}%`],["Verdict",p<1?"Very accurate":p<5?"Reasonably accurate":"Not accurate"]]);
+  $("peWork").innerHTML=`<b>% error</b> = |${nf(pe.t,1)} − ${nf(pe.m,1)}| ÷ ${nf(pe.t,1)} × 100 = ${nf(e,2)} ÷ ${nf(pe.t,1)} × 100 = ${nf(p,2)}%`; if(peC) peC.redraw(); }
+$("peT").addEventListener("input",e=>{ pe.t=+e.target.value; peUpd(); }); $("peM").addEventListener("input",e=>{ pe.m=+e.target.value; peUpd(); });
+// Scale
+const sc = {i:0, o:1};
+$("scI").innerHTML = INSTR.map((x,i)=>`<button data-i="${i}" aria-pressed="${i===0}">${x[0]} (${x[1]} mm)</button>`).join("");
+$("scO").innerHTML = OBJS.map((x,i)=>`<button data-i="${i}" aria-pressed="${i===1}">${x[0]}</button>`).join("");
+function scUpd(){ const d=INSTR[sc.i][1], L=OBJS[sc.o][1], dp=Math.max(0,-Math.floor(Math.log10(d))), read=+(Math.round(L/d)*d).toFixed(dp), err=d/2, p=err/read*100;
+  setReadout($("scOut"),[["Reading",`${nf(read,dp)} mm`],["Estimated error",`± ${err} mm`],["Percentage error",`${nf(p,p<0.1?3:p<10?2:0)}%`],["Suitable?",p<=2?"Yes":p<=10?"Borderline":"No: choose a finer instrument"]]);
+  $("scWork").innerHTML=`<b>% error</b> = (½ × ${d}) ÷ ${nf(read,dp)} × 100 = ${err} ÷ ${nf(read,dp)} × 100 = ${nf(p,3)}%`; if(scC) scC.redraw(); }
+$("scI").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; sc.i=+b.dataset.i; pressGroup([...$("scI").children],b); scUpd(); });
+$("scO").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; sc.o=+b.dataset.i; pressGroup([...$("scO").children],b); scUpd(); });
+
+/* ================= CREATE CANVASES ================= */
+let edC=null, zeC=null, rtC=null, tgC=null, peC=null, scC=null;
+const HERO = [[0,1,"accurate & precise"],[6,1,"precise, not accurate"],[0,8,"accurate, not precise"],[6,8,"neither"]];
+const hero = makeCanvas($("heroCanvas"), 0.75, 240, s => { const k=reduce?1:Math.floor(heroT/2)%4, [b,sp,l]=HERO[k]; drawTarget(s.ctx,s.w,s.h,{shots:shotsFor(b,sp,11),label:l}); }, 440);
+edC = makeCanvas($("edC"), 0.42, 240, s => { ed.P=drawBins(s.ctx,s.w,s.h,{placed:ed.placed,armed:ed.sel!=null}); }, 380);
+pointerTap($("edC"),(x,y)=>{ if(ed.sel==null) return; const b=ed.P.find(([bx,by,bw,bh])=>x>=bx&&x<=bx+bw&&y>=by&&y<=by+bh); if(!b) return; const s=SIT[ed.sel], ok=s[1]===b[4];
+  ed.placed.push({i:ed.sel,bin:b[4],ok,short:s[2]}); $("edFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Yes.":"Not quite."}</b> "${s[0]}" is a <b>${s[1]?"random":"systematic"}</b> error (${s[2]}).</div>`; ed.sel=null; edUpd(); });
+zeC = makeCanvas($("zeC"), 0.55, 260, s => drawZero(s.ctx,s.w,s.h,{pts:ze.pts,fit:zeFit()}), 440);
+rtC = makeCanvas($("rtC"), 0.42, 220, s => drawTiming(s.ctx,s.w,s.h,{T:rt.T,rd:rt.rd}), 360);
+tgC = makeCanvas($("tgC"), 0.55, 260, s => drawTarget(s.ctx,s.w,s.h,{shots:shotsFor(tg.b,tg.s,tg.seed)}), 420);
+peC = makeCanvas($("peC"), 0.32, 180, s => drawPerc(s.ctx,s.w,s.h,pe), 260);
+scC = makeCanvas($("scC"), 0.3, 170, s => drawScale(s.ctx,s.w,s.h,sc), 240);
+predC = makeCanvas($("predC"), 0.42, 160, s => { bg(s.ctx,s.w,s.h,C["surface-2"]); const cw=(s.w-32)/2;
+  [["→ → →","Systematic"],["↔ ↕ ↔","Random"]].forEach(([sym,l],i)=>{ const x=16+i*cw, hit=pd.shown&&PRED[pd.k][1]===i; rr(s.ctx,x+4,16,cw-8,s.h-32,14); s.ctx.fillStyle=hit?C.terra:C.surface; s.ctx.fill(); s.ctx.strokeStyle=C.line; s.ctx.stroke();
+    text(s.ctx,sym,x+cw/2,s.h/2-2,hit?C["on-accent"]||"#fff":C.ink,F(s.w<380?16:22,800),"center"); text(s.ctx,l,x+cw/2,s.h/2+22,hit?C["on-accent"]||"#fff":C.muted,F(13),"center"); }); }, 240);
+pdNew();
+const MINI = {
+  bins:(s,o)=>drawBins(s.ctx,s.w,s.h,{...o,compact:true}),
+  zero:(s,o)=>drawZero(s.ctx,s.w,s.h,{...o,compact:true}),
+  timing:(s,o)=>drawTiming(s.ctx,s.w,s.h,{...o,compact:true}),
+  target:(s,o)=>drawTarget(s.ctx,s.w,s.h,{...o,compact:true}),
+  perc:(s,o)=>drawPerc(s.ctx,s.w,s.h,{...o,compact:true}),
+  scale:(s,o)=>drawScale(s.ctx,s.w,s.h,{...o,compact:true}),
+};
+document.querySelectorAll("canvas[data-learn]").forEach(el=>{ const [kind,o]=LEARN[el.dataset.learn].vis[+el.dataset.k]; makeCanvas(el, kind==="perc"||kind==="scale"||kind==="timing"?0.45:0.62, 150, s=>MINI[kind](s,o), 380); });
+const INFO = { target:["target",{shots:shotsFor(6,1,3)}], zero:["zero",{pts:[[20,20.6],[100,100.6],[200,200.6]],fit:{m:1,c:0.6}}], spread:["timing",{T:1.42,rd:[1.31,1.38,1.47,1.40,1.52,1.36,1.44,1.45,1.39,1.49,1.41,1.43]}] };
+document.querySelectorAll("canvas[data-mini]").forEach(el=>{ const [k,o]=INFO[el.dataset.mini]; makeCanvas(el,0.7,160,s=>MINI[k](s,{...o,bgc:C["surface-2"]})); });
+edNew(); zeUpd(); rtUpd(); tgUpd(); peUpd(); scUpd();
+
+/* ================= LOOP / THEME / START ================= */
+if(!reduce){ (function loop(t){ heroT=t/1000; if(view==="overview" && hero.el.offsetParent) hero.redraw(); requestAnimationFrame(loop); })(0); }
+const rerender=()=>{ readColors(); sims.forEach(s=>{ if(s.el.offsetParent) s.redraw(); else s.w=0; }); if(view==="mindmap") drawMindMap(); };
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",rerender);
+new MutationObserver(rerender).observe(root,{attributes:true,attributeFilter:["data-theme","data-font"]});
+if(document.fonts) document.fonts.ready.then(rerender);
+const startHash = (location.hash||"").slice(1);
+show(VIEWS.includes(startHash)? startHash : "overview", {keepScroll:true});
+})();
+</script>
+

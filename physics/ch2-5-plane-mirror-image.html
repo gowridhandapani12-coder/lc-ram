@@ -1,0 +1,1499 @@
+<title>The Image in a Plane Mirror · LC Ram</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Lexend:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a study app. Sticky top bar (brand + view tabs), course sidebar on the left (strands, then this chapter's topics),
+   one view visible at a time. Palette: terracotta, blush, apricot, cream, sage, olive. */
+:root{
+  --bg:#f7efe5; --surface:#fffaf4; --surface-2:#f2e3d2; --ink:#3b2b21; --muted:#7a6555; --line:#e4d3c0; --grid:#efe2d3;
+  --terra:#b4673f; --terra-ink:#9a5130; --blush:#dfc0aa; --apricot:#d4956a; --cream:#f2e3d2; --sage:#cacbbc; --olive:#9d9a80; --olive-ink:#6b6850;
+  --accent:var(--terra); --on-accent:#fffaf4;
+  --ray:#b4532b; --ray2:#5f6f3a; --ray3:#c9832f; --img:#946a84;
+  --glass:rgba(157,154,128,.2); --glass-edge:#8f8b6c;
+  --good:#5d7a35; --bad:#b0442a; --warn:#c08022;
+  --f-display:"Fredoka", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Nunito", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Consolas, monospace;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#211b16; --surface:#2a231d; --surface-2:#342b23; --ink:#f2e3d2; --muted:#bca996; --line:#463a30; --grid:#382e26;
+  --terra:#de8a5e; --terra-ink:#e9a079; --blush:#dfc0aa; --apricot:#e3a77c; --cream:#f2e3d2; --sage:#cacbbc; --olive:#b5b297; --olive-ink:#cacbbc;
+  --on-accent:#211b16;
+  --ray:#ec8a5c; --ray2:#b8c287; --ray3:#ebb673; --img:#d6a6c2;
+  --glass:rgba(202,203,188,.13); --glass-edge:#a9a68a;
+  --good:#a9c27a; --bad:#ef8d70; --warn:#ebb673; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#211b16; --surface:#2a231d; --surface-2:#342b23; --ink:#f2e3d2; --muted:#bca996; --line:#463a30; --grid:#382e26;
+  --terra:#de8a5e; --terra-ink:#e9a079; --blush:#dfc0aa; --apricot:#e3a77c; --cream:#f2e3d2; --sage:#cacbbc; --olive:#b5b297; --olive-ink:#cacbbc;
+  --on-accent:#211b16;
+  --ray:#ec8a5c; --ray2:#b8c287; --ray3:#ebb673; --img:#d6a6c2;
+  --glass:rgba(202,203,188,.13); --glass-edge:#a9a68a;
+  --good:#a9c27a; --bad:#ef8d70; --warn:#ebb673; color-scheme:dark;
+}
+/* Font pairings (switchable in the top bar) */
+:root[data-font="easy"]{ --f-display:"Lexend", system-ui, sans-serif; --f-body:"Lexend", system-ui, sans-serif; }
+:root[data-font="clear"]{ --f-display:"Bricolage Grotesque", system-ui, sans-serif; --f-body:"Atkinson Hyperlegible", system-ui, sans-serif; }
+:root[data-font="notebook"]{ --f-display:"Caveat", "Segoe Print", cursive; --f-body:"Nunito", system-ui, sans-serif; }
+:root[data-font="notebook"] h1, :root[data-font="notebook"] h2{ letter-spacing:0; font-size:calc(var(--hs,1)*1.25em) }
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.1;margin:0;font-weight:700}
+h1{font-size:clamp(2.2rem,5vw,3.5rem)}
+h2{font-size:clamp(1.45rem,2.6vw,1.95rem)}
+h3{font-size:1.12rem}
+p{margin:0}
+a{color:var(--terra-ink)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:2.5px solid var(--terra);outline-offset:2px;border-radius:6px}
+button,select{font:inherit}
+button{font-size:.9rem;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;font-weight:700}
+button:hover{border-color:var(--terra)}
+button.primary{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+button.ghost{background:transparent}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+select{font-size:.9rem;padding:7px 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);max-width:100%}
+input[type=range]{width:100%;accent-color:var(--terra)}
+[hidden]{display:none!important}
+
+/* ---------- Top bar ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.brandrow{display:flex;align-items:center;gap:12px;padding-block:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.logo{width:36px;height:36px;border-radius:11px;background:var(--terra);display:grid;place-items:center;color:var(--on-accent);flex:none}
+.brand b{font-family:var(--f-display);font-size:1.15rem;display:block;line-height:1.1}
+.brand span{font-size:.78rem;color:var(--muted);display:block}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tools label{font-size:.78rem;color:var(--muted)}
+#menuBtn{display:none}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px}
+.tabs a{flex:none;display:flex;align-items:center;gap:7px;text-decoration:none;color:var(--muted);font-weight:700;font-size:.92rem;padding:8px 14px;border-radius:999px}
+.tabs a svg{width:18px;height:18px}
+.tabs a:hover{color:var(--ink);background:var(--surface-2)}
+.tabs a.on{background:var(--terra);color:var(--on-accent)}
+
+/* ---------- Shell ---------- */
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;max-width:1360px;margin:0 auto;padding-block:22px 60px}
+.side{position:sticky;top:120px;align-self:start;max-height:calc(100vh - 140px);overflow:auto;display:grid;gap:18px;padding-right:4px}
+.side h4{margin:0 0 6px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.topiclist{display:grid;gap:3px}
+.topiclist button{display:flex;align-items:center;gap:10px;text-align:left;border:0;border-radius:12px;padding:8px 10px;background:transparent;font-weight:700;font-size:.92rem;color:var(--ink)}
+.topiclist button svg{width:22px;height:22px;flex:none;color:var(--terra)}
+.topiclist button:hover{background:var(--surface-2)}
+.topiclist button.on{background:var(--blush);color:#3b2b21}
+.topiclist button.on svg{color:#9a5130}
+.course details{border-radius:12px}
+.course summary{cursor:pointer;font-weight:800;font-size:.88rem;padding:6px 8px;border-radius:10px;list-style:none;display:flex;justify-content:space-between;gap:6px}
+.course summary::-webkit-details-marker{display:none}
+.course summary::after{content:"+";color:var(--muted)}
+.course details[open] summary::after{content:"–"}
+.course summary:hover{background:var(--surface-2)}
+.course ol{list-style:none;margin:2px 0 8px;padding:0 0 0 8px;display:grid;gap:1px}
+.course li{font-size:.83rem;color:var(--muted);padding:3px 8px;border-radius:8px;display:flex;gap:8px}
+.course li .mono{font-size:.72rem;min-width:2.1em;padding-top:2px}
+.course li.here{background:var(--terra);color:var(--on-accent);font-weight:800}
+.course li.here .mono{color:var(--on-accent)}
+.soon{font-size:.72rem;color:var(--muted);padding:0 8px}
+.course li a{display:flex;gap:8px;color:inherit;text-decoration:none;flex:1;min-width:0}
+.course li.link{color:var(--ink);font-weight:700}
+.course li.link:hover{background:var(--surface-2)}
+.scrim{display:none}
+
+/* ---------- Generic blocks ---------- */
+.view{display:grid;gap:28px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.pad{padding:20px}
+.head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:end;justify-content:space-between}
+.head p{color:var(--muted);max-width:60ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;padding:3px 10px;border-radius:999px;background:var(--sage);color:#3b2b21}
+.pill.t{background:var(--blush)} .pill.a{background:var(--apricot);color:#3b2b21}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:.8rem;font-weight:800;padding:3px 11px;border-radius:999px;border:1.5px solid currentColor}
+.chip.real{color:var(--good)} .chip.virtual{color:var(--img)} .chip.neutral{color:var(--muted)} .chip.alert{color:var(--bad)}
+.formula{font-family:var(--f-mono);font-size:1rem;background:var(--surface-2);border-radius:12px;padding:10px 14px;display:inline-block}
+canvas{display:block;width:100%;touch-action:none}
+
+/* ---------- Overview ---------- */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.hero h1 em{font-style:normal;color:var(--terra)}
+.hero .lede{font-size:1.1rem;color:var(--muted);margin-top:12px;max-width:52ch}
+.cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.herobox{border-radius:22px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.stat{padding:16px 18px;display:grid;gap:6px}
+.stat b{font-family:var(--f-display);font-size:2rem;line-height:1}
+.stat span{font-size:.85rem;color:var(--muted)}
+.prog{height:8px;border-radius:999px;background:var(--grid);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--terra);border-radius:999px;transition:width .3s}
+.topics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tcard{padding:18px;display:grid;gap:10px;align-content:start;position:relative;overflow:hidden}
+.tcard .ico{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;color:#3b2b21}
+.tcard .ico svg{width:28px;height:28px}
+.tcard p{color:var(--muted);font-size:.93rem}
+.tcard .row{display:flex;gap:6px;flex-wrap:wrap}
+.tcard button{font-size:.82rem;padding:6px 12px}
+.lo-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.lo-list label{display:grid;grid-template-columns:22px 3.3em minmax(0,1fr);gap:10px;align-items:start;cursor:pointer}
+.lo-list input{width:19px;height:19px;margin-top:3px;accent-color:var(--good)}
+.lo-list .mono{font-size:.78rem;color:var(--terra-ink);padding-top:3px}
+
+/* ---------- Learn ---------- */
+.learn{display:grid;gap:20px}
+.lcard{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0;overflow:hidden;scroll-margin-top:130px}
+.lcard .vis{background:var(--surface-2);display:grid;gap:8px;padding:14px;align-content:center}
+.lcard .vis canvas{border-radius:12px;background:var(--surface)}
+.lcard .vis .cap{font-size:.8rem;color:var(--muted);text-align:center}
+.lcard .txt{padding:20px 22px;display:grid;gap:14px;align-content:start}
+.keys{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.keys li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start}
+.keys li i{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-style:normal;font-weight:800;font-family:var(--f-display);color:#3b2b21}
+.mistake{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;background:var(--surface-2);border-radius:12px;padding:10px 12px;font-size:.92rem}
+.mistake b{color:var(--bad)}
+.vis3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.vis2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+
+/* ---------- Labs ---------- */
+.labtabs{display:flex;gap:6px;flex-wrap:wrap}
+.labtabs button{display:flex;align-items:center;gap:8px}
+.labtabs button svg{width:18px;height:18px}
+.labtabs button.on{background:var(--terra);color:var(--on-accent);border-color:var(--terra)}
+.lab{display:grid;gap:14px}
+.labhead{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.labhead .goal{font-size:.98rem;color:var(--muted);max-width:70ch}
+.sim{overflow:hidden}
+.sim canvas{cursor:crosshair}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px 20px;padding:16px;border-top:1px solid var(--line);background:var(--surface-2)}
+.ctl{display:grid;gap:5px;min-width:0}
+.ctl label,.ctl .lbl{font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;font-weight:700}
+.ctl output{font-family:var(--f-mono);color:var(--ink);font-weight:600}
+.btns{display:flex;flex-wrap:wrap;gap:6px}
+.btns button{font-size:.83rem;padding:6px 12px}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.readout div{background:var(--surface);padding:10px 14px;display:grid;gap:2px}
+.readout span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.readout b{font-family:var(--f-mono);font-size:1.04rem;font-weight:600}
+.simchips{padding:12px 16px;border-top:1px solid var(--line)}
+.working{font-family:var(--f-mono);font-size:.86rem;padding:12px 16px;border-top:1px solid var(--line);color:var(--muted);overflow-x:auto;white-space:nowrap}
+.working b{color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 0}
+.legend button{display:flex;align-items:center;gap:7px;font-size:.8rem;padding:4px 11px}
+.legend i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.legend button[aria-pressed=true]{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.legend button[aria-pressed=false]{opacity:.45}
+.tries{display:flex;flex-wrap:wrap;gap:8px}
+.try{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px dashed var(--olive);border-radius:12px;padding:8px 12px;font-size:.9rem}
+.try b{font-family:var(--f-display);color:var(--terra-ink)}
+.exp-grid{display:grid;grid-template-columns:minmax(0,1fr) 190px}
+.screen-view{border-left:1px solid var(--line);display:grid;align-content:start;gap:8px;padding:12px;background:var(--surface-2)}
+.screen-view canvas{border-radius:10px;cursor:default}
+.meter{height:9px;border-radius:999px;background:var(--grid);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--good);transition:width .15s}
+.datapanel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line)}
+.tablewrap{overflow:auto;max-height:260px;border-right:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;font-size:.84rem}
+th,td{padding:6px 10px;text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;border-bottom:1px solid var(--grid);white-space:nowrap}
+th{font-family:var(--f-body);font-weight:800;color:var(--muted);font-size:.75rem;position:sticky;top:0;background:var(--surface)}
+td button{padding:1px 8px;font-size:.75rem}
+.empty{padding:20px 16px;color:var(--muted);font-size:.9rem}
+.graphbox{padding:10px;display:grid;gap:6px}
+.graphbox canvas{cursor:default}
+.result{font-size:.88rem;color:var(--muted)}
+.result b{color:var(--ink);font-family:var(--f-mono)}
+
+/* ---------- Mind map ---------- */
+.mmwrap{overflow-x:auto}
+#mm{width:100%;min-width:760px;display:block}
+#mm .link{fill:none;stroke-width:3;stroke-linecap:round}
+#mm .node{cursor:pointer}
+#mm .node rect{stroke-width:1.5}
+#mm .node text{font-family:var(--f-body);fill:var(--ink);font-size:14px;font-weight:700}
+#mm .branch text{font-family:var(--f-display);font-size:17px;fill:#3b2b21}
+#mm .center text{font-family:var(--f-display);font-size:22px;fill:var(--on-accent)}
+#mm .node:hover rect,#mm .node:focus rect{stroke:var(--ink)}
+#mm .node.sel rect{stroke:var(--ink);stroke-width:2.5}
+.mmdetail{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center}
+.mmdetail .ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#3b2b21}
+.mmdetail .ico svg{width:26px;height:26px}
+
+/* ---------- Infographics ---------- */
+.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.case{padding:12px;display:grid;gap:8px;align-content:start}
+.case canvas{border-radius:10px;background:var(--surface-2);cursor:default}
+.case h3{font-size:1rem}
+.case .use{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--muted)}
+.case .use svg{width:22px;height:22px;color:var(--terra)}
+.boundary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.boundary .case p{font-size:.9rem;color:var(--muted)}
+.bars{display:grid;gap:10px}
+.barrow{display:grid;grid-template-columns:130px minmax(0,1fr) 120px;gap:12px;align-items:center;font-size:.9rem}
+.barrow .track{height:22px;background:var(--grid);border-radius:8px;overflow:hidden}
+.barrow .track i{display:block;height:100%;border-radius:8px;background:var(--apricot)}
+.barrow .v{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);text-align:right}
+.around{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.around .panel{padding:16px;display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:start}
+.around .ico{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:#3b2b21}
+.around .ico svg{width:30px;height:30px}
+.around p{font-size:.88rem;color:var(--muted)}
+.around .chips{margin-top:6px}
+.around .chip{font-size:.72rem;padding:2px 8px}
+
+/* ---------- Flashcards ---------- */
+.fc-wrap{display:grid;gap:16px;justify-items:center}
+.fc-filter{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.fc-filter button.on{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+.deck{perspective:1400px;width:min(560px,100%);aspect-ratio:3/2;max-width:100%}
+.card3d{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d;cursor:pointer}
+.card3d.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;padding:26px;display:grid;align-content:center;gap:12px;text-align:center;border:1px solid var(--line);box-shadow:0 10px 30px rgba(59,43,33,.12)}
+.face.front{background:var(--surface)}
+.face.back{background:var(--blush);color:#3b2b21;transform:rotateY(180deg)}
+.face .tag{justify-self:center}
+.face h3{font-size:clamp(1.3rem,3.2vw,1.9rem)}
+.face .ans{font-size:clamp(1rem,2.4vw,1.2rem);line-height:1.45}
+.face .hint{font-size:.78rem;color:var(--muted);position:absolute;bottom:14px;left:0;right:0}
+.face.back .hint{color:#6b5545}
+.fc-controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.fc-meta{font-size:.9rem;color:var(--muted);text-align:center}
+button.got{background:var(--good);border-color:var(--good);color:var(--on-accent)}
+button.again{border-color:var(--bad);color:var(--bad)}
+
+/* ---------- Quiz ---------- */
+.qz{max-width:760px;width:100%;margin:0 auto;display:grid;gap:16px}
+.qz-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots i{width:12px;height:12px;border-radius:50%;background:var(--grid);display:block}
+.dots i.cur{background:var(--ink)} .dots i.ok{background:var(--good)} .dots i.no{background:var(--bad)}
+.qcard{padding:24px;display:grid;gap:14px}
+.qcard h3{font-size:1.3rem}
+.opts{display:grid;gap:8px}
+.opts button{text-align:left;border-radius:14px;padding:12px 14px;font-weight:700;display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;align-items:center}
+.opts button span{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);font-family:var(--f-display)}
+.opts button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.opts button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surface))}
+.why{background:var(--surface-2);border-radius:12px;padding:12px 14px;font-size:.95rem}
+.final{padding:28px;display:grid;gap:14px;justify-items:center;text-align:center}
+.ring{width:150px;height:150px}
+.review{width:100%;display:grid;gap:8px;text-align:left}
+.review div{background:var(--surface-2);border-radius:12px;padding:10px 14px;font-size:.92rem}
+
+/* ---------- Formulae ---------- */
+.sheet{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.fcell{padding:18px;display:grid;gap:10px;align-content:start}
+.fcell .big{font-family:var(--f-mono);font-size:1.35rem;font-weight:600}
+.fcell dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 10px;font-size:.88rem}
+.fcell dt{font-family:var(--f-mono);font-weight:600;color:var(--terra-ink)}
+.fcell dd{margin:0;color:var(--muted)}
+.fcell .ex{font-size:.86rem;background:var(--surface-2);border-radius:10px;padding:8px 10px;font-family:var(--f-mono)}
+footer{color:var(--muted);font-size:.84rem;display:grid;gap:4px;padding-top:10px}
+
+/* ---------- Glossary ---------- */
+.glbar{display:grid;gap:12px}
+input[type=search],input[type=text]{font:inherit;font-size:1rem;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);width:100%;min-width:0}
+input:focus{outline:none;border-color:var(--terra)}
+#glTopics button.on{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+.letters{display:flex;flex-wrap:wrap;gap:4px}
+.letters button{width:32px;height:32px;padding:0;border-radius:9px;font-size:.85rem}
+.letters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.letters button:disabled{opacity:.3;cursor:default}
+.gllist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gl-item{padding:16px 18px;display:grid;gap:8px;align-content:start;scroll-margin-top:130px}
+.gl-item header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px}
+.gl-item h3{font-size:1.2rem}
+.gl-item .aka{font-family:var(--f-mono);font-size:.78rem;color:var(--terra-ink)}
+.gl-item p{font-size:.95rem}
+.gl-item .foot{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.gl-item .foot button{font-size:.78rem;padding:4px 10px}
+.gl-item.flash{outline:3px solid var(--apricot)}
+.gl{all:unset;cursor:help;border-bottom:2px dotted var(--terra);font-weight:800;color:inherit}
+.gl:focus-visible{outline:2px solid var(--terra)}
+#glPop{position:absolute;z-index:50;max-width:min(340px,calc(100vw - 32px));background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 14px;font-size:.9rem;box-shadow:0 12px 30px rgba(0,0,0,.25);display:grid;gap:6px}
+#glPop b{font-family:var(--f-display);font-size:1.05rem}
+#glPop button{justify-self:start;font-size:.78rem;padding:3px 10px;background:transparent;color:var(--bg);border-color:var(--bg)}
+
+/* ---------- Exam prep ---------- */
+.exgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.donutbox{display:grid;grid-template-columns:150px minmax(0,1fr);gap:18px;align-items:center}
+.donut{width:150px;height:150px}
+.dn1{font:700 24px var(--f-display);fill:var(--ink)} .dn2{font:600 11px var(--f-body);fill:var(--muted)}
+.splits{display:grid;gap:12px}
+.splits>div{display:grid;grid-template-columns:14px minmax(0,1fr);gap:10px}
+.splits i{width:14px;height:14px;border-radius:4px;margin-top:4px}
+.splits p{font-size:.88rem;color:var(--muted)}
+.tips{margin:0;padding-left:1.3em;display:grid;gap:6px;font-size:.94rem}
+.cmds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.cmd{background:var(--surface-2);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.cmd b{font-family:var(--f-display);font-size:1.1rem;color:var(--terra-ink)}
+.cmd p{font-size:.88rem}
+.cmd em{font-style:normal;font-size:.82rem;color:var(--muted)}
+.practice,.predict{display:grid;gap:12px}
+#prType button.on{background:var(--terra);border-color:var(--terra);color:var(--on-accent)}
+.pq{font-size:1.08rem;background:var(--surface-2);border-radius:14px;padding:14px 16px;min-height:72px}
+.pa{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pa input{flex:1 1 140px;width:auto}
+.fb{border-radius:12px;padding:12px 14px;font-size:.94rem;display:grid;gap:4px}
+.fb.ok{background:color-mix(in srgb,var(--good) 16%,var(--surface))}
+.fb.no{background:color-mix(in srgb,var(--bad) 13%,var(--surface))}
+.fb .steps{font-family:var(--f-mono);font-size:.86rem;display:grid;gap:2px;overflow-x:auto}
+.predict canvas{border-radius:12px;background:var(--surface-2);cursor:default}
+.predopts{display:grid;gap:8px}
+.predopts button.sel{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.longqs{display:grid;gap:14px}
+.lq{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.lq>header{background:var(--surface-2);padding:14px 16px;display:grid;gap:6px}
+.lq table{font-size:.86rem;width:auto}
+.lq .parts{display:grid}
+.lq .part{padding:12px 16px;border-top:1px solid var(--line);display:grid;gap:6px}
+.lq .part .q{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:start}
+.lq .part .q b{font-family:var(--f-display)}
+.lq .marks{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);white-space:nowrap}
+.lq details summary{font-size:.86rem;font-weight:800;color:var(--terra-ink);cursor:pointer}
+.lq .ms{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:.9rem;margin-top:6px;display:grid;gap:4px}
+.rag,.skills{display:grid;gap:6px}
+.ragrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:12px;background:var(--surface-2);font-size:.92rem}
+.ragrow .btns button{width:30px;height:30px;padding:0;border-radius:50%}
+.ragrow button[data-c="r"]{border-color:var(--bad)} .ragrow button[data-c="a"]{border-color:var(--warn)} .ragrow button[data-c="g"]{border-color:var(--good)}
+.ragrow button.r{background:var(--bad);border-color:var(--bad)} .ragrow button.a{background:var(--warn);border-color:var(--warn)} .ragrow button.g{background:var(--good);border-color:var(--good)}
+.skills label{display:grid;grid-template-columns:22px minmax(0,1fr);gap:10px;align-items:start;padding:8px 10px;border-radius:12px;background:var(--surface-2);font-size:.92rem;cursor:pointer}
+.skills input{width:18px;height:18px;margin-top:2px;accent-color:var(--good)}
+.skills small{display:block;color:var(--muted);font-size:.82rem}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1080px){ .topics,.cases,.around,.cmds{grid-template-columns:repeat(2,minmax(0,1fr))} .exgrid{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:680px){ .gllist,.cmds{grid-template-columns:minmax(0,1fr)} .donutbox{grid-template-columns:minmax(0,1fr);justify-items:center} }
+@media (max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  #menuBtn{display:inline-flex}
+  .side{position:fixed;top:0;bottom:0;left:0;width:min(300px,86vw);max-height:none;z-index:40;background:var(--surface);padding:calc(18px + env(safe-area-inset-top,0px)) 16px 24px max(16px,env(safe-area-inset-left,0px));border-right:1px solid var(--line);transform:translateX(-105%);transition:transform .25s}
+  body.menu .side{transform:none}
+  body.menu .scrim{display:block;position:fixed;inset:0;z-index:35;background:rgba(33,27,22,.4)}
+  .hero,.lcard{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:680px){
+  body{font-size:16px}
+  .topics,.cases,.around,.boundary,.stats{grid-template-columns:minmax(0,1fr)}
+  .exp-grid{grid-template-columns:minmax(0,1fr)}
+  .screen-view{border-left:0;border-top:1px solid var(--line);grid-template-columns:110px minmax(0,1fr);align-items:center}
+  .datapanel{grid-template-columns:minmax(0,1fr)}
+  .tablewrap{border-right:0;border-bottom:1px solid var(--line)}
+  .barrow{grid-template-columns:90px minmax(0,1fr);}
+  .barrow .v{grid-column:2;text-align:left;margin-top:-6px}
+  .mmdetail{grid-template-columns:auto minmax(0,1fr)}
+  .mmdetail button{grid-column:1/-1}
+  .brand span{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+.course li a{display:flex;gap:8px;color:inherit;text-decoration:none;flex:1;min-width:0}
+.course li.link{color:var(--ink);font-weight:700}
+.course li.link:hover{background:var(--surface-2)}
+.sh-card{display:grid;gap:8px;padding:16px;align-content:start}
+.sh-card .ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#3b2b21}
+.sh-card .ico svg{width:24px;height:24px}
+.sh-card p{font-size:.9rem;margin:0}
+.sh-card ul{margin:0;padding-left:18px;font-size:.88rem;color:var(--muted);display:grid;gap:3px}
+.fbbox{padding:0 16px 14px}
+.predopts .btns button{min-width:100px}
+.ctl button[disabled]{opacity:.5}
+</style>
+
+<style>
+.mirrortext{font-family:var(--f-display);font-size:1.4rem;letter-spacing:.06em}
+</style>
+<!-- ================= TOP BAR ================= -->
+<!--subj-nav--><style id="subj-css">
+.subj{display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;max-width:100%;min-width:0;margin-right:auto}
+.subj::-webkit-scrollbar{display:none}
+.subj a{white-space:nowrap;text-decoration:none;color:var(--muted);font-weight:700;font-size:.86rem;padding:6px 12px;border-radius:999px;border:1.5px solid transparent}
+.subj a:hover{color:var(--ink);background:var(--surface-2)}
+.subj a.on{color:var(--ink);background:color-mix(in srgb,var(--terra) 16%,transparent);border-color:color-mix(in srgb,var(--terra) 40%,transparent)}
+@media (max-width:1180px){.subj{order:3;flex-basis:100%;margin-right:0}}
+</style><!--/subj-nav-->
+<header class="top">
+  <div class="gut">
+    <div class="brandrow" style="max-width:1360px;margin:0 auto">
+      <div class="brand">
+        <button id="menuBtn" class="ghost" aria-label="Open course menu" style="padding:6px 10px">☰</button>
+        <div class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12a8 8 0 01-14.3 4.9M4 12a8 8 0 0114.3-4.9"/><path d="M18 3v4.5h-4.5M6 21v-4.5h4.5"/></svg></div>
+        <div style="min-width:0"><b>The Image in a Plane Mirror</b><span>LC Ram Physics · Chapter 2 · 2.5</span></div>
+      </div>
+      
+      
+      
+      <!--subj-nav--><nav class="subj" aria-label="Subjects"><a href="../index.html">Home</a><a href="../physics/index.html" class="on" aria-current="page">Physics</a></nav><!--/subj-nav-->
+      <div class="tools">
+        <label for="fontSel">Font</label>
+        <select id="fontSel">
+          <option value="playful">Playful: Fredoka + Nunito</option>
+          <option value="easy">Easy-read: Lexend</option>
+          <option value="clear">Clear: Bricolage + Atkinson</option>
+          <option value="notebook">Notebook: Caveat + Nunito</option>
+        </select>
+        <button id="themeBtn" class="ghost" aria-label="Change colour theme" title="Theme">◐ <span id="themeLbl">Auto</span></button>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs" aria-label="Views" style="max-width:1360px;margin:0 auto">
+      <a href="#overview" data-v="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6h-6v6H4a1 1 0 01-1-1z"/></svg>Overview</a>
+      <a href="#learn" data-v="learn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5"/></svg>Learn</a>
+      <a href="#labs" data-v="labs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6M10 3v6L4 19a1 1 0 001 2h14a1 1 0 001-2l-6-10V3"/></svg>Labs</a>
+      <a href="#mindmap" data-v="mindmap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><path d="M6 6l4 4M18 6l-4 4M6 18l4-4M18 18l-4-4"/></svg>Mind map</a>
+      <a href="#infographics" data-v="infographics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Infographics</a>
+      <a href="#flashcards" data-v="flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 6V4h14v14h-4"/></svg>Flashcards</a>
+      <a href="#quiz" data-v="quiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 .5c0 1.5-2.5 2-2.5 3.5M12 17h.01"/></svg>Quiz</a>
+      <a href="#exam" data-v="exam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 13l2 2 4-4"/></svg>Exam prep</a>
+      <a href="#glossary" data-v="glossary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h10a4 4 0 014 4v12H8a4 4 0 01-4-4z"/><path d="M8 9h6M8 13h4"/></svg>Glossary</a>
+      <a href="#formulae" data-v="formulae"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Formulae</a>
+    </nav>
+  </div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+<div class="gut">
+<div class="shell">
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="side" id="side" aria-label="Course navigation">
+    <div>
+      <h4>This section</h4>
+      <div class="topiclist" id="topicList"></div>
+    </div>
+    <div class="course">
+      <h4>Chapters</h4>
+      <details><summary>1 · The Nature of Science</summary><ol><li><span class="mono">1.1</span>The nature of scientific knowledge</li><li><span class="mono">1.2</span>Measurement and units</li><li class="link"><a href="ch1-3-error-in-measurements.html"><span class="mono">1.3</span>Error in measurements</a></li><li><span class="mono">1.4</span>Basic units and derived units</li><li><span class="mono">1.5</span>Scientific notation</li><li><span class="mono">1.6</span>Unit analysis</li></ol></details>
+      <details open><summary>2 · Reflection of Light</summary><ol><li><span class="mono">2.1</span>Understanding the nature of light</li><li><span class="mono">2.2</span>Vision and light</li><li><span class="mono">2.3</span>Types of reflection</li><li><span class="mono">2.4</span>The laws of reflection of light</li><li class="here"><span class="mono">2.5</span>The image produced in a plane mirror</li><li><span class="mono">2.6</span>Uses of mirrors in technological and medical contexts</li></ol></details>
+      <details><summary>3 · Refraction of Light</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>4 · Lenses</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>5 · Speed, Displacement and Velocity</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>6 · Acceleration</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>7 · Vectors and Scalars</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>8 · Force, Mass and Momentum</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>9 · Density, Pressure and Gravity</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>10 · Work, Energy and Power</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>11 · Circular Motion</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>12 · Elasticity and Hooke's Law</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>13 · Temperature and Thermometers</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>14 · Heat Transfer and Temperature Change</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>15 · Waves and Wave Motion</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>16 · Vibrations and Sound</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>17 · The Wave Nature of Light</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>18 · Static Electricity</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>19 · Potential Difference</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>20 · Current and Charge</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>21 · Potential Difference and Electromotive Force</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>22 · Resistance</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>23 · Heating Effect of an Electric Current</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>24 · Semiconductors</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <details><summary>25 · Magnets and Magnetic Fields</summary><ol><li><span class="mono"></span>Sections coming soon</li></ol></details>
+      <p class="soon">Bold sections are ready. Others are coming soon. Chapters follow Real World Physics (2nd edition).</p>
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- ================= OVERVIEW ================= -->
+    <section class="view" data-view="overview">
+      <div class="hero">
+        <div>
+          <span class="pill t">Chapter 2 · Reflection of Light · 2.5</span>
+          <h1 style="margin-top:12px">Behind the glass,<br>nothing is there.<br><em>Your brain puts it there.</em></h1>
+          <p class="lede">Your reflection looks like a real person standing behind the mirror, but no light ever reaches that spot. Learn how a plane mirror forms an image, why it's reversed left to right, and how to solve problems about distances, speeds, rotating mirrors and full-length mirrors.</p>
+          <div class="cta"><button class="primary" data-go="learn">Start learning</button><button data-go="labs">Open the labs</button><button data-go="quiz">Test yourself</button></div>
+        </div>
+        <div class="herobox"><canvas id="heroCanvas" aria-label="Animated ray diagram: rays from an object reflect off a plane mirror and appear to come from an image behind it"></canvas></div>
+      </div>
+      <div class="stats">
+        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/5</b><div class="prog"><i id="stLOb"></i></div></div>
+        <div class="panel stat"><span>Flashcards you know</span><b id="stFC">0</b><div class="prog"><i id="stFCb"></i></div></div>
+        <div class="panel stat"><span>Best quiz score</span><b id="stQZ">–</b><div class="prog"><i id="stQZb"></i></div></div>
+      </div>
+      <div>
+        <div class="head" style="margin-bottom:14px"><h2>Six topics</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
+        <div class="topics" id="topicCards"></div>
+      </div>
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">By the end of this section</p><h2>You should be able to</h2></div><p style="font-size:.88rem">Tick each one when you're confident. Saved on this device.</p></div>
+        <ul class="lo-list" id="loList"></ul>
+        <p class="result" style="margin-top:10px">This page follows section 2.5 of Real World Physics (2nd edition), in Chapter 2 Reflection of Light. It builds on 2.4 The laws of reflection: the angle of incidence equals the angle of reflection. The explanations, labs and questions here are our own.</p>
+      </div>
+    </section>
+
+    <!-- ================= LEARN ================= -->
+    <section class="view" data-view="learn" hidden>
+      <div class="head"><div><p class="eyebrow">Visual notes</p><h2>Learn</h2></div><p>Picture first, three key ideas, one common mistake. Then open the lab and try it.</p></div>
+      <div class="learn" id="learnList"></div>
+    </section>
+
+    <!-- ================= LABS ================= -->
+    <section class="view" data-view="labs" hidden>
+      <div class="head"><div><p class="eyebrow">Interactive</p><h2>Labs</h2></div><p>Trace rays, flip words, walk to the mirror, rotate it, size a full-length mirror and build a periscope.</p></div>
+      <div class="labtabs" id="labTabs"></div>
+
+      <div class="lab" data-lab="point">
+        <div class="labhead"><span class="pill t">Ray tracer</span><p class="goal">Drag the object point P. Rays leave it, reflect off the mirror (angle in = angle out), and the dashed lines show where they appear to come from: the image Q.</p></div>
+        <div class="panel sim">
+          <canvas id="ptC" aria-label="Ray diagram with an object point, a plane mirror, reflected rays and the virtual image. Drag the object."></canvas>
+          <div class="controls"><div class="ctl"><span class="lbl">Show</span><div class="btns" id="ptS"><button data-k="n" aria-pressed="true">Normals &amp; angles</button><button data-k="e" aria-pressed="true">Eye</button></div></div></div>
+          <div class="readout" id="ptOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Move P further from the mirror. What happens to Q?</div><div class="try"><b>2</b>Is the line PQ always perpendicular to the mirror?</div><div class="try"><b>3</b>Do any real rays reach Q? What makes it a virtual image?</div></div>
+      </div>
+
+      <div class="lab" data-lab="lateral" hidden>
+        <div class="labhead"><span class="pill t">Mirror writing</span><p class="goal">Type a word and see it in a plane mirror. Which letters look the same? Why is AMBULANCE written backwards on the front of ambulances?</p></div>
+        <div class="panel sim">
+          <canvas id="ltC" aria-label="A word and its mirror image either side of a mirror"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="ltIn">Your word (capitals)</label><input id="ltIn" type="text" maxlength="12" value="AMBULANCE" autocomplete="off" style="text-transform:uppercase"></div>
+            <div class="ctl"><span class="lbl">Try</span><div class="btns" id="ltB"><button>AMBULANCE</button><button>MIRROR</button><button>TOYOTA</button><button>WOW</button></div></div>
+          </div>
+          <div class="readout" id="ltOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Find a word that looks exactly the same in the mirror.</div><div class="try"><b>2</b>Raise your right hand in a real mirror. Which hand does your image raise?</div><div class="try"><b>3</b>Is the image upside down? Why not?</div></div>
+      </div>
+
+      <div class="lab" data-lab="distance" hidden>
+        <div class="labhead"><span class="pill t">Collect &amp; fit</span><p class="goal">Stand at different distances from a mirror and record how far you are from your image. Plot the data and fit a line: what's the rule?</p></div>
+        <div class="panel sim">
+          <canvas id="dsC" aria-label="Person in front of a mirror and their image behind it, with distances marked"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="dsD">Distance from mirror <output id="dsDo">1.5 m</output></label><input type="range" id="dsD" min="0.3" max="4" step="0.1" value="1.5"></div>
+            <div class="ctl"><span class="lbl">Data</span><div class="btns"><button class="primary" id="dsRec">Record</button><button id="dsClr">Clear</button></div></div>
+            <div class="ctl"><label for="dsV">Walking speed <output id="dsVo">1.2 m/s</output></label><input type="range" id="dsV" min="0.5" max="3" step="0.1" value="1.2"></div>
+          </div>
+          <div class="datapanel">
+            <div class="tablewrap"><table><thead><tr><th>You → mirror (m)</th><th>You → image (m)</th></tr></thead><tbody id="dsTable"></tbody></table></div>
+            <div class="graphbox"><canvas id="dsG" aria-label="Graph of distance to image against distance to mirror with a fitted line"></canvas><p class="result" id="dsRes"></p></div>
+          </div>
+          <div class="readout" id="dsOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Record five distances. What's the gradient of the line?</div><div class="try"><b>2</b>Walk towards the mirror at 1.2 m/s. How fast do you approach your image?</div><div class="try"><b>3</b>Why does the line go through the origin?</div></div>
+      </div>
+
+      <div class="lab" data-lab="rotate" hidden>
+        <div class="labhead"><span class="pill t">Rotate the mirror</span><p class="goal">Keep the incoming ray fixed and turn the mirror. Watch how far the reflected ray turns compared with the mirror.</p></div>
+        <div class="panel sim">
+          <canvas id="roC" aria-label="Fixed incident ray, a rotatable mirror, and the reflected ray before and after rotation"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="roI">Angle of incidence at the start <output id="roIo">30°</output></label><input type="range" id="roI" min="0" max="60" step="1" value="30"></div>
+            <div class="ctl"><label for="roP">Rotate the mirror by <output id="roPo">10°</output></label><input type="range" id="roP" min="0" max="25" step="1" value="10"></div>
+          </div>
+          <div class="readout" id="roOut"></div>
+          <div class="working" id="roWork"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Rotate the mirror by 5°, then 10°, then 20°. Spot the pattern.</div><div class="try"><b>2</b>Does the starting angle of incidence change the rule?</div><div class="try"><b>3</b>Why is this useful for measuring tiny rotations?</div></div>
+      </div>
+
+      <div class="lab" data-lab="fullength" hidden>
+        <div class="labhead"><span class="pill t">Full-length mirror</span><p class="goal">How tall must a wall mirror be for you to see all of yourself? Change your height, eye level and distance and watch the rays from your head and feet.</p></div>
+        <div class="panel sim">
+          <canvas id="flC" aria-label="Person in front of a wall mirror with rays from the top of the head and the feet reflecting into the eye"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="flH">Your height <output id="flHo">1.70 m</output></label><input type="range" id="flH" min="1.2" max="2.1" step="0.01" value="1.7"></div>
+            <div class="ctl"><label for="flE">Eyes below the top of your head <output id="flEo">0.10 m</output></label><input type="range" id="flE" min="0.06" max="0.16" step="0.01" value="0.1"></div>
+            <div class="ctl"><label for="flX">Distance from mirror <output id="flXo">1.0 m</output></label><input type="range" id="flX" min="0.3" max="3" step="0.1" value="1"></div>
+          </div>
+          <div class="readout" id="flOut"></div>
+          <div class="working" id="flWork"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Step back. Does the mirror need to be longer?</div><div class="try"><b>2</b>Compare the mirror length with your height. What's the rule?</div><div class="try"><b>3</b>Where should the bottom of the mirror be?</div></div>
+      </div>
+
+      <div class="lab" data-lab="uses" hidden>
+        <div class="labhead"><span class="pill t">Periscope</span><p class="goal">Two plane mirrors let you see over a wall. Tilt each mirror and follow the ray: at what angle does the light reach your eye?</p></div>
+        <div class="panel sim">
+          <canvas id="pcC" aria-label="A periscope tube with two mirrors and a ray of light from an object over a wall"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="pcA">Top mirror angle <output id="pcAo">45°</output></label><input type="range" id="pcA" min="30" max="60" step="1" value="45"></div>
+            <div class="ctl"><label for="pcB">Bottom mirror angle <output id="pcBo">45°</output></label><input type="range" id="pcB" min="30" max="60" step="1" value="45"></div>
+          </div>
+          <div class="readout" id="pcOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Set both mirrors to 45°. Which way does the light leave?</div><div class="try"><b>2</b>Change one mirror to 40°. What goes wrong?</div><div class="try"><b>3</b>Is the final image upright? Is it laterally inverted?</div></div>
+      </div>
+    </section>
+
+    <!-- ================= MIND MAP ================= -->
+    <section class="view" data-view="mindmap" hidden>
+      <div class="head"><div><p class="eyebrow">See the big picture</p><h2>Mind map</h2></div><p>Tap any bubble to see what it means and jump to its lab.</p></div>
+      <div class="panel pad mmdetail" id="mmDetail"></div>
+      <div class="panel mmwrap"><svg id="mm" viewBox="0 0 1100 780" role="img" aria-label="Mind map of the image in a plane mirror"></svg></div>
+    </section>
+
+    <!-- ================= INFOGRAPHICS ================= -->
+    <section class="view" data-view="infographics" hidden>
+      <div class="head"><div><p class="eyebrow">Picture it</p><h2>Five properties of the image</h2></div><p>True for every plane mirror, every time.</p></div>
+      <div class="cases" id="cases"></div>
+
+      <div class="head"><div><p class="eyebrow">Three pictures</p><h2>Rays, writing, rotation</h2></div></div>
+      <div class="boundary">
+        <div class="panel case"><canvas class="mini" data-mini="rays"></canvas><h3>Apparent intersection</h3><p>The rays only seem to meet behind the mirror: a virtual image.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="text"></canvas><h3>Lateral inversion</h3><p>Left and right swap; top and bottom don't.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="rot"></canvas><h3>Turn by θ, ray turns 2θ</h3><p>Rotating the mirror 10° swings the reflected ray 20°.</p></div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:16px"><div><p class="eyebrow">Half your height</p><h2>Shortest full-length mirror</h2></div><p>The minimum mirror length is half your height, wherever you stand.</p></div>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="head"><div><p class="eyebrow">Plane mirrors in action</p><h2>Where you'll see them</h2></div></div>
+      <div class="around" id="around"></div>
+    </section>
+
+<!-- ================= FLASHCARDS ================= -->
+    <section class="view" data-view="flashcards" hidden>
+      <div class="head"><div><p class="eyebrow">Spaced practice</p><h2>Flashcards</h2></div><p>Tap the card (or press Space) to flip it. Mark it "Got it" or "Again". Cards you know are saved.</p></div>
+      <div class="fc-wrap">
+        <div class="fc-filter" id="fcFilter"></div>
+        <div class="deck"><div class="card3d" id="fcCard" tabindex="0" role="button" aria-label="Flashcard, press to flip">
+          <div class="face front"><span class="pill tag" id="fcTag"></span><h3 id="fcQ"></h3><span class="hint">Tap to flip</span></div>
+          <div class="face back"><span class="pill tag a" id="fcTag2"></span><p class="ans" id="fcA"></p><span class="hint">Did you get it?</span></div>
+        </div></div>
+        <div class="fc-controls"><button id="fcPrev" aria-label="Previous card">←</button><button class="again" id="fcAgain">Again</button><button class="got" id="fcGot">Got it</button><button id="fcNext" aria-label="Next card">→</button></div>
+        <p class="fc-meta" id="fcMeta"></p>
+        <div class="fc-controls"><button class="ghost" id="fcShuffle">Shuffle</button><button class="ghost" id="fcUnknown">Only cards I don't know</button><button class="ghost" id="fcReset">Reset progress</button></div>
+      </div>
+    </section>
+
+    <!-- ================= QUIZ ================= -->
+    <section class="view" data-view="quiz" hidden>
+      <div class="qz" id="qz"></div>
+    </section>
+
+    <!-- ================= EXAM PREP ================= -->
+    <section class="view" data-view="exam" hidden>
+      <div class="head"><div><p class="eyebrow">Get exam ready</p><h2>Exam prep</h2></div><p>How Physics is assessed, what the question words mean, and unlimited practice with worked solutions.</p></div>
+
+      <div class="exgrid">
+        <div class="panel pad donutbox">
+          <svg viewBox="0 0 160 160" class="donut" aria-label="Assessment split: 60% written exam, 40% Physics in Practice Investigation">
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--sage)" stroke-width="26"/>
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--terra)" stroke-width="26" stroke-dasharray="218.7 364.4" transform="rotate(-90 80 80)"/>
+            <text x="80" y="76" text-anchor="middle" class="dn1">60 / 40</text><text x="80" y="96" text-anchor="middle" class="dn2">of your grade</text>
+          </svg>
+          <div class="splits">
+            <div><i style="background:var(--terra)"></i><div><b>Written exam · 60%</b><p>Higher or Ordinary level, set by the SEC.</p></div></div>
+            <div><i style="background:var(--sage)"></i><div><b>Physics in Practice Investigation · 40%</b><p>Done in 6th year from an SEC brief.</p></div></div>
+          </div>
+        </div>
+        <div class="panel pad">
+          <h3 style="margin-bottom:10px">Top exam tips for plane mirrors</h3>
+          <ol class="tips">
+            <li>Ray diagrams: <b>arrows on every ray</b>, real rays <b>solid</b>, extensions behind the mirror <b>dashed</b>.</li>
+            <li>Draw the <b>normal</b> at each point of reflection and make angle i = angle r.</li>
+            <li>Use <b>at least two rays</b> to locate the image where the dashed lines meet.</li>
+            <li>List the properties: <b>virtual, upright, same size, laterally inverted, same distance behind</b>.</li>
+            <li>Distances: the <b>image</b> is d behind the mirror, so <b>you to your image</b> is 2d.</li>
+            <li>Moving at v towards the mirror, you approach your <b>image at 2v</b>.</li>
+            <li>Rotating a mirror by θ turns the reflected ray by <b>2θ</b>.</li>
+            <li>A full-length mirror needs to be <b>half your height</b>. Questions here are practice questions, not official SEC papers.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Read the question</p><h2>Question words</h2></div><p>Common instructions in questions on plane mirrors.</p></div>
+        <div class="cmds" id="cmds"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad practice">
+          <div class="head"><div><p class="eyebrow">Plane mirror problems</p><h2>Calculation trainer</h2></div></div>
+          <div class="btns" id="prType"></div>
+          <div class="pq" id="pq"></div>
+          <div class="pa"><input id="paIn" type="text" inputmode="decimal" placeholder="Your answer" aria-label="Your answer" autocomplete="off"><span id="paUnit" class="mono"></span><button class="primary" id="paCheck">Check</button><button id="paShow">Show solution</button><button id="paNext">New question</button></div>
+          <div id="paFb"></div>
+          <p class="result" id="paScore"></p>
+        </div>
+        <div class="panel pad predict">
+          <div class="head"><div><p class="eyebrow">Quick-fire drill</p><h2>True or false?</h2></div></div>
+          <canvas id="predC" aria-label="True and false boxes; the right one lights up after you check"></canvas>
+          <p class="result" id="predQ"></p>
+          <div class="predopts" id="predOpts"><div class="btns"><button data-a="1">True</button><button data-a="0">False</button></div></div>
+          <div class="btns"><button class="primary" id="predCheck">Check</button><button id="predNext">Next one</button></div>
+          <div id="predFb"></div>
+        </div>
+      </div>
+
+<div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Practice questions in exam style (not official SEC papers)</p><h2>Long questions with marking guides</h2></div><p>Try each part on paper first, then open the marking guide and mark yourself.</p></div>
+        <div class="longqs" id="longqs"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad">
+          <div class="head" style="margin-bottom:12px"><div><p class="eyebrow">Self-check</p><h2>Revision checklist</h2></div></div>
+          <p class="result" style="margin-bottom:10px">Rate yourself on each one: red = not yet, amber = nearly, green = confident. Saved on this device.</p>
+          <div class="rag" id="rag"></div>
+        </div>
+        <div class="panel pad">
+          <div class="head" style="margin-bottom:12px"><div><p class="eyebrow">40% of your grade</p><h2>Investigation skills</h2></div></div>
+          <p class="result" style="margin-bottom:10px">Skills the Physics in Practice Investigation rewards. Tick them off as you practise.</p>
+          <div class="skills" id="skills"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= GLOSSARY ================= -->
+    <section class="view" data-view="glossary" hidden>
+      <div class="head"><div><p class="eyebrow">Key words</p><h2>Glossary</h2></div><p>Every term and symbol in this chapter. Precise words earn marks in "define" and "explain" questions.</p></div>
+      <div class="panel pad glbar">
+        <input id="glSearch" type="search" placeholder="Search: virtual, lateral inversion, normal…" aria-label="Search the glossary" autocomplete="off">
+        <div class="btns" id="glTopics"></div>
+        <div class="letters" id="glLetters"></div>
+      </div>
+      <p class="result" id="glCount"></p>
+      <div class="gllist" id="glList"></div>
+    </section>
+
+    <!-- ================= FORMULAE ================= -->
+    <section class="view" data-view="formulae" hidden>
+      <div class="head"><div><p class="eyebrow">Revision</p><h2>Formula sheet</h2></div><p>The image in a plane mirror on one page.</p></div>
+      <div class="sheet">
+        <div class="panel fcell"><span class="pill">Laws of reflection</span><span class="big">∠i = ∠r</span><dl><dt>and</dt><dd>incident ray, normal and reflected ray in the same plane</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Point object</span><span class="big">Image on the perpendicular, same distance behind</span></div>
+        <div class="panel fcell"><span class="pill">Virtual image</span><span class="big">Formed by the apparent intersection of rays</span><dl><dt>So</dt><dd>can't be projected on a screen</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Properties</span><span class="big">Virtual · upright · same size · laterally inverted · same distance</span></div>
+        <div class="panel fcell"><span class="pill a">Distances</span><span class="big">object → image = 2 × object → mirror</span><div class="ex">1.5 m from mirror → 3.0 m from image</div></div>
+        <div class="panel fcell"><span class="pill a">Moving</span><span class="big">You at v → you approach your image at 2v</span><div class="ex">1.2 m/s → 2.4 m/s</div></div>
+        <div class="panel fcell"><span class="pill a">Mirror moves</span><span class="big">Mirror moves x → image moves 2x</span></div>
+        <div class="panel fcell"><span class="pill a">Rotation</span><span class="big">Mirror turns θ → reflected ray turns 2θ</span><div class="ex">10° → 20°</div></div>
+        <div class="panel fcell"><span class="pill a">Full-length mirror</span><span class="big">Minimum length = ½ × your height</span><dl><dt>Bottom edge</dt><dd>at half your eye height</dd></dl></div>
+        <div class="panel fcell"><span class="pill a">Angle to surface</span><span class="big">∠i = 90° − angle with the mirror</span><div class="ex">30° to the mirror → i = 60°</div></div>
+        <div class="panel fcell"><span class="pill">Lateral inversion</span><span class="big">Left ↔ right, not up ↔ down</span><div class="ex">ƎƆИAJUBMA reads AMBULANCE in a mirror</div></div>
+        <div class="panel fcell"><span class="pill">Periscope</span><span class="big">Two mirrors, parallel, each at 45°</span><dl><dt>Image</dt><dd>upright, not laterally inverted overall</dd></dl></div>
+      </div>
+      <footer>
+        <p>Follows the structure of section 2.5 of Real World Physics (2nd edition, Folens). All explanations, labs and questions on this page are original. Scenarios are illustrative.</p>
+      </footer>
+    </section>
+  </main>
+</div>
+</div>
+
+<script>
+(() => {
+"use strict";
+const $ = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v);}catch(e){return d;} }, set(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} } };
+
+/* ---------- theme + font ---------- */
+const root = document.documentElement;
+const C = {};
+function readColors(){
+  const cs = getComputedStyle(root);
+  ["--bg","--surface","--surface-2","--ink","--muted","--line","--grid","--terra","--terra-ink","--blush","--apricot","--sage","--olive","--olive-ink","--ray","--ray2","--ray3","--img","--glass","--glass-edge","--good","--bad","--warn","--on-accent"].forEach(k=>C[k.slice(2)]=cs.getPropertyValue(k).trim());
+  C.fb = cs.getPropertyValue("--f-body").trim(); C.fd = cs.getPropertyValue("--f-display").trim(); C.fm = cs.getPropertyValue("--f-mono").trim();
+}
+const F = (size,w=700) => `${w} ${size}px ${C.fb}`;
+const M = size => `${size}px ${C.fm}`;
+let theme = store.get("lr-theme","auto"), font = store.get("lr-font","playful");
+function applyTheme(){ if(theme==="auto") root.removeAttribute("data-theme"); else root.setAttribute("data-theme",theme); $("themeLbl").textContent = theme==="auto"?"Auto":theme==="light"?"Light":"Dark"; }
+function applyFont(){ if(font==="playful") root.removeAttribute("data-font"); else root.setAttribute("data-font",font); $("fontSel").value=font; }
+applyTheme(); applyFont(); readColors();
+$("themeBtn").addEventListener("click",()=>{ theme = theme==="auto"?"light":theme==="light"?"dark":"auto"; store.set("lr-theme",theme); applyTheme(); });
+$("fontSel").addEventListener("change",e=>{ font=e.target.value; store.set("lr-font",font); applyFont(); });
+
+/* ---------- icons + topics ---------- */
+const ICON = {
+  point:'<path d="M12 3v18"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2" stroke-dasharray="2 2"/><path d="M7 11l5-4M12 7l5 4"/>',
+  lateral:'<path d="M12 3v18"/><path d="M4 8h4M4 12h3M4 16h4M4 8v8M20 8h-4M20 12h-3M20 16h-4M20 8v8"/>',
+  distance:'<path d="M12 3v18M3 18h18M6 15v6M18 15v6"/><circle cx="6" cy="9" r="2"/><circle cx="18" cy="9" r="2"/>',
+  rotate:'<path d="M4 18L20 10"/><path d="M12 14l-5-10M12 14l9-5"/><path d="M16 4a8 8 0 014 6"/>',
+  fullength:'<rect x="15" y="3" width="4" height="12"/><circle cx="7" cy="5" r="2"/><path d="M7 7v8M7 15l-2 6M7 15l2 6M4 10h6"/>',
+  uses:'<path d="M8 3h6v6H8zM8 15h6v6H8zM11 9v6"/><path d="M8 3l6 6M8 15l6 6"/>',
+  amb:'<rect x="2" y="7" width="15" height="10" rx="2"/><path d="M17 10h3l2 3v4h-5M9 9v6M6 12h6"/><circle cx="7" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/>',
+  dent:'<circle cx="7" cy="7" r="4"/><path d="M10 10l10 10"/>',
+  car:'<path d="M3 13l2-5h14l2 5v4H3z"/><circle cx="7" cy="17" r="1.5"/><circle cx="17" cy="17" r="1.5"/><path d="M14 8V5h4"/>',
+  kal:'<path d="M12 3l8 14H4z"/><path d="M12 3v14M4 17l8-7 8 7"/>',
+};
+const svg = (k,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
+const TOPICS = [
+  {id:"point", name:"Image of a point object", short:"Rays spread from a point, reflect, and seem to come from behind the mirror.", tint:"var(--blush)"},
+  {id:"lateral", name:"Extended objects & lateral inversion", short:"Same size, upright, but left and right swap.", tint:"var(--apricot)"},
+  {id:"distance", name:"Distances & speeds", short:"The image is as far behind as you are in front, so speeds double too.", tint:"var(--sage)"},
+  {id:"rotate", name:"Rotating mirrors", short:"Turn the mirror by θ and the reflected ray turns by 2θ.", tint:"var(--cream)"},
+  {id:"fullength", name:"Seeing yourself", short:"Why a mirror half your height is enough, at any distance.", tint:"var(--blush)"},
+  {id:"uses", name:"Uses of plane mirrors", short:"Periscopes, ambulance lettering, dressing mirrors and more.", tint:"var(--sage)"},
+];
+const tname = id => TOPICS.find(t=>t.id===id).name;
+const LO = [
+  ["point","explain, using a ray diagram, how a plane mirror forms the image of a point object"],
+  ["point","describe a virtual image as one formed by the apparent intersection of rays"],
+  ["lateral","state the properties of the image in a plane mirror and explain lateral inversion"],
+  ["distance","solve problems on image distances, speeds and rotating mirrors"],
+  ["uses","explain how plane mirrors let you see yourself and how a periscope works"],
+];
+const LO_HEAD = {point:"Section 2.5",lateral:"Section 2.5",distance:"Section 2.5",uses:"Section 2.5"};
+
+/* ---------- glossary ---------- */
+const GLOSS = [
+  ["Plane mirror","","A flat, smooth reflecting surface.","point"],
+  ["Point object","","An object so small its size can be ignored; light spreads out from it in all directions.","point"],
+  ["Extended object","","A real object with size, made up of many points, each forming its own image.","lateral"],
+  ["Incident ray","","The ray of light travelling towards the mirror.","point"],
+  ["Reflected ray","","The ray that bounces off the mirror.","point"],
+  ["Normal","","A line at right angles (90°) to the mirror at the point where the ray strikes it.","point"],
+  ["Angle of incidence","i","The angle between the incident ray and the normal.","point"],
+  ["Angle of reflection","r","The angle between the reflected ray and the normal.","point"],
+  ["Laws of reflection","","1: the incident ray, the normal and the reflected ray are in the same plane. 2: the angle of incidence equals the angle of reflection.","point","∠i = ∠r"],
+  ["Diffuse","","Light spreading out in all directions from an object.","point"],
+  ["Image","","Where light appears to come from (or does come from) after reflection or refraction.","point"],
+  ["Virtual image","","An image formed by the apparent intersection of rays. No light actually passes through it, so it can't be put on a screen.","point"],
+  ["Real image","","An image formed where rays actually meet; it can be projected on a screen (e.g. by a lens). Plane mirrors don't make real images.","point"],
+  ["Apparent intersection","","Where reflected rays seem to meet when traced back (dashed lines) behind the mirror.","point"],
+  ["Ray diagram","","A drawing that uses straight lines with arrows to show the paths of light rays.","point"],
+  ["Upright","erect","The right way up, not upside down.","lateral"],
+  ["Inverted","","Upside down.","lateral"],
+  ["Lateral inversion","","The left–right reversal of an image in a plane mirror.","lateral"],
+  ["Symmetric letter","","A letter like A, H, M, O, T that looks the same in a vertical mirror.","lateral"],
+  ["Object distance","","How far the object is from the mirror.","distance"],
+  ["Image distance","","How far the image is behind the mirror. For a plane mirror it equals the object distance.","distance"],
+  ["Perpendicular","","At right angles. The image lies on the perpendicular from the object to the mirror.","distance"],
+  ["Relative speed","","How fast two things approach or separate. You and your image approach at twice your speed.","distance","2v"],
+  ["Angle of deviation","","How far a ray is turned from its original direction.","rotate"],
+  ["Rotating mirror","","Turning a mirror by θ turns the reflected ray by 2θ (with the incident ray fixed).","rotate","2θ"],
+  ["Grazing angle","","The angle a ray makes with the mirror surface itself; angle of incidence = 90° − grazing angle.","rotate"],
+  ["Full-length mirror","","A mirror in which you can see your whole body: it must be at least half your height.","fullength","½ × height"],
+  ["Eye level","","The height of your eyes; the bottom of a full-length mirror should be at half this height.","fullength"],
+  ["Periscope","","A tube with two parallel plane mirrors at 45° that lets you see over obstacles.","uses"],
+  ["Kaleidoscope","","A tube of angled mirrors that makes many images and symmetric patterns.","uses"],
+  ["Infinity mirror","","Two parallel mirrors facing each other make a seemingly endless line of images.","uses"],
+  ["Rear-view mirror","","The flat mirror inside a car, used to see behind; wing mirrors are often slightly curved.","uses"],
+  ["Ray box","","A lamp that produces a narrow beam (ray) of light for experiments.","point"],
+  ["Optical pins","","Pins used to trace rays and locate images by lining them up (no parallax).","point"],
+].map(([t,aka,d,topic,f])=>({t,aka,d,topic,f,id:"g-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+t.length}));
+const glossBy = t => GLOSS.find(g=>g.t===t);
+const GL_LINKS = [["virtual image","Virtual image"],["normal","Normal"],["lateral inversion","Lateral inversion"],["laterally inverted","Lateral inversion"],["apparent intersection","Apparent intersection"],["point object","Point object"],["perpendicular","Perpendicular"],["periscope","Periscope"],["upright","Upright"],["ray diagram","Ray diagram"]];
+function autoLink(str){
+  const tokens=[];
+  GL_LINKS.forEach(([pat,key,cs])=>{ if(!glossBy(key)) return;
+    const re=new RegExp(`(^|[^\\w\\u0000])(${pat.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")})(?![\\w])`, cs?"":"i");
+    str=str.replace(re,(m,pre,word)=>{ tokens.push(`<button class="gl" data-g="${key}">${word}</button>`); return pre+"\u0000"+(tokens.length-1)+"\u0000"; });
+  });
+  return str.replace(/\u0000(\d+)\u0000/g,(m,i)=>tokens[+i]);
+}
+
+/* ---------- canvas helpers ---------- */
+const sims = [];
+function makeCanvas(el, ratio, minH, draw, maxH=10000){
+  const ctx = el.getContext("2d");
+  const s = { el, ctx, w:0, h:0, draw };
+  const fit = () => {
+    const w = el.clientWidth || el.parentElement.clientWidth;
+    if(w<20) return;
+    const h = Math.min(maxH, Math.max(minH, Math.round(w*ratio)));
+    const dpr = Math.min(window.devicePixelRatio||1, 2.5);
+    el.style.height = h+"px"; el.width = Math.round(w*dpr); el.height = Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0); s.w=w; s.h=h; draw(s);
+  };
+  s.fit = fit; s.redraw = () => { if(s.w<20) return fit(); ctx.save(); draw(s); ctx.restore(); };
+  new ResizeObserver(fit).observe(el.parentElement);
+  sims.push(s); fit(); return s;
+}
+function line(ctx,x1,y1,x2,y2,color,w=2,dash){ ctx.save(); ctx.strokeStyle=color; ctx.lineWidth=w; ctx.lineCap="round"; if(dash) ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.restore(); }
+function text(ctx,t,x,y,color,font,align="left",base="alphabetic"){ ctx.save(); ctx.fillStyle=color; ctx.font=font||M(12); ctx.textAlign=align; ctx.textBaseline=base; ctx.fillText(t,x,y); ctx.restore(); }
+function bg(ctx,w,h,col){ ctx.clearRect(0,0,w,h); ctx.fillStyle=col||C.surface; ctx.fillRect(0,0,w,h); }
+function circle(ctx,x,y,r,fill,stroke,lw=2){ ctx.beginPath(); ctx.arc(x,y,r,0,7); if(fill){ ctx.fillStyle=fill; ctx.fill(); } if(stroke){ ctx.strokeStyle=stroke; ctx.lineWidth=lw; ctx.stroke(); } }
+function rr(ctx,x,y,w,h,r){ if(w<0){ x+=w; w=-w; } if(h<0){ y+=h; h=-h; } r=Math.max(0,Math.min(r,h/2,w/2)); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function arrowHead(ctx,x,y,dx,dy,col,s=8){ ctx.save(); ctx.fillStyle=col; ctx.beginPath(); ctx.moveTo(x+dx*s,y+dy*s); ctx.lineTo(x-dx*s*0.6-dy*s*0.7,y-dy*s*0.6+dx*s*0.7); ctx.lineTo(x-dx*s*0.6+dy*s*0.7,y-dy*s*0.6-dx*s*0.7); ctx.closePath(); ctx.fill(); ctx.restore(); }
+function setReadout(el, items){ el.innerHTML = items.map(([k,v])=>`<div><span>${k}</span><b>${v}</b></div>`).join(""); }
+function pressGroup(btns, active){ btns.forEach(b=>b.setAttribute("aria-pressed", b===active?"true":"false")); }
+const chipsHTML = list => list.map(([t,c])=>`<span class="chip ${c}">${t}</span>`).join("");
+const nf = (x,d=0) => { const s=(Math.round(x*10**d)/10**d).toFixed(d); const [i,f]=s.split("."); return i.replace(/\B(?=(\d{3})+(?!\d))/g," ")+(f?"."+f:""); };
+const eur = x => "€"+nf(x, Math.abs(x-Math.round(x))>0.004?2:0);
+const niceStep = (range,n) => { const r=range/Math.max(1,n), p=10**Math.floor(Math.log10(r)), m=r/p; return (m<=1?1:m<=2?2:m<=5?5:10)*p; };
+const tick = v => String(+v.toFixed(6));
+function rng(seed){ return ()=>{ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+// Axes: returns mapping functions. o: x0,x1,y0,y1,xl,yl,compact
+function frame(ctx,w,h,o){
+  const cp=o.compact, L=cp?36:50, R=12, T=cp?12:16, B=cp?24:34, fs=cp?9:11;
+  const X=v=>L+(v-o.x0)/(o.x1-o.x0)*(w-L-R), Y=v=>h-B-(v-o.y0)/(o.y1-o.y0)*(h-B-T);
+  const xs=o.xt||niceStep(o.x1-o.x0, Math.max(3,Math.floor((w-L)/70))), ys=o.yt||niceStep(o.y1-o.y0, Math.max(3,Math.floor((h-B)/45)));
+  for(let v=Math.ceil(o.x0/xs)*xs; v<=o.x1+1e-9; v+=xs){ line(ctx,X(v),T,X(v),h-B,C.grid,1); text(ctx,tick(v),X(v),h-B+(cp?11:14),C.muted,M(fs),"center"); }
+  for(let v=Math.ceil(o.y0/ys)*ys; v<=o.y1+1e-9; v+=ys){ line(ctx,L,Y(v),w-R,Y(v),C.grid,1); text(ctx,tick(v),L-5,Y(v)+3,C.muted,M(fs),"right"); }
+  const y0=Y(Math.max(o.y0,Math.min(o.y1,0)));
+  line(ctx,L,y0,w-R,y0,C.ink,1.5); line(ctx,L,T,L,h-B,C.ink,1.5);
+  if(o.xl) text(ctx,o.xl,w-R,h-B+(cp?22:30),C.muted,F(cp?10:12),"right");
+  if(o.yl) text(ctx,o.yl,L+6,T+(cp?10:12),C.muted,F(cp?10:12),"left");
+  return {X,Y,L,R,T,B};
+}
+function curve(ctx,f,x0,x1,X,Y,col,lw=2.5,dash,clip){ ctx.save(); if(clip){ ctx.beginPath(); ctx.rect(clip[0],clip[1],clip[2],clip[3]); ctx.clip(); } ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.lineJoin="round"; if(dash) ctx.setLineDash(dash); ctx.beginPath(); const n=120; for(let i=0;i<=n;i++){ const x=x0+(x1-x0)*i/n, y=f(x); if(i) ctx.lineTo(X(x),Y(y)); else ctx.moveTo(X(x),Y(y)); } ctx.stroke(); ctx.restore(); }
+
+/* ================= MODELS + DRAWINGS ================= */
+const DEG = Math.PI/180;
+function drag(el, fn){ let down=false; const pos=e=>{ const r=el.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; };
+  el.addEventListener("pointerdown",e=>{ down=true; el.setPointerCapture(e.pointerId); fn(...pos(e)); }); el.addEventListener("pointermove",e=>{ if(down) fn(...pos(e)); });
+  el.addEventListener("pointerup",()=>down=false); el.addEventListener("pointercancel",()=>down=false); }
+function arrowOnLine(ctx,x1,y1,x2,y2,col,f=0.55,s=8){ const x=x1+(x2-x1)*f, y=y1+(y2-y1)*f, L=Math.hypot(x2-x1,y2-y1)||1; arrowHead(ctx,x,y,(x2-x1)/L,(y2-y1)/L,col,s); }
+function mirrorV(ctx,x,y0,y1,cp){ line(ctx,x,y0,x,y1,C.ink,cp?3:4); for(let y=y0;y<=y1;y+=cp?8:10) line(ctx,x,y,x+(cp?5:7),y+(cp?5:7),C.muted,1); }
+// 1. Ray tracer. World: mirror at x = 0, object at (ox, oy) with ox < 0. Units: cm; canvas maps −50..30 × −25..25
+function rayGeom(w,h){ const s=Math.min(w/80,h/50), cx=w*0.62, cy=h/2; return {s,X:x=>cx+x*s,Y:y=>cy-y*s,inv:(px,py)=>[(px-cx)/s,(cy-py)/s]}; }
+function drawRays(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, g=rayGeom(w,h), {X,Y}=g, P=o.P, Q=[-P[0],P[1]], E=o.eye||[-35,-14];
+  mirrorV(ctx,X(0),Y(24),Y(-24),cp); line(ctx,X(P[0]),Y(P[1]),X(Q[0]),Y(Q[1]),C.line,1.5,[3,4]);
+  const pts=[P[1]+12,P[1]-2, P[1]-14].map(y=>Math.max(-22,Math.min(22,y)));
+  const hits = o.showEye? pts.slice(0,2).concat([Q[1]+(E[1]-Q[1])*(0-Q[0])/(E[0]-Q[0])]) : pts;
+  hits.forEach((my,k)=>{ if(Math.abs(my)>24) return; const M=[0,my], d=[M[0]-Q[0],M[1]-Q[1]], L=Math.hypot(...d), u=[d[0]/L,d[1]/L], end=k===2&&o.showEye? E : [M[0]-u[0]*0+(-55-M[0])*(u[0]<0?1:0), 0];
+    let ex, ey; if(k===2&&o.showEye){ [ex,ey]=E; } else { const tt=(-50-M[0])/u[0]; ex=M[0]+u[0]*tt; ey=M[1]+u[1]*tt; }
+    const col = k===2&&o.showEye? C.terra : C.apricot;
+    line(ctx,X(P[0]),Y(P[1]),X(0),Y(my),col,cp?1.8:2.4); arrowOnLine(ctx,X(P[0]),Y(P[1]),X(0),Y(my),col,0.55,cp?6:8);
+    line(ctx,X(0),Y(my),X(ex),Y(ey),col,cp?1.8:2.4); arrowOnLine(ctx,X(0),Y(my),X(ex),Y(ey),col,0.45,cp?6:8);
+    line(ctx,X(0),Y(my),X(Q[0]),Y(Q[1]),col,1.4,[5,5]);
+    if(o.normals&&k===0&&!cp){ line(ctx,X(-12),Y(my),X(6),Y(my),C.muted,1,[2,3]); const ai=Math.atan2(P[1]-my,-P[0])/DEG; text(ctx,`i = r = ${nf(Math.abs(ai),0)}°`,X(-11),Y(my)-6,C.ink,F(11,800),"left"); } });
+  circle(ctx,X(P[0]),Y(P[1]),cp?5:8,C.terra,C.surface,2); text(ctx,"P",X(P[0])-(cp?10:14),Y(P[1])+4,C.ink,F(cp?11:14,800),"right");
+  circle(ctx,X(Q[0]),Y(Q[1]),cp?5:8,C.surface,C.terra,2); text(ctx,"Q (image)",X(Q[0])+(cp?8:12),Y(Q[1])+4,C.ink,F(cp?10:13,800),"left");
+  if(o.showEye){ ctx.save(); ctx.fillStyle=C.ink; ctx.beginPath(); ctx.ellipse(X(E[0])-6,Y(E[1]),cp?7:10,cp?4:6,0,0,7); ctx.fill(); ctx.restore(); circle(ctx,X(E[0])-3,Y(E[1]),cp?2:3,C.surface); }
+  if(!cp){ text(ctx,`${nf(-P[0],1)} cm`,X(P[0]/2),Y(P[1])-8,C.muted,M(11),"center"); text(ctx,`${nf(-P[0],1)} cm`,X(Q[0]/2),Y(Q[1])-8,C.muted,M(11),"center"); } }
+// 2. Mirror writing
+const SYM = "AHIMOTUVWXY";
+function drawWriting(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, word=(o.word||"AMBULANCE").toUpperCase(), mx=w/2, fs=Math.min(cp?20:42,(w/2-30)/Math.max(3,word.length)*1.5);
+  mirrorV(ctx,mx,10,h-10,cp); ctx.save(); ctx.font=F(fs,800); ctx.textBaseline="middle"; ctx.textAlign="right"; ctx.fillStyle=C.ink; ctx.fillText(word,mx-14,h*0.45); ctx.restore();
+  ctx.save(); ctx.translate(2*mx,0); ctx.scale(-1,1); ctx.font=F(fs,800); ctx.textBaseline="middle"; ctx.textAlign="right"; ctx.fillStyle=C.terra; ctx.fillText(word,mx-14,h*0.45); ctx.restore();
+  if(!cp){ text(ctx,"object",mx-14,h*0.45+fs,C.muted,F(12),"right"); text(ctx,"image (behind the mirror)",mx+14,h*0.45+fs,C.muted,F(12),"left"); } }
+// 3. Distances
+function drawWalk(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, d=o.d, s=(w-40)/9, mx=w/2, X=x=>mx+x*s, gy=h*0.78;
+  line(ctx,10,gy,w-10,gy,C.olive,3); mirrorV(ctx,mx,h*0.12,gy,cp);
+  const person=(x,col,ghost)=>{ ctx.save(); if(ghost) ctx.globalAlpha=0.55; const hh=(gy-h*0.2); circle(ctx,x,gy-hh*0.9,cp?5:9,col); line(ctx,x,gy-hh*0.82,x,gy-hh*0.38,col,cp?3:5); line(ctx,x,gy-hh*0.38,x-8,gy,col,cp?3:4); line(ctx,x,gy-hh*0.38,x+8,gy,col,cp?3:4); line(ctx,x-10,gy-hh*0.65,x+10,gy-hh*0.65,col,cp?3:4); ctx.restore(); };
+  person(X(-d),C.terra); person(X(d),C.terra,true);
+  const y1=gy+(cp?10:16); line(ctx,X(-d),y1,X(0),y1,C.ink,1.5); line(ctx,X(0),y1,X(d),y1,C.ink,1.5,[4,4]);
+  text(ctx,`${nf(d,1)} m`,X(-d/2),y1+(cp?12:16),C.ink,M(cp?10:12),"center"); text(ctx,`${nf(d,1)} m`,X(d/2),y1+(cp?12:16),C.muted,M(cp?10:12),"center");
+  if(!cp) text(ctx,`you → image = ${nf(2*d,1)} m`,mx,h*0.1,C.ink,F(13,800),"center"); }
+// 4. Rotating mirror. Mirror through O; initial mirror horizontal (normal vertical).
+function rotGeom(i,phi){ const din=[Math.sin(i*DEG),-Math.cos(i*DEG)]; const refl=(d,a)=>{ const n=[-Math.sin(a*DEG),Math.cos(a*DEG)], k=d[0]*n[0]+d[1]*n[1]; return [d[0]-2*k*n[0],d[1]-2*k*n[1]]; }; return {din, r0:refl(din,0), r1:refl(din,phi)}; }
+function drawRot(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, O=[w/2,h*0.78], R=Math.min(w*0.45,h*0.7), {din,r0,r1}=rotGeom(o.i,o.phi), toPx=v=>[O[0]+v[0]*R,O[1]-v[1]*R];
+  const ml=R*0.55, a=o.phi*DEG; line(ctx,O[0]-ml,O[1],O[0]+ml,O[1],C.line,2,[5,5]); line(ctx,O[0]-ml*Math.cos(a),O[1]+ml*Math.sin(a),O[0]+ml*Math.cos(a),O[1]-ml*Math.sin(a),C.ink,cp?3:4);
+  const S=toPx([-din[0],-din[1]]); line(ctx,S[0],S[1],O[0],O[1],C.terra,cp?2:3); arrowOnLine(ctx,S[0],S[1],O[0],O[1],C.terra,0.55,cp?6:9);
+  const E0=toPx(r0), E1=toPx(r1); line(ctx,O[0],O[1],E0[0],E0[1],C.muted,2,[6,5]); line(ctx,O[0],O[1],E1[0],E1[1],C.olive,cp?2:3); arrowOnLine(ctx,O[0],O[1],E1[0],E1[1],C.olive,0.6,cp?6:9);
+  const n=[-Math.sin(a),Math.cos(a)], N=[O[0]+n[0]*R*0.5,O[1]-n[1]*R*0.5]; line(ctx,O[0],O[1],N[0],N[1],C.muted,1,[2,3]);
+  if(!cp){ text(ctx,"incident ray (fixed)",S[0]+6,S[1]+14,C.terra,F(12,800),"left"); text(ctx,"reflected before",E0[0]-6,E0[1]-6,C.muted,F(11),"right"); text(ctx,"reflected after",E1[0]+6,E1[1]+14,C.olive,F(12,800),"left"); } }
+// 5. Full-length mirror
+function drawFull(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, H=o.H, e=o.e, x=o.x, top=12, gy=h-(cp?14:22), s=(gy-top)/2.2, mx=w*0.7, px=mx-x*Math.min(s,(w*0.6)/3.2), Y=v=>gy-v*s, eye=H-e;
+  line(ctx,10,gy,w-10,gy,C.olive,3); line(ctx,mx,Y(0),mx,Y(2.2),C.line,2,[4,4]);
+  const mb=eye/2, mt=(H+eye)/2; rr(ctx,mx-3,Y(mt),8,Y(mb)-Y(mt),3); ctx.fillStyle=C.sage; ctx.fill(); line(ctx,mx,Y(mt),mx,Y(mb),C.ink,cp?3:5);
+  // person
+  line(ctx,px,Y(0),px,Y(H*0.55),C.terra,cp?3:5); line(ctx,px,Y(H*0.55),px,Y(H*0.86),C.terra,cp?4:7); circle(ctx,px,Y(H-0.11*H/1.7),cp?5:9,C.terra); circle(ctx,px+(cp?3:5),Y(eye),cp?1.5:2.5,C.surface);
+  // rays: head top → mirror top → eye ; feet → mirror bottom → eye
+  line(ctx,px,Y(H),mx,Y(mt),C.apricot,cp?1.5:2.2); line(ctx,mx,Y(mt),px,Y(eye),C.apricot,cp?1.5:2.2); arrowOnLine(ctx,mx,Y(mt),px,Y(eye),C.apricot,0.6,cp?5:7);
+  line(ctx,px,Y(0),mx,Y(mb),C.olive,cp?1.5:2.2); line(ctx,mx,Y(mb),px,Y(eye),C.olive,cp?1.5:2.2); arrowOnLine(ctx,mx,Y(mb),px,Y(eye),C.olive,0.6,cp?5:7);
+  if(!cp){ text(ctx,`mirror ${nf(mt-mb,2)} m long`,mx+12,Y((mt+mb)/2),C.ink,F(12,800),"left"); text(ctx,`bottom ${nf(mb,2)} m up`,mx+12,Y(mb)+4,C.muted,F(11),"left"); } }
+// 6. Periscope
+function reflectAt(d,ang){ const t=[Math.cos(ang*DEG),Math.sin(ang*DEG)], n=[-t[1],t[0]], k=d[0]*n[0]+d[1]*n[1]; return [d[0]-2*k*n[0],d[1]-2*k*n[1]]; }
+function periscope(a,b){ const T=[0,1], B=[0,0]; let d=[-1,0]; const d1=reflectAt(d,a); // mirror at angle a to the horizontal ("/"): at 45° light from the right is sent straight down
+  if(d1[1]>=-1e-6) return {d1,ok:false};
+  // travel from T along d1 to the line x=0? both mirrors centred on x=0; reaches bottom mirror at B when going straight down; otherwise drift
+  const t=(B[1]-T[1])/d1[1], hitX=T[0]+d1[0]*t; const d2=reflectAt(d1,b); return {d1,d2,hitX,ok: Math.abs(hitX)<0.18 && Math.abs(d2[1])<0.05 && d2[0]<0}; }
+function drawPeri(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, cx=w*0.42, s=h*0.62, Y=v=>h*0.86-v*s, X=v=>cx+v*s*0.6, P=periscope(o.a,o.b);
+  rr(ctx,X(-0.25),Y(1.15),X(0.25)-X(-0.25),Y(-0.12)-Y(1.15),8); ctx.strokeStyle=C.line; ctx.lineWidth=2; ctx.stroke();
+  rr(ctx,X(0.6),Y(0.75),X(1.0)-X(0.6),Y(-0.12)-Y(0.75),4); ctx.fillStyle=C.blush; ctx.fill(); if(!cp) text(ctx,"wall",X(0.8),Y(0.35),C.ink,F(12,800),"center");
+  const seg=(p,q,col)=>{ line(ctx,X(p[0]),Y(p[1]),X(q[0]),Y(q[1]),col,cp?2:3); arrowOnLine(ctx,X(p[0]),Y(p[1]),X(q[0]),Y(q[1]),col,0.55,cp?6:8); };
+  const mirror=(c,ang)=>{ const L=0.2, t=[Math.cos(ang*DEG),Math.sin(ang*DEG)]; line(ctx,X(c[0]-t[0]*L),Y(c[1]-t[1]*L),X(c[0]+t[0]*L),Y(c[1]+t[1]*L),C.ink,cp?3:5); };
+  mirror([0,1],o.a); mirror([0,0],o.b);
+  seg([1.4,1],[0,1],C.terra); circle(ctx,X(1.45),Y(1),cp?5:8,C.apricot,C.terra,2); if(!cp) text(ctx,"object",X(1.45),Y(1)-14,C.ink,F(12),"center");
+  if(P.d1[1]>=-1e-6){ seg([0,1],[P.d1[0]*0.8,1+P.d1[1]*0.8],C.bad); return; }
+  const hit=[P.hitX,0]; seg([0,1],hit,C.terra);
+  if(Math.abs(P.hitX)>0.2){ seg(hit,[P.hitX+P.d1[0]*0.2,P.d1[1]*0.2],C.bad); return; }
+  const end=[hit[0]+P.d2[0]*1.2,hit[1]+P.d2[1]*1.2]; seg(hit,end,P.ok?C.olive:C.bad);
+  ctx.save(); ctx.fillStyle=C.ink; ctx.beginPath(); ctx.ellipse(X(-1.3)-6,Y(0),cp?7:10,cp?4:6,0,0,7); ctx.fill(); ctx.restore(); if(!cp) text(ctx,"eye",X(-1.3)-6,Y(0)+22,C.ink,F(12),"center"); }
+
+/* ================= ROUTER ================= */
+const VIEWS = ["overview","learn","labs","mindmap","infographics","flashcards","quiz","exam","glossary","formulae"];
+let view = "overview", lab = "point", curTopic = null;
+function show(v, opts={}){
+  if(!VIEWS.includes(v)) v="overview";
+  view=v;
+  document.querySelectorAll(".view").forEach(s=>s.hidden = s.dataset.view!==v);
+  document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on", a.dataset.v===v));
+  const on=document.querySelector("#tabs a.on"); if(on) on.scrollIntoView({block:"nearest",inline:"nearest"});
+  if(!opts.keepScroll) window.scrollTo(0,0);
+  if(v==="labs") showLab(lab);
+  if(v==="mindmap") drawMindMap();
+  if(v==="overview") refreshStats();
+  fitVisible();
+  markTopics();
+  document.body.classList.remove("menu");
+}
+function showLab(id){
+  lab=id; curTopic=id;
+  document.querySelectorAll(".lab").forEach(l=>l.hidden = l.dataset.lab!==id);
+  document.querySelectorAll("#labTabs button").forEach(b=>b.classList.toggle("on", b.dataset.lab===id));
+  fitVisible();
+  markTopics();
+}
+function fitVisible(){ sims.forEach(s=>{ if(s.el.offsetParent) s.fit(); }); }
+function goTopic(id){
+  curTopic=id;
+  if(view==="labs") showLab(id);
+  else if(view==="flashcards") fcSetFilter(id);
+  else if(view==="quiz") qzStart(id);
+  else { if(view!=="learn") show("learn"); const el=$("l-"+id); if(el) el.scrollIntoView({behavior: reduce?"auto":"smooth"}); }
+  markTopics(); document.body.classList.remove("menu");
+}
+function markTopics(){ document.querySelectorAll("#topicList button").forEach(b=>b.classList.toggle("on", b.dataset.t===curTopic && ["labs","learn","flashcards","quiz"].includes(view))); }
+$("topicList").innerHTML = TOPICS.map(t=>`<button data-t="${t.id}">${svg(t.id)}${t.name}</button>`).join("");
+$("topicList").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) goTopic(b.dataset.t); });
+$("labTabs").innerHTML = TOPICS.map(t=>`<button data-lab="${t.id}">${svg(t.id)}${t.name}</button>`).join("");
+$("labTabs").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) showLab(b.dataset.lab); });
+$("tabs").addEventListener("click",e=>{ const a=e.target.closest("a"); if(!a) return; e.preventDefault(); history.replaceState(null,"","#"+a.dataset.v); show(a.dataset.v); });
+document.addEventListener("click",e=>{ const g=e.target.closest("[data-go]"); if(!g) return; const v=g.dataset.go; if(g.dataset.lab){ lab=g.dataset.lab; } if(g.dataset.topic){ curTopic=g.dataset.topic; } history.replaceState(null,"","#"+v); show(v); if(v==="learn"&&g.dataset.topic){ const el=$("l-"+g.dataset.topic); if(el) setTimeout(()=>el.scrollIntoView(),30); } if(v==="flashcards"&&g.dataset.topic) fcSetFilter(g.dataset.topic); });
+$("menuBtn").addEventListener("click",()=>document.body.classList.toggle("menu"));
+$("scrim").addEventListener("click",()=>document.body.classList.remove("menu"));
+
+/* ================= OVERVIEW ================= */
+$("topicCards").innerHTML = TOPICS.map(t=>`<div class="panel tcard"><div class="ico" style="background:${t.tint}">${svg(t.id)}</div><h3>${t.name}</h3><p>${t.short}</p><div class="row"><button data-go="learn" data-topic="${t.id}">Learn</button><button data-go="labs" data-lab="${t.id}">Lab</button><button data-go="flashcards" data-topic="${t.id}">Cards</button></div></div>`).join("");
+$("loList").innerHTML = LO.map(([t,s],i)=>`<li><label><input type="checkbox" id="lo${i}"><span class="mono">${i+1}</span><span>${s} <small style="color:var(--muted)">· ${LO_HEAD[t]}</small></span></label></li>`).join("");
+const loState=store.get("lr25-lo",{});
+LO.forEach((x,i)=>{ const id="lo"+i; $(id).checked=!!loState[id]; $(id).addEventListener("change",()=>{ loState[id]=$(id).checked; store.set("lr25-lo",loState); refreshStats(); }); });
+function refreshStats(){
+  const lo=LO.filter((x,i)=>$("lo"+i).checked).length; $("stLO").textContent=`${lo}/${LO.length}`; $("stLOb").style.width=(lo/LO.length*100)+"%";
+  const kn=Object.keys(fcKnown).length; $("stFC").textContent=`${kn}/${CARDS.length}`; $("stFCb").style.width=(kn/CARDS.length*100)+"%";
+  const best=store.get("lr25-best",null); $("stQZ").textContent= best==null? "–" : best+"%"; $("stQZb").style.width=(best||0)+"%";
+}
+let heroT=0;
+
+/* ================= LEARN ================= */
+const LEARN = {
+  point:{ vis:[["rays",{P:[-20,4],showEye:true,normals:false}]], cap:"Rays spread out from P, reflect obeying the laws of reflection, and seem to come from Q behind the mirror.",
+    keys:[["·","Light spreads out from a point object. Each ray reflects with angle of incidence = angle of reflection."],["- -","Traced back (dashed), the reflected rays meet at Q. Your brain sees the image there."],["V","No light really reaches Q: it's a virtual image, formed by the apparent intersection of rays."]],
+    f:"Image: on the perpendicular, same distance behind the mirror", mistake:"Drawing the dashed lines as real rays with arrows. Only rays in front of the mirror carry light." },
+  lateral:{ vis:[["text",{word:"AMBULANCE"}]], cap:"AMBULANCE in a mirror: each point is imaged straight across, so left and right swap.",
+    keys:[["=","The image is the same size as the object and upright (not upside down)."],["⇄","It is laterally inverted: left and right are swapped. Your right hand becomes the image's left."],["🚑","That's why AMBULANCE is printed reversed on the front: it reads correctly in a driver's mirror."]],
+    f:"Virtual · upright · same size · laterally inverted", mistake:"Saying the image is inverted (upside down). It's only swapped left to right." },
+  distance:{ vis:[["walk",{d:1.5}]], cap:"Standing 1.5 m from a mirror, your image is 1.5 m behind it: 3.0 m from you.",
+    keys:[["↔","Image distance = object distance, so you are 2d from your image."],["2v","Walk towards the mirror at v and you approach your image at 2v."],["2x","Move the mirror x towards you and the image moves 2x."]],
+    f:"you → image = 2 × you → mirror", mistake:"Giving d instead of 2d when asked how far you are from your image." },
+  rotate:{ vis:[["rot",{i:30,phi:10}]], cap:"Turn the mirror 10° and the reflected ray swings 20°, with the incident ray fixed.",
+    keys:[["↻","Rotating a plane mirror by θ rotates the reflected ray by 2θ."],["i","Rotating the mirror changes the normal, so the angle of incidence changes by θ, and so does the angle of reflection."],["🔬","Doubling makes tiny rotations easier to measure (e.g. a mirror on a galvanometer)."]],
+    f:"Mirror turns θ → ray turns 2θ", mistake:"Saying the reflected ray turns by the same angle as the mirror." },
+  fullength:{ vis:[["full",{H:1.7,e:0.1,x:1}]], cap:"Rays from the top of your head and your feet reach your eye via a mirror exactly half your height.",
+    keys:[["½","You need a mirror only half your height to see all of yourself."],["⇥","It doesn't depend on how far you stand: step back and the same part of the mirror is used."],["↧","Fix the bottom edge at half your eye height."]],
+    f:"Minimum length = ½ × height", mistake:"Thinking you need a mirror as tall as you are, or that stepping back lets you see more of yourself." },
+  uses:{ vis:[["peri",{a:45,b:45}]], cap:"A periscope: two parallel mirrors at 45° turn the light down and then out to your eye.",
+    keys:[["⤓","Periscope: light turns 90° at each 45° mirror, so you see over walls or crowds."],["🚗","Rear-view mirrors and dressing mirrors use plane mirrors to show what's behind or to see yourself."],["∞","Two mirrors facing each other make an endless line of images; angled mirrors make kaleidoscopes."]],
+    f:"Periscope: two parallel mirrors at 45°", mistake:"Setting the periscope mirrors at different angles. They must be parallel for the light to come out level." },
+};
+$("learnList").innerHTML = TOPICS.map(t=>{ const L=LEARN[t.id];
+  const vis = L.vis.map((v,k)=>`<canvas class="mini" data-learn="${t.id}" data-k="${k}"></canvas>`).join("");
+  return `<article class="panel lcard" id="l-${t.id}">
+    <div class="vis"><div style="display:grid;gap:8px">${vis}</div><p class="cap">${L.cap}</p></div>
+    <div class="txt"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:${t.tint};color:#3b2b21">${svg(t.id,'width="24" height="24"')}</div><h2 style="font-size:1.5rem">${t.name}</h2></div>
+      <ul class="keys">${L.keys.map(([k,s])=>`<li><i style="background:${t.tint}">${k}</i><span>${autoLink(s)}</span></li>`).join("")}</ul>
+      <div><span class="formula">${L.f}</span></div>
+      <div class="mistake"><b>✕</b><span><b style="color:var(--bad)">Common mistake:</b> ${autoLink(L.mistake)}</span></div>
+      <div class="btns"><button class="primary" data-go="labs" data-lab="${t.id}">Open the lab</button><button data-go="flashcards" data-topic="${t.id}">Flashcards</button></div>
+    </div></article>`; }).join("");
+
+/* ================= INFOGRAPHICS ================= */
+const CASES = [
+  ["point","Virtual","var(--blush)","Formed by the apparent intersection of rays; it can't be caught on a screen."],
+  ["lateral","Upright","var(--apricot)","The right way up: heads stay at the top."],
+  ["distance","Same size","var(--sage)","As big as the object, however far away you stand."],
+  ["lateral","Laterally inverted","var(--cream)","Left and right swap."],
+  ["distance","Same distance","var(--blush)","As far behind the mirror as the object is in front, on the perpendicular."],
+];
+$("cases").innerHTML = CASES.map(([i,n,tn,d])=>`<div class="panel sh-card"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="background:${tn}">${svg(i)}</div><h3>${n}</h3></div><p>${d}</p></div>`).join("");
+$("bars").innerHTML = [[1.2,"Child"],[1.5,"Younger student"],[1.7,"Average adult"],[2.0,"Tall basketball player"]].map(([H,n],i)=>`<div class="barrow"><span><b>${n} (${nf(H,1)} m)</b></span><div class="track"><i style="width:${(H/2/1*100).toFixed(1)}%;background:var(--${["apricot","sage","blush","cream"][i]})"></i></div><span class="v">${nf(H/2,2)} m</span></div>`).join("") + `<p class="result">The mirror length is half your height. Where it hangs matters: its bottom edge goes at half your eye height.</p>`;
+const AROUND = [
+  ["amb","Ambulances","Lettering is printed reversed so drivers ahead read AMBULANCE correctly in their rear-view mirrors.",[["Lateral inversion","real"]],"var(--blush)"],
+  ["dent","Dentists","A small mirror shows the back of your teeth; the dentist has to work with a left–right swapped view.",[["Virtual image","neutral"]],"var(--apricot)"],
+  ["car","Car mirrors","The rear-view mirror is flat, so distances look right. Passenger wing mirrors are often curved for a wider view.",[["Plane vs curved","neutral"]],"var(--sage)"],
+  ["kal","Kaleidoscopes","Mirrors at an angle make many images of a few beads, giving symmetric patterns.",[["Multiple images","real"]],"var(--cream)"],
+];
+$("around").innerHTML = AROUND.map(([i,t,p,ch,tn])=>`<div class="panel"><div class="ico" style="background:${tn}">${svg(i)}</div><div><h3>${t}</h3><p>${p}</p><div class="chips">${chipsHTML(ch)}</div></div></div>`).join("");
+
+/* ================= MIND MAP ================= */
+const MM = [
+  {id:"point",label:"Point object",col:"var(--blush)",leaves:[["Rays spread","From P in all directions."],["i = r","At each mirror point."],["Traced back","Meet at Q."],["Virtual","No light at Q."]]},
+  {id:"lateral",label:"Properties",col:"var(--apricot)",leaves:[["Same size","Always."],["Upright","Not inverted."],["Left ↔ right","Lateral inversion."]]},
+  {id:"distance",label:"Distances",col:"var(--sage)",leaves:[["Same distance","d behind."],["You → image","2d."],["Speed","2v."]]},
+  {id:"rotate",label:"Rotation",col:"var(--cream)",leaves:[["Mirror θ","Ray 2θ."],["Normal turns","By θ."],["Use","Measure tiny turns."]]},
+  {id:"fullength",label:"Seeing yourself",col:"var(--blush)",leaves:[["½ height","Mirror length."],["Any distance","Same length."],["Bottom edge","½ eye height."]]},
+  {id:"uses",label:"Uses",col:"var(--sage)",leaves:[["Periscope","Two mirrors at 45°."],["Ambulance","Reversed text."],["Mirrors","Rear-view, dressing."]]},
+];
+let mmSel = {b:0,l:-1};
+function drawMindMap(){
+  const S=$("mm"), cx=550, cy=390, R1=200; let out="";
+  const nodes=[];
+  MM.forEach((b,k)=>{
+    const a=-Math.PI/2 + k*(2*Math.PI/MM.length);
+    const bx=cx+Math.cos(a)*R1*1.3, by=cy+Math.sin(a)*R1*0.85;
+    out+=`<path class="link" d="M${cx},${cy} Q${(cx+bx)/2+Math.sin(a)*30},${(cy+by)/2-Math.cos(a)*30} ${bx},${by}" stroke="${b.col}"/>`;
+    const n=b.leaves.length, side=Math.abs(Math.cos(a))>0.3;
+    b.leaves.forEach((lf,j)=>{
+      const off=j-(n-1)/2;
+      const lx = side? bx+Math.sign(Math.cos(a))*200 : bx+off*150;
+      const ly = side? by+off*40+Math.sin(a)*34 :by+Math.sign(Math.sin(a))*(78+(j%2)*40);
+      out+=`<path class="link" d="M${bx},${by} L${lx},${ly}" stroke="${b.col}" stroke-width="2" opacity=".85"/>`;
+      nodes.push({x:lx,y:ly,t:lf[0],b:k,l:j,cls:""});
+    });
+    nodes.push({x:bx,y:by,t:b.label,b:k,l:-1,cls:"branch",col:b.col});
+  });
+  nodes.forEach(nd=>{
+    const fs = nd.cls==="branch"?17:14, wdt = Math.max(60, nd.t.length*(fs*0.56)+24), ht = nd.cls==="branch"?42:32;
+    const x=Math.max(wdt/2+4,Math.min(1100-wdt/2-4,nd.x)), y=Math.max(ht/2+4,Math.min(776-ht/2,nd.y));
+    const sel = mmSel.b===nd.b && mmSel.l===nd.l;
+    const fill = nd.cls==="branch"? nd.col : "var(--surface)";
+    const stroke = nd.cls==="branch"? nd.col : MM[nd.b].col;
+    out+=`<g class="node ${nd.cls}${sel?" sel":""}" tabindex="0" role="button" data-b="${nd.b}" data-l="${nd.l}"><rect x="${x-wdt/2}" y="${y-ht/2}" width="${wdt}" height="${ht}" rx="${ht/2}" fill="${fill}" stroke="${stroke}"/><text x="${x}" y="${y+5}" text-anchor="middle">${nd.t}</text></g>`;
+  });
+  out+=`<g class="node center"><circle cx="${cx}" cy="${cy}" r="78" fill="var(--terra)"/><text x="${cx}" y="${cy-4}" text-anchor="middle">Plane mirror</text><text x="${cx}" y="${cy+22}" text-anchor="middle">image</text></g>`;
+  S.innerHTML=out; mmDetail();
+}
+function mmDetail(){
+  const b=MM[mmSel.b], t=TOPICS.find(x=>x.id===b.id);
+  const title = mmSel.l<0? b.label : b.leaves[mmSel.l][0];
+  const body = mmSel.l<0? t.short + " Tap a smaller bubble for detail." : b.leaves[mmSel.l][1];
+  $("mmDetail").innerHTML = `<div class="ico" style="background:${b.col}">${svg(b.id)}</div><div><p class="eyebrow">${b.label}</p><h3 style="font-size:1.25rem">${title}</h3><p style="color:var(--muted)">${body}</p></div><button class="primary" data-go="labs" data-lab="${b.id}">Try the lab</button>`;
+}
+$("mm").addEventListener("click",e=>{ const g=e.target.closest(".node[data-b]"); if(!g) return; mmSel={b:+g.dataset.b,l:+g.dataset.l}; drawMindMap(); });
+$("mm").addEventListener("keydown",e=>{ if(e.key!=="Enter"&&e.key!==" ") return; const g=e.target.closest(".node[data-b]"); if(!g) return; e.preventDefault(); mmSel={b:+g.dataset.b,l:+g.dataset.l}; drawMindMap(); });
+
+/* ================= FLASHCARDS ================= */
+const CARDS = [
+  ["point","What is a point object?","An object small enough that its size can be ignored; light spreads out from it in all directions."],
+  ["point","State the two laws of reflection.","1: the incident ray, normal and reflected ray are in the same plane. 2: the angle of incidence equals the angle of reflection."],
+  ["point","How is the image of a point object formed in a plane mirror?","Rays from the point reflect off the mirror; traced back, they appear to meet at a point behind the mirror. The eye sees the image there."],
+  ["point","What is a virtual image?","An image formed by the apparent intersection of rays; no light actually passes through it, so it can't be put on a screen."],
+  ["point","Where is the image of a point object in a plane mirror?","On the perpendicular from the object to the mirror, the same distance behind the mirror as the object is in front."],
+  ["point","In a ray diagram, how do you show lines behind the mirror?","Dashed, with no arrows: they are not real rays."],
+  ["lateral","List the five properties of the image in a plane mirror.","Virtual, upright, same size, laterally inverted, same distance behind the mirror as the object is in front."],
+  ["lateral","What is lateral inversion?","The left–right reversal of the image in a plane mirror."],
+  ["lateral","Why is AMBULANCE written backwards on ambulances?","So drivers in front see it the right way round in their rear-view mirrors."],
+  ["lateral","Is the image in a plane mirror upside down?","No, it's upright. Only left and right are swapped."],
+  ["lateral","Does your image get bigger as you walk towards a mirror?","No, it stays the same size as you. It only looks bigger because it's closer to your eye."],
+  ["distance","You stand 2 m from a mirror. How far are you from your image?","4 m (2 m to the mirror + 2 m behind it)."],
+  ["distance","You walk towards a mirror at 1.5 m/s. How fast do you approach your image?","3 m/s (twice your speed)."],
+  ["distance","A mirror is moved 10 cm towards you. How far does your image move?","20 cm."],
+  ["distance","A boy 4 m from a mirror wants to be 6 m from his image. Which way and how far must he move?","He needs to be 3 m from the mirror, so he moves 1 m towards it."],
+  ["rotate","A mirror is rotated by 15° with the incident ray fixed. How far does the reflected ray turn?","30° (twice the mirror's rotation)."],
+  ["rotate","A ray makes 25° with the mirror surface. What is the angle of incidence?","90° − 25° = 65°, so the angle of reflection is also 65°."],
+  ["rotate","Why does the reflected ray turn by 2θ?","The normal turns by θ, so the angle of incidence changes by θ and the angle of reflection by θ too: 2θ in total."],
+  ["fullength","What is the shortest mirror you need to see all of yourself?","Half your height."],
+  ["fullength","Does the minimum mirror length depend on your distance from it?","No. It's half your height at any distance."],
+  ["fullength","A woman is 1.8 m tall with eyes 1.7 m above the ground. Where should the bottom of the mirror be?","At half her eye height: 0.85 m above the ground."],
+  ["uses","How does a periscope work?","Two parallel plane mirrors at 45° each turn the light through 90°, so light from over an obstacle reaches your eye."],
+  ["uses","Is the image in a periscope laterally inverted?","No. The second reflection swaps left and right back again."],
+  ["uses","Give two everyday uses of plane mirrors.","Dressing mirrors, rear-view mirrors in cars, periscopes, dentists' mirrors, kaleidoscopes."],
+  ["uses","What do two parallel mirrors facing each other produce?","A long line of images, each fainter and further away (an infinity mirror)."],
+];
+let fcKnown = store.get("lr25-fc",{}), fcFilter="all", fcOnlyUnknown=false, fcOrder=[], fcIdx=0;
+$("fcFilter").innerHTML = `<button data-f="all">All topics</button>` + TOPICS.map(t=>`<button data-f="${t.id}">${t.name}</button>`).join("");
+$("fcFilter").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) fcSetFilter(b.dataset.f); });
+function fcSetFilter(f){ fcFilter=f; curTopic = f==="all"? null : f; fcBuild(); markTopics(); }
+function fcBuild(){
+  fcOrder = CARDS.map((c,k)=>k).filter(k=>(fcFilter==="all"||CARDS[k][0]===fcFilter) && (!fcOnlyUnknown || !fcKnown[k]));
+  fcIdx=0; document.querySelectorAll("#fcFilter button").forEach(b=>b.classList.toggle("on", b.dataset.f===fcFilter));
+  $("fcUnknown").setAttribute("aria-pressed", fcOnlyUnknown); fcRender();
+}
+function fcRender(){
+  $("fcCard").classList.remove("flip");
+  if(!fcOrder.length){ $("fcTag").textContent="Done"; $("fcQ").textContent="You know every card in this set."; $("fcA").textContent="Reset progress or pick another topic."; $("fcTag2").textContent="Done"; $("fcMeta").textContent=""; return; }
+  const k=fcOrder[fcIdx], [t,q,a]=CARDS[k];
+  setTimeout(()=>{ $("fcA").textContent=a; $("fcTag2").textContent=tname(t); }, reduce?0:200);
+  $("fcTag").textContent=tname(t); $("fcQ").textContent=q;
+  const inSet=CARDS.filter(c=>fcFilter==="all"||c[0]===fcFilter), known=inSet.filter(c=>fcKnown[CARDS.indexOf(c)]).length;
+  $("fcMeta").textContent = `Card ${fcIdx+1} of ${fcOrder.length} · you know ${known} of ${inSet.length} in this set${fcKnown[k]?" · ✓ known":""}`;
+}
+function fcFlip(){ $("fcCard").classList.toggle("flip"); }
+function fcMove(d){ if(!fcOrder.length) return; fcIdx=(fcIdx+d+fcOrder.length)%fcOrder.length; fcRender(); }
+$("fcCard").addEventListener("click",fcFlip);
+$("fcCard").addEventListener("keydown",e=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); fcFlip(); } });
+document.addEventListener("keydown",e=>{ if(view!=="flashcards"||e.target.tagName==="SELECT") return; if(e.key==="ArrowRight") fcMove(1); if(e.key==="ArrowLeft") fcMove(-1); if(e.key===" "&&e.target===document.body){ e.preventDefault(); fcFlip(); } });
+$("fcPrev").addEventListener("click",()=>fcMove(-1)); $("fcNext").addEventListener("click",()=>fcMove(1));
+$("fcGot").addEventListener("click",()=>{ if(!fcOrder.length) return; fcKnown[fcOrder[fcIdx]]=1; store.set("lr25-fc",fcKnown); if(fcOnlyUnknown){ fcOrder.splice(fcIdx,1); if(fcIdx>=fcOrder.length) fcIdx=0; fcRender(); } else fcMove(1); });
+$("fcAgain").addEventListener("click",()=>{ if(!fcOrder.length) return; delete fcKnown[fcOrder[fcIdx]]; store.set("lr25-fc",fcKnown); const k=fcOrder.splice(fcIdx,1)[0]; fcOrder.splice(Math.min(fcOrder.length, fcIdx+3),0,k); fcRender(); });
+$("fcShuffle").addEventListener("click",()=>{ for(let i=fcOrder.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [fcOrder[i],fcOrder[j]]=[fcOrder[j],fcOrder[i]]; } fcIdx=0; fcRender(); });
+$("fcUnknown").addEventListener("click",()=>{ fcOnlyUnknown=!fcOnlyUnknown; fcBuild(); });
+$("fcReset").addEventListener("click",()=>{ fcKnown={}; store.set("lr25-fc",fcKnown); fcBuild(); });
+fcBuild();
+
+/* ================= QUIZ ================= */
+const QUIZ = [
+  ["point","The image in a plane mirror is virtual because:",["it is behind the glass","rays only appear to meet there","it is smaller than the object","it is upside down"],1,"A virtual image is formed by the apparent intersection of rays; no light reaches it."],
+  ["point","The image of a point object lies:",["on the mirror","half as far behind the mirror as the object is in front","on the perpendicular, the same distance behind the mirror","anywhere behind the mirror"],2,"The image is on the normal from the object, at the same distance behind."],
+  ["point","In a ray diagram, the lines behind a plane mirror should be:",["solid with arrows","dashed with no arrows","dotted with arrows","left out"],1,"They're construction lines, not real rays."],
+  ["point","Can the image in a plane mirror be projected onto a screen?",["Yes, always","Only in bright light","No, it's virtual","Only if the screen is behind the mirror"],2,"No light actually reaches the image position."],
+  ["lateral","Which is NOT a property of the image in a plane mirror?",["Virtual","Upright","Same size","Inverted"],3,"It's upright; it is laterally inverted (left–right), not inverted (upside down)."],
+  ["lateral","You raise your right hand in front of a mirror. Your image raises:",["its right hand","its left hand","both hands","neither"],1,"Lateral inversion swaps left and right."],
+  ["lateral","Which word looks the same in a vertical plane mirror?",["BOOK","TOOT","DOG","CAR"],1,"T and O are symmetric about a vertical line, and TOOT reads the same backwards."],
+  ["distance","A girl stands 2.5 m from a plane mirror. How far is she from her image?",["1.25 m","2.5 m","5 m","10 m"],2,"2.5 m to the mirror plus 2.5 m behind it."],
+  ["distance","A man walks towards a plane mirror at 2 m/s. At what speed does he approach his image?",["1 m/s","2 m/s","4 m/s","0 m/s"],2,"The image moves towards the mirror at 2 m/s too, so they close at 4 m/s."],
+  ["distance","A boy is 4 m from a mirror and moves 1 m towards it. He is now this far from his image:",["3 m","6 m","7 m","8 m"],1,"Now 3 m from the mirror, so 6 m from his image."],
+  ["rotate","A plane mirror is rotated through 12° with the incident ray fixed. The reflected ray turns through:",["6°","12°","24°","36°"],2,"Rotation of the reflected ray = 2 × mirror rotation."],
+  ["rotate","A ray strikes a mirror making 40° with its surface. The angle of reflection is:",["40°","50°","80°","90°"],1,"Angle of incidence = 90° − 40° = 50°, and i = r."],
+  ["fullength","What is the minimum length of a mirror in which a 1.6 m tall person sees their whole body?",["0.4 m","0.8 m","1.6 m","3.2 m"],1,"Half the person's height."],
+  ["fullength","If you step further back from a wall mirror, the length of mirror you need to see yourself:",["increases","decreases","stays the same","doubles"],2,"It's always half your height, whatever the distance."],
+  ["uses","In a periscope the two mirrors are:",["perpendicular to each other","parallel, each at 45° to the tube","both horizontal","curved"],1,"Parallel mirrors at 45° each turn the light through 90°."],
+  ["uses","Why is AMBULANCE printed in mirror writing on the front of ambulances?",["For decoration","So it reads correctly in other drivers' mirrors","So pedestrians can read it","Because of the law of reflection"],1,"Lateral inversion in the rear-view mirror flips it back."],
+];
+let qz = { set:[], idx:0, ans:[], topic:"all" };
+function qzStart(topic="all"){
+  qz.topic=topic; curTopic = topic==="all"? null : topic;
+  qz.set = QUIZ.map((q,k)=>k).filter(k=>topic==="all"||QUIZ[k][0]===topic);
+  for(let i=qz.set.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [qz.set[i],qz.set[j]]=[qz.set[j],qz.set[i]]; }
+  qz.idx=0; qz.ans=[]; qzRender(); markTopics();
+}
+function qzRender(){
+  const el=$("qz"), n=qz.set.length;
+  const sel = `<select id="qzTopic" aria-label="Quiz topic"><option value="all">All topics (${QUIZ.length})</option>${TOPICS.map(t=>`<option value="${t.id}" ${qz.topic===t.id?"selected":""}>${t.name}</option>`).join("")}</select>`;
+  const dots = qz.set.map((k,i)=>`<i class="${i<qz.ans.length?(qz.ans[i]?"ok":"no"):i===qz.idx?"cur":""}"></i>`).join("");
+  if(qz.idx>=n){
+    const r=qz.ans.filter(Boolean).length, pct=Math.round(r/n*100);
+    if(qz.topic==="all"){ const best=store.get("lr25-best",null); if(best==null||pct>best) store.set("lr25-best",pct); }
+    const circ=2*Math.PI*62;
+    el.innerHTML = `<div class="qz-top"><h2>Quiz</h2>${sel}</div><div class="panel final">
+      <svg class="ring" viewBox="0 0 150 150"><circle cx="75" cy="75" r="62" fill="none" stroke="var(--grid)" stroke-width="14"/><circle cx="75" cy="75" r="62" fill="none" stroke="${pct>=70?"var(--good)":pct>=40?"var(--apricot)":"var(--bad)"}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${circ*pct/100} ${circ}" transform="rotate(-90 75 75)"/><text x="75" y="84" text-anchor="middle" style="font:700 30px ${C.fd};fill:var(--ink)">${pct}%</text></svg>
+      <h3 style="font-size:1.5rem">${r} out of ${n} correct</h3><p style="color:var(--muted)">${pct>=80?"Excellent work. You're ready for exam questions.":pct>=50?"Good start. Review the ones you missed, then try again.":"Have another look at the Learn cards and labs, then try again."}</p>
+      <div class="btns"><button class="primary" id="qzAgain">Try again</button><button data-go="flashcards">Practise with flashcards</button></div>
+      <div class="review">${qz.set.map((k,i)=>qz.ans[i]?"":`<div><b>${QUIZ[k][1]}</b><br><span style="color:var(--good)">✓ ${QUIZ[k][2][QUIZ[k][3]]}</span> · ${QUIZ[k][4]}</div>`).join("")}</div></div>`;
+    $("qzAgain").addEventListener("click",()=>qzStart(qz.topic));
+  } else {
+    const k=qz.set[qz.idx], [t,q,opts]=QUIZ[k];
+    el.innerHTML = `<div class="qz-top"><div><p class="eyebrow">Question ${qz.idx+1} of ${n}</p><h2>Quiz</h2></div>${sel}</div><div class="dots">${dots}</div>
+      <div class="panel qcard"><span class="pill t" style="justify-self:start">${tname(t)}</span><h3>${q}</h3><div class="opts">${opts.map((o,j)=>`<button data-o="${j}"><span>${"ABCD"[j]}</span>${o}</button>`).join("")}</div><div id="qzWhy"></div></div>`;
+    el.querySelector(".opts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||qz.ans.length>qz.idx) return; const j=+b.dataset.o, right=QUIZ[k][3];
+      qz.ans.push(j===right);
+      el.querySelectorAll(".opts button").forEach((x,i)=>{ if(i===right) x.classList.add("right"); else if(i===j) x.classList.add("wrong"); x.disabled=true; });
+      $("qzWhy").innerHTML = `<div class="why"><b style="color:${j===right?"var(--good)":"var(--bad)"}">${j===right?"Correct!":"Not quite."}</b> ${QUIZ[k][4]}</div><div class="btns" style="margin-top:12px"><button class="primary" id="qzNext">${qz.idx+1<n?"Next question →":"See my score"}</button><button data-go="labs" data-lab="${t}">Open the lab</button></div>`;
+      el.querySelectorAll(".dots i")[qz.idx].className = j===right?"ok":"no";
+      $("qzNext").addEventListener("click",()=>{ qz.idx++; qzRender(); }); $("qzNext").focus(); });
+  }
+  $("qzTopic").addEventListener("change",e=>qzStart(e.target.value));
+}
+qzStart("all");
+
+/* ================= GLOSSARY ================= */
+let glTopic="all", glLetter=null;
+const glFirst = g => { const c=g.t[0].normalize("NFD")[0]; return /[A-Za-z]/.test(c) ? c.toUpperCase() : "#"; };
+GLOSS.sort((a,b)=>a.t.localeCompare(b.t));
+$("glTopics").innerHTML = `<button data-t="all">All</button>` + TOPICS.map(t=>`<button data-t="${t.id}">${t.name}</button>`).join("");
+$("glTopics").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; glTopic=b.dataset.t; glLetter=null; glRender(); });
+$("glLetters").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||b.disabled) return; glLetter = glLetter===b.dataset.l? null : b.dataset.l; glRender(); });
+$("glSearch").addEventListener("input",()=>{ glLetter=null; glRender(); });
+function glRender(){
+  const q=$("glSearch").value.trim().toLowerCase();
+  const base=GLOSS.filter(g=>(glTopic==="all"||g.topic===glTopic) && (!q || (g.t+" "+g.aka+" "+g.d+" "+(g.f||"")).toLowerCase().includes(q)));
+  const have=new Set(base.map(glFirst));
+  $("glLetters").innerHTML = ["#",..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map(l=>`<button data-l="${l}" ${have.has(l)?"":"disabled"} class="${glLetter===l?"on":""}">${l}</button>`).join("");
+  document.querySelectorAll("#glTopics button").forEach(b=>b.classList.toggle("on",b.dataset.t===glTopic));
+  const list=base.filter(g=>!glLetter||glFirst(g)===glLetter);
+  $("glCount").textContent = `${list.length} term${list.length===1?"":"s"}`;
+  $("glList").innerHTML = list.length? list.map(g=>`<article class="panel gl-item" id="${g.id}"><header><h3>${g.t}</h3>${g.aka?`<span class="aka">${g.aka}</span>`:""}</header><p>${g.d}</p>${g.f?`<div><span class="formula">${g.f}</span></div>`:""}<div class="foot"><span class="pill t">${tname(g.topic)}</span><button data-go="labs" data-lab="${g.topic}">Open the lab</button></div></article>`).join("")
+    : `<div class="panel pad empty">No terms match "${$("glSearch").value.replace(/</g,"&lt;")}". Try a shorter word or pick "All".</div>`;
+}
+glRender();
+function glJump(term){
+  const g=glossBy(term); if(!g) return;
+  $("glSearch").value=""; glTopic="all"; glLetter=null; glRender();
+  history.replaceState(null,"","#glossary"); show("glossary");
+  const el=$(g.id); if(el){ el.scrollIntoView({block:"center"}); el.classList.add("flash"); setTimeout(()=>el.classList.remove("flash"),1600); }
+}
+const glPop=document.createElement("div"); glPop.id="glPop"; glPop.hidden=true; glPop.setAttribute("role","dialog"); document.body.appendChild(glPop);
+document.addEventListener("click",e=>{
+  const t=e.target.closest(".gl");
+  if(t){ e.preventDefault(); const g=glossBy(t.dataset.g); if(!g) return;
+    glPop.innerHTML=`<b>${g.t}${g.aka?` <span style="font:500 .8rem ${C.fm};opacity:.75">(${g.aka})</span>`:""}</b><span>${g.d}</span>${g.f?`<span class="mono">${g.f}</span>`:""}<button data-gj="${g.t}">Open in glossary</button>`;
+    glPop.hidden=false; const r=t.getBoundingClientRect(), pw=glPop.offsetWidth;
+    glPop.style.left=Math.max(16,Math.min(innerWidth-pw-16,r.left))+scrollX+"px"; glPop.style.top=r.bottom+scrollY+8+"px"; return; }
+  const j=e.target.closest("[data-gj]"); if(j){ glPop.hidden=true; glJump(j.dataset.gj); return; }
+  if(!e.target.closest("#glPop")) glPop.hidden=true;
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") glPop.hidden=true; });
+
+/* ================= EXAM PREP ================= */
+const CMDS = [
+  ["Draw","Make a clear labelled diagram: arrows on rays, dashed lines behind the mirror.","Draw a ray diagram to show how the image is formed."],
+  ["State","Give a short answer without explanation.","State two properties of the image."],
+  ["Explain","Give reasons for how or why.","Explain why the image is virtual."],
+  ["Show that","Prove a given result with geometry or reasoning.","Show that the mirror only needs to be half your height."],
+  ["Calculate","Work out a numerical answer with working.","Calculate the distance between the boy and his image."],
+  ["Describe","Give the main features or steps.","Describe how a periscope works."],
+  ["Justify","Support your answer with a reason or evidence.","Does the answer depend on distance? Justify your answer."],
+];
+$("cmds").innerHTML = CMDS.map(([w,m,e])=>`<div class="cmd"><b>${w}</b><p>${m}</p><em>e.g. "${e}"</em></div>`).join("");
+
+// Calculation trainer
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)), pick=a=>a[Math.floor(Math.random()*a.length)];
+const PTYPES = {
+  img:{ name:"You → image", gen(){ const d=rnd(5,60)/10;
+      return { q:`A student stands <b>${d.toFixed(1)} m</b> from a plane mirror. How far is the student from their image?`, ans:2*d, unit:"m", steps:[`The image is ${d.toFixed(1)} m behind the mirror`,`Distance = ${d.toFixed(1)} + ${d.toFixed(1)} = ${(2*d).toFixed(1)} m`] }; } },
+  move:{ name:"Moving closer", gen(){ const d=rnd(20,60)/10, m=rnd(5,Math.floor(d*10)-3)/10, nd=+(d-m).toFixed(1);
+      return { q:`A girl is <b>${d.toFixed(1)} m</b> from a plane mirror. She walks <b>${m.toFixed(1)} m</b> straight towards it. How far is she now from her image?`, ans:2*nd, unit:"m", steps:[`New distance to mirror = ${d.toFixed(1)} − ${m.toFixed(1)} = ${nd.toFixed(1)} m`,`Distance to image = 2 × ${nd.toFixed(1)} = ${(2*nd).toFixed(1)} m`] }; } },
+  speed:{ name:"Approach speed", gen(){ const v=rnd(5,30)/10;
+      return { q:`A runner moves straight towards a large plane mirror at <b>${v.toFixed(1)} m/s</b>. At what speed does the runner approach their image?`, ans:2*v, unit:"m/s", steps:[`The image moves towards the mirror at ${v.toFixed(1)} m/s too`,`Closing speed = ${v.toFixed(1)} + ${v.toFixed(1)} = ${(2*v).toFixed(1)} m/s`] }; } },
+  rot:{ name:"Rotating mirror", gen(){ const t=rnd(3,35);
+      return { q:`With the incident ray fixed, a plane mirror is rotated through <b>${t}°</b>. Through what angle does the reflected ray turn?`, ans:2*t, unit:"°", steps:[`The normal turns by ${t}°, so both i and r change by ${t}°`,`The reflected ray turns 2 × ${t}° = ${2*t}°`] }; } },
+  surf:{ name:"Angle to surface", gen(){ const a=rnd(10,80);
+      return { q:`A ray of light strikes a plane mirror making an angle of <b>${a}°</b> with the mirror's surface. What is the angle of reflection?`, ans:90-a, unit:"°", steps:[`Angles are measured from the normal (90° to the mirror)`,`i = 90° − ${a}° = ${90-a}°`,`r = i = ${90-a}°`] }; } },
+  full:{ name:"Full-length mirror", gen(){ const H=rnd(140,205)/100, e=rnd(8,14)/100, askBottom=Math.random()<0.5, eye=+(H-e).toFixed(2);
+      return askBottom? { q:`A person is <b>${H.toFixed(2)} m</b> tall with eyes <b>${eye.toFixed(2)} m</b> above the floor. How high above the floor should the bottom of the shortest full-length mirror be?`, ans:eye/2, unit:"m", steps:[`Rays from the feet reflect into the eye at the midpoint of the eye height`,`Bottom edge = ${eye.toFixed(2)} ÷ 2 = ${(eye/2).toFixed(3)} m`] }
+        : { q:`A person is <b>${H.toFixed(2)} m</b> tall. What is the length of the shortest plane mirror in which they can see their whole body?`, ans:H/2, unit:"m", steps:[`Minimum length = ½ × height`,`= ${H.toFixed(2)} ÷ 2 = ${(H/2).toFixed(3)} m`] }; } },
+};
+let pType="img", pCur=null, pRight=0, pTried=0, pDone=false;
+$("prType").innerHTML = Object.entries(PTYPES).map(([k,v])=>`<button data-k="${k}">${v.name}</button>`).join("");
+$("prType").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; pType=b.dataset.k; pNew(); });
+function pNew(){ pCur=PTYPES[pType].gen(); pDone=false; $("pq").innerHTML=pCur.q; $("paUnit").textContent=pCur.unit; $("paIn").value=""; $("paFb").innerHTML="";
+  document.querySelectorAll("#prType button").forEach(b=>b.classList.toggle("on",b.dataset.k===pType)); }
+function pSteps(){ return `<div class="steps">${pCur.steps.map(s=>`<span>${s}</span>`).join("")}</div>`; }
+$("paCheck").addEventListener("click",()=>{
+  const raw=$("paIn").value.replace(/[^\d.,\-]/g,"").replace(/,(?=\d{3}(\D|$))/g,"").replace(",",".");
+  const x=parseFloat(raw);
+  if(!Number.isFinite(x)){ $("paFb").innerHTML=`<div class="fb no">Type a number first, for example 12.5 or 66.</div>`; return; }
+  const ok=Math.abs(x-pCur.ans) <= Math.max(0.051, Math.abs(pCur.ans)*0.005);
+  if(!pDone){ pTried++; if(ok) pRight++; pDone=true; }
+  $("paFb").innerHTML = ok? `<div class="fb ok"><b style="color:var(--good)">Correct!</b>${pSteps()}</div>`
+    : `<div class="fb no"><b style="color:var(--bad)">Not quite.</b> Check: the image is as far behind the mirror as the object is in front; distances and speeds to your image double; angles are measured from the normal. Try again or show the solution.</div>`;
+  $("paScore").textContent=`This session: ${pRight} correct out of ${pTried}.`;
+});
+$("paIn").addEventListener("keydown",e=>{ if(e.key==="Enter") $("paCheck").click(); });
+$("paShow").addEventListener("click",()=>{ if(!pDone){ pTried++; pDone=true; $("paScore").textContent=`This session: ${pRight} correct out of ${pTried}.`; } $("paFb").innerHTML=`<div class="fb"><b>Worked solution</b>${pSteps()}</div>`; });
+$("paNext").addEventListener("click",pNew);
+pNew();
+
+// True or false? [statement, 1 true / 0 false, why]
+const PRED = [
+  ["The image in a plane mirror is the same size as the object.",1,"Always the same size, however far away."],
+  ["The image can be projected onto a screen.",0,"It's virtual: no light reaches it."],
+  ["The image is upside down.",0,"It's upright; only left and right swap."],
+  ["The image is as far behind the mirror as the object is in front.",1,"On the perpendicular, the same distance behind."],
+  ["Walking towards a mirror makes your image bigger.",0,"It looks bigger because it's closer to your eye, but its size doesn't change."],
+  ["You need a mirror half your height to see all of yourself.",1,"Half your height, at any distance."],
+  ["Light rays actually pass through the image behind the mirror.",0,"They only appear to come from there."],
+  ["Rotating a mirror by 20° turns the reflected ray by 40°.",1,"The reflected ray turns by twice the mirror's rotation."],
+  ["If you stand 3 m from a mirror, your image is 3 m from you.",0,"Your image is 3 m behind the mirror, so 6 m from you."],
+  ["The image in a plane mirror is laterally inverted.",1,"Left and right are swapped."],
+  ["The mirrors in a periscope are at right angles to each other.",0,"They're parallel, each at 45°."],
+  ["Stepping back from a wall mirror lets you see more of your body in it.",0,"How much you see doesn't depend on distance; it depends on the mirror's size and position."],
+];
+let pd = { k:-1, shown:false, sel:null, streak:0 };
+let predC=null;
+function pdNew(){ let k; do{ k=Math.floor(Math.random()*PRED.length); }while(k===pd.k); pd={...pd,k,shown:false,sel:null};
+  document.querySelectorAll("#predOpts button").forEach(b=>b.classList.remove("sel")); $("predFb").innerHTML="";
+  $("predQ").innerHTML=`<b>${PRED[k][0]}</b>`; if(predC) predC.redraw(); }
+$("predOpts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||pd.shown) return; pd.sel=+b.dataset.a; b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b)); });
+$("predCheck").addEventListener("click",()=>{
+  if(pd.sel==null){ $("predFb").innerHTML=`<div class="fb no">Pick True or False first.</div>`; return; }
+  const [,ans,why]=PRED[pd.k], ok=pd.sel===ans; pd.streak = ok? pd.streak+1 : 0; pd.shown=true; predC.redraw();
+  $("predFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Correct!":"Not quite."}</b> ${ans?"True":"False"}. ${why}${ok?` Streak: ${pd.streak} 🔥`:""}</div>`;
+});
+$("predNext").addEventListener("click",pdNew);
+
+// Long questions
+const LONGQ = [
+  { title:"Forming the image", intro:"A small bright bead P is placed 12 cm in front of a vertical plane mirror.",
+    parts:[["a","Draw a ray diagram to show how the mirror forms an image of P that an eye can see. Label the image Q.",12,"Two (or more) rays from P to the mirror (2), normals drawn with i = r at each (3), reflected rays to the eye with arrows (3), dashed extensions behind the mirror meeting at Q (3), Q labelled (1)."],
+      ["b","How far behind the mirror is Q, and where exactly is it?",6,"12 cm behind the mirror (3), on the perpendicular from P to the mirror (3)."],
+      ["c","Explain why the image is described as virtual.",6,"Rays only appear to come from Q when traced back (3); no light actually passes through Q, so it can't be formed on a screen (3)."],
+      ["d","State three other properties of the image.",6,"Any three × 2: upright; same size as the object; laterally inverted; same distance behind the mirror as the object is in front."]] },
+  { title:"Distances and speeds", intro:"A boy stands 4.0 m in front of a large plane mirror on a wall.",
+    parts:[["a","How far is he from his image?",4,"8.0 m (4)."],
+      ["b","How far, and in which direction, must he move to be 5.0 m from his image?",8,"He must be 2.5 m from the mirror (4), so he moves 1.5 m towards it (4)."],
+      ["c","He walks towards the mirror at 1.2 m/s. At what speed does he approach his image? Explain.",8,"2.4 m/s (4): the image moves towards the mirror at the same speed as he does, so the gap closes at twice his speed (4)."],
+      ["d","Explain why his image doesn't get bigger as he gets closer, even though it looks bigger.",6,"The image is always the same size as the object (3); it looks bigger only because it's closer to his eye and takes up a larger angle in his view (3)."]] },
+  { title:"Mirrors at work", intro:"Answer each part with diagrams where helpful.",
+    parts:[["a","A ray strikes a plane mirror making 35° with the surface. Find the angle of reflection.",5,"i = 90° − 35° = 55° (3); r = 55° (2)."],
+      ["b","The mirror is now rotated through 8° with the incident ray fixed. Through what angle does the reflected ray turn? Explain.",7,"16° (3). The normal turns 8°, so the angle of incidence changes by 8° and the angle of reflection by 8°, a total turn of 16° (4)."],
+      ["c","A woman 1.70 m tall, with eyes 1.60 m above the floor, wants to see her whole body in a wall mirror. Find the minimum length of the mirror and the height of its bottom edge.",10,"Length = ½ × 1.70 = 0.85 m (5). Bottom edge = ½ × 1.60 = 0.80 m above the floor (5)."],
+      ["d","Describe how a periscope uses plane mirrors, with a labelled diagram.",8,"Tube with two parallel plane mirrors each at 45° (3); light from the object hits the top mirror and turns 90° down the tube (2); it hits the bottom mirror and turns 90° into the eye (2); diagram with arrows (1)."]] },
+];
+$("longqs").innerHTML = LONGQ.map((L,i)=>`<article class="lq"><header><p class="eyebrow">Question ${i+1} · ${L.parts.reduce((a,p)=>a+p[2],0)} marks</p><h3>${L.title}</h3><p>${L.intro}</p></header>
+  <div class="parts">${L.parts.map(([l,q,m,ms])=>`<div class="part"><div class="q"><b>(${l})</b><span>${q}</span><span class="marks">${m} marks</span></div><details><summary>Show marking guide</summary><div class="ms">${ms}</div></details></div>`).join("")}</div></article>`).join("");
+
+// Revision checklist (red / amber / green)
+const RAG = ["State the laws of reflection","Draw a ray diagram for a point object","Explain what a virtual image is","List the five properties of the image","Explain lateral inversion with an example","Find distances between object, mirror and image","Find the speed of approach to an image","Use the 2θ rule for a rotating mirror","Convert an angle to the surface into an angle of incidence","Find the minimum length of a full-length mirror","Explain how a periscope works","Give everyday uses of plane mirrors"];
+const ragState=store.get("lr25-rag",{});
+function ragRender(){ $("rag").innerHTML = RAG.map((s,i)=>`<div class="ragrow"><span>${s}</span><div class="btns">${["r","a","g"].map(c=>`<button data-i="${i}" data-c="${c}" class="${ragState[i]===c?c:""}" aria-label="${{r:"Not yet",a:"Nearly",g:"Confident"}[c]}" aria-pressed="${ragState[i]===c}"></button>`).join("")}</div></div>`).join(""); }
+$("rag").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; const i=b.dataset.i; ragState[i] = ragState[i]===b.dataset.c? undefined : b.dataset.c; store.set("lr25-rag",ragState); ragRender(); });
+ragRender();
+const SKILLS = [["Plan a fair test","Change one thing (e.g. object distance) and measure its effect.","Collect & fit lab"],["Locate images precisely","Use optical pins and no-parallax to find image positions.","Ray tracer lab"],["Record in tables","Units in headings, values to the right precision.","Collect & fit lab"],["Plot and fit","Draw a line of best fit; interpret the gradient.","Collect & fit lab"],["Spot errors","Thick mirrors and blurry pins cause errors; say how to reduce them.","Ray tracer lab"],["Explain with physics","Link results to the laws of reflection.","Rotate the mirror lab"]];
+const skState=store.get("lr25-skills",{});
+$("skills").innerHTML = SKILLS.map(([t,d,w],i)=>`<label><input type="checkbox" data-i="${i}" ${skState[i]?"checked":""}><span><b>${t}</b><small>${d} Practise in: ${w}.</small></span></label>`).join("");
+$("skills").addEventListener("change",e=>{ skState[e.target.dataset.i]=e.target.checked; store.set("lr25-skills",skState); });
+
+/* ================= LAB STATE + WIRING ================= */
+// Ray tracer
+const pt = {P:[-20,4], n:true, e:true};
+function ptUpd(){ const d=-pt.P[0];
+  setReadout($("ptOut"),[["Object distance",`${nf(d,1)} cm in front`],["Image distance",`${nf(d,1)} cm behind`],["Image type","Virtual (dashed lines meet)"],["PQ","Perpendicular to the mirror"]]); if(ptC) ptC.redraw(); }
+$("ptS").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; const k=b.dataset.k; pt[k]=!pt[k]; b.setAttribute("aria-pressed",pt[k]); ptUpd(); });
+// Writing
+const lt = {word:"AMBULANCE"};
+function ltUpd(){ const w=lt.word.replace(/[^A-Z ]/g,""); const same=[...new Set(w.replace(/ /g,""))].filter(c=>SYM.includes(c)), diff=[...new Set(w.replace(/ /g,""))].filter(c=>!SYM.includes(c)), rev=[...w].reverse().join(""), pal=w===rev && diff.length===0;
+  setReadout($("ltOut"),[["Letters unchanged",same.join(" ")||"none"],["Letters flipped",diff.join(" ")||"none"],["Reads the same in a mirror?",pal?"Yes!":"No"]]); if(ltC) ltC.redraw(); }
+$("ltIn").addEventListener("input",e=>{ lt.word=e.target.value.toUpperCase().slice(0,12)||" "; ltUpd(); });
+$("ltB").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; lt.word=b.textContent; $("ltIn").value=lt.word; ltUpd(); });
+// Distances
+const ds = {d:1.5, v:1.2, rows:[]};
+function dsFit(){ const r=ds.rows; if(r.length<2) return null; const mx=r.reduce((a,b)=>a+b[0],0)/r.length, my=r.reduce((a,b)=>a+b[1],0)/r.length; let sxy=0,sxx=0; r.forEach(([x,y])=>{ sxy+=(x-mx)*(y-my); sxx+=(x-mx)**2; }); if(!sxx) return null; const m=sxy/sxx; return {m,c:my-m*mx}; }
+function dsUpd(){ $("dsDo").textContent=`${nf(ds.d,1)} m`; $("dsVo").textContent=`${nf(ds.v,1)} m/s`; const f=dsFit();
+  $("dsTable").innerHTML = ds.rows.map(([a,b])=>`<tr><td>${a.toFixed(1)}</td><td>${b.toFixed(2)}</td></tr>`).join("") || `<tr><td colspan="2">No data yet. Choose a distance and record.</td></tr>`;
+  $("dsRes").innerHTML = f? `Line of best fit: <b>you → image = ${nf(f.m,2)} × (you → mirror) ${f.c<0?"−":"+"} ${nf(Math.abs(f.c),2)}</b>. Gradient 2, through the origin.` : "Record at least two distances.";
+  setReadout($("dsOut"),[["You → mirror",`${nf(ds.d,1)} m`],["Mirror → image",`${nf(ds.d,1)} m`],["You → image",`${nf(2*ds.d,1)} m`],["Walking at "+nf(ds.v,1)+" m/s",`you approach your image at ${nf(2*ds.v,1)} m/s`]]);
+  if(dsC){ dsC.redraw(); dsG.redraw(); } }
+$("dsD").addEventListener("input",e=>{ ds.d=+e.target.value; dsUpd(); }); $("dsV").addEventListener("input",e=>{ ds.v=+e.target.value; dsUpd(); });
+$("dsRec").addEventListener("click",()=>{ ds.rows.push([ds.d, +(2*ds.d+(Math.random()-0.5)*0.06).toFixed(2)]); dsUpd(); }); $("dsClr").addEventListener("click",()=>{ ds.rows=[]; dsUpd(); });
+// Rotation
+const ro = {i:30, phi:10};
+function roUpd(){ $("roIo").textContent=`${ro.i}°`; $("roPo").textContent=`${ro.phi}°`; const {din,r0,r1}=rotGeom(ro.i,ro.phi), turn=Math.acos(Math.max(-1,Math.min(1,r0[0]*r1[0]+r0[1]*r1[1])))/DEG, nn=[-Math.sin(ro.phi*DEG),Math.cos(ro.phi*DEG)], inew=Math.acos(Math.max(-1,Math.min(1,-(din[0]*nn[0]+din[1]*nn[1]))))/DEG;
+  setReadout($("roOut"),[["Mirror rotated",`${ro.phi}°`],["New angle of incidence",`${nf(inew,0)}°`],["Reflected ray turned",`${nf(turn,1)}°`],["Ratio",ro.phi? `${nf(turn/ro.phi,2)} × the mirror's turn` : "–"]]);
+  $("roWork").innerHTML = `<b>Why 2θ:</b> the normal turns ${ro.phi}°, so i changes from ${ro.i}° to ${nf(inew,0)}° and r changes by the same amount: the reflected ray turns ${ro.phi}° + ${ro.phi}° = ${2*ro.phi}°.`; if(roC) roC.redraw(); }
+$("roI").addEventListener("input",e=>{ ro.i=+e.target.value; roUpd(); }); $("roP").addEventListener("input",e=>{ ro.phi=+e.target.value; roUpd(); });
+// Full-length
+const fl = {H:1.7, e:0.1, x:1};
+function flUpd(){ $("flHo").textContent=`${fl.H.toFixed(2)} m`; $("flEo").textContent=`${fl.e.toFixed(2)} m`; $("flXo").textContent=`${fl.x.toFixed(1)} m`; const eye=fl.H-fl.e, mb=eye/2, mt=(fl.H+eye)/2;
+  setReadout($("flOut"),[["Mirror length needed",`${(mt-mb).toFixed(3)} m`],["Half your height",`${(fl.H/2).toFixed(3)} m`],["Bottom edge height",`${mb.toFixed(3)} m`],["Top edge height",`${mt.toFixed(3)} m`]]);
+  $("flWork").innerHTML = `<b>Top edge</b> is halfway between your eye and the top of your head; <b>bottom edge</b> is halfway between your eye and your feet. Length = ½(${fl.H.toFixed(2)} − ${eye.toFixed(2)}) + ½(${eye.toFixed(2)}) = ½ × ${fl.H.toFixed(2)} m. Distance doesn't appear anywhere.`; if(flC) flC.redraw(); }
+[["flH","H"],["flE","e"],["flX","x"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ fl[k]=+e.target.value; flUpd(); }));
+// Periscope
+const pc = {a:45, b:45};
+function pcUpd(){ $("pcAo").textContent=`${pc.a}°`; $("pcBo").textContent=`${pc.b}°`; const P=periscope(pc.a,pc.b), out = P.d2? Math.atan2(P.d2[1],-P.d2[0])/DEG : null;
+  setReadout($("pcOut"),[["Mirrors parallel?",pc.a===pc.b?"Yes":"No"],["Light reaches your eye?",P.ok?"Yes":"No"],["Exit direction",out==null?"misses the bottom mirror":Math.abs(out)<1?"level, towards your eye":`${nf(Math.abs(out),0)}° ${out>0?"upwards":"downwards"} from level`]]); if(pcC) pcC.redraw(); }
+$("pcA").addEventListener("input",e=>{ pc.a=+e.target.value; pcUpd(); }); $("pcB").addEventListener("input",e=>{ pc.b=+e.target.value; pcUpd(); });
+
+/* ================= CREATE CANVASES ================= */
+let ptC=null, ltC=null, dsC=null, dsG=null, roC=null, flC=null, pcC=null;
+const hero = makeCanvas($("heroCanvas"), 0.75, 240, s => { const t=reduce?0:heroT; drawRays(s.ctx,s.w,s.h,{P:[-22+8*Math.sin(t*0.6),6*Math.cos(t*0.45)],showEye:true}); }, 440);
+ptC = makeCanvas($("ptC"), 0.55, 280, s => drawRays(s.ctx,s.w,s.h,{P:pt.P,showEye:pt.e,normals:pt.n}), 460);
+drag($("ptC"),(x,y)=>{ const g=rayGeom(ptC.w,ptC.h), [wx,wy]=g.inv(x,y); pt.P=[Math.max(-45,Math.min(-4,+wx.toFixed(1))),Math.max(-18,Math.min(18,+wy.toFixed(1)))]; ptUpd(); });
+ltC = makeCanvas($("ltC"), 0.3, 150, s => drawWriting(s.ctx,s.w,s.h,{word:lt.word}), 240);
+dsC = makeCanvas($("dsC"), 0.36, 200, s => drawWalk(s.ctx,s.w,s.h,{d:ds.d}), 300);
+dsG = makeCanvas($("dsG"), 0.7, 200, s => { bg(s.ctx,s.w,s.h); const fr=frame(s.ctx,s.w,s.h,{x0:0,x1:4,y0:0,y1:8.5,xl:"you → mirror (m)",yl:"you → image (m)",compact:true,xt:1,yt:2}), f=dsFit(); if(f) line(s.ctx,fr.X(0),fr.Y(f.c),fr.X(4),fr.Y(f.c+f.m*4),C.terra,2.5); ds.rows.forEach(([a,b])=>circle(s.ctx,fr.X(a),fr.Y(b),4,C.surface,C.ink,2)); }, 320);
+roC = makeCanvas($("roC"), 0.5, 260, s => drawRot(s.ctx,s.w,s.h,ro), 420);
+flC = makeCanvas($("flC"), 0.5, 280, s => drawFull(s.ctx,s.w,s.h,fl), 440);
+pcC = makeCanvas($("pcC"), 0.55, 280, s => drawPeri(s.ctx,s.w,s.h,pc), 440);
+predC = makeCanvas($("predC"), 0.42, 160, s => { bg(s.ctx,s.w,s.h,C["surface-2"]); const cw=(s.w-32)/2;
+  [["✓","True",1],["✗","False",0]].forEach(([sym,l,v],i)=>{ const x=16+i*cw, hit=pd.shown&&PRED[pd.k][1]===v; rr(s.ctx,x+4,16,cw-8,s.h-32,14); s.ctx.fillStyle=hit?C.terra:C.surface; s.ctx.fill(); s.ctx.strokeStyle=C.line; s.ctx.stroke();
+    text(s.ctx,sym,x+cw/2,s.h/2-2,hit?C["on-accent"]||"#fff":C.ink,F(s.w<380?20:28,800),"center"); text(s.ctx,l,x+cw/2,s.h/2+22,hit?C["on-accent"]||"#fff":C.muted,F(13),"center"); }); }, 240);
+pdNew();
+const MINI = {
+  rays:(s,o)=>drawRays(s.ctx,s.w,s.h,{...o,compact:true}),
+  text:(s,o)=>drawWriting(s.ctx,s.w,s.h,{...o,compact:true}),
+  walk:(s,o)=>drawWalk(s.ctx,s.w,s.h,{...o,compact:true}),
+  rot:(s,o)=>drawRot(s.ctx,s.w,s.h,{...o,compact:true}),
+  full:(s,o)=>drawFull(s.ctx,s.w,s.h,{...o,compact:true}),
+  peri:(s,o)=>drawPeri(s.ctx,s.w,s.h,{...o,compact:true}),
+};
+document.querySelectorAll("canvas[data-learn]").forEach(el=>{ const [kind,o]=LEARN[el.dataset.learn].vis[+el.dataset.k]; makeCanvas(el, kind==="text"||kind==="walk"?0.42:0.62, 150, s=>MINI[kind](s,o), 380); });
+const INFO = { rays:["rays",{P:[-18,0],showEye:false}], text:["text",{word:"AMBULANCE"}], rot:["rot",{i:30,phi:10}] };
+document.querySelectorAll("canvas[data-mini]").forEach(el=>{ const [k,o]=INFO[el.dataset.mini]; makeCanvas(el,0.7,160,s=>MINI[k](s,{...o,bgc:C["surface-2"]})); });
+ptUpd(); ltUpd(); dsUpd(); roUpd(); flUpd(); pcUpd();
+
+/* ================= LOOP / THEME / START ================= */
+if(!reduce){ (function loop(t){ heroT=t/1000; if(view==="overview" && hero.el.offsetParent) hero.redraw(); requestAnimationFrame(loop); })(0); }
+const rerender=()=>{ readColors(); sims.forEach(s=>{ if(s.el.offsetParent) s.redraw(); else s.w=0; }); if(view==="mindmap") drawMindMap(); };
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",rerender);
+new MutationObserver(rerender).observe(root,{attributes:true,attributeFilter:["data-theme","data-font"]});
+if(document.fonts) document.fonts.ready.then(rerender);
+const startHash = (location.hash||"").slice(1);
+show(VIEWS.includes(startHash)? startHash : "overview", {keepScroll:true});
+})();
+</script>
+

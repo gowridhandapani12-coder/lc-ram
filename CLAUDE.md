@@ -16,7 +16,7 @@ https://gowridhandapani12-coder.github.io/lc-ram/
   https://library.folens.ie (MY FOLENS login; the user signs in, in their own Chrome). Use it only for the chapter and
   section titles, the order of topics and what each section covers. **Never copy its text, figures, worked examples or
   exercises.** All explanations, labs and questions on these pages are original.
-- Chapter list: `physics/chapters.json` (chapters 1–25 from the contents pages; sections listed for chapters 1–2 so
+- Chapter list: `physics/chapters.json` (chapters 1–25 from the contents pages; sections listed for chapters 1, 2, 15 and 17 so
   far; read further contents pages to add more).
 - Assessment info follows the new Physics specification (written exam 60%, Physics in Practice Investigation 40%).
   Practice questions are labelled as not official SEC papers.
@@ -28,6 +28,8 @@ https://gowridhandapani12-coder.github.io/lc-ram/
   copies the shared blocks (head/CSS, top bar, flashcards, quiz, glossary, router, theme) from
   `tools/reference-page.html` (a copy of the Study Lab's Applied Maths 1.1 page), and `@@SIDEBAR:<section>@@` becomes
   the chapter list from `physics/chapters.json`. Rebuild older pages after adding one so their sidebars link to it.
+- Pages that already exist in the Study Lab can be adapted instead: `node tools/adapt-page.js ../leaving-cert-study/physics/<page>.html tools/templates/<page>.json`
+  (swaps the localStorage prefix, branding and sidebar; see `ch15-7.json`). Re-run it after adding pages.
 - Then `node tools/site.js` adds the subject tabs and regenerates `index.html` and `physics/index.html`.
 - File names: `ch<chapter>-<section>-<slug>.html`. localStorage prefix `lr<chapter><section>-` (e.g. `lr13-`);
   theme/font keys `lr-theme` / `lr-font`.

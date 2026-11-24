@@ -12,11 +12,14 @@ Follows *Real World Physics* (2nd edition, Folens). Sections are built as the us
 | 1.6 | Unit analysis | | To do |
 | 2.1 | Understanding the nature of light | | To do |
 | 2.2 | Vision and light | | To do |
-| 2.3 | Types of reflection | | To do |
-| 2.4 | The laws of reflection of light | | To do |
+| 2.3 | Types of reflection | `ch2-3-types-of-reflection.html` | Done (2026-11-24) |
+| 2.4 | The laws of reflection of light | `ch2-4-laws-of-reflection.html` | Done (2026-11-24) |
 | 2.5 | The image produced in a plane mirror | `ch2-5-plane-mirror-image.html` | Done (2026-11-24) |
 | 2.6 | Uses of mirrors in technological and medical contexts | | To do |
-| 3–25 | Refraction of Light … Magnets and Magnetic Fields | | Sections to be read from the book's contents |
+| 3–14 | Refraction of Light … | | Sections to be read from the book's contents |
+| 15.7 | The Doppler effect | `ch15-7-doppler-effect.html` | Done (2026-11-24), adapted from the Study Lab page |
+| 17.6 | The electromagnetic spectrum | `ch17-6-electromagnetic-spectrum.html` | Done (2026-11-24), adapted from the Study Lab page (also covers 17.5 and 17.7) |
+| 16–25 (rest) | … Magnets and Magnetic Fields | | Sections for 15 and 17 listed in `chapters.json`; others to be read |
 
 ## 1.3 contents
 
@@ -34,8 +37,28 @@ symmetric letters) · Collect & fit (you → image vs you → mirror, gradient 2
 45°). 5 goals, 25 flashcards, 16 quiz questions, 34 glossary terms, 6 trainer types, "true or false?" drill,
 3 long questions.
 
+## 2.3 contents
+
+Labs: Where does the light go? (reflected/absorbed/transmitted by material) · Collect & fit (spread of reflected rays vs
+surface roughness) · Who can see it? (mirror vs paper, six observers) · Glass and water (partial reflection vs angle,
+Schlick approximation) · Glossy or matt? · Luminous or not? (sorter). 5 goals, 24 flashcards, 16 quiz questions,
+35 glossary terms, 4 trainer types, "diffuse, regular or both?" drill, 3 long questions.
+
+## 2.4 contents
+
+Labs: Name the parts (label 7 spots) · Ray tracer (i = r, angle between rays 2i) · Collect & fit (ray box experiment,
+r against i, gradient 1) · Run it backwards (reversibility) · Two mirrors (i₂ = θ − i₁, corner reflector at 90°) ·
+Hit the target (tilt the mirror; ray turns 2θ). 5 goals, 25 flashcards, 16 quiz questions, 35 glossary terms,
+4 trainer types, "true or false?" drill, 3 long questions.
+
+## 15.7 and 17.6
+
+Adapted from the Study Lab pages `physics/s2-7-doppler.html` and `physics/s2-4-electromagnetic-energy.html` with
+`node tools/adapt-page.js <source> tools/templates/<page>.json` (new prefix, LC Ram sidebar and branding).
+
 ## Run log
 
 | Date | Built | Weekly usage before → after |
 |------|-------|-----------------------------|
 | 2026-11-24 | Project set up; 1.3 and 2.5 (asked for by the user) | 49% → 55% (5-hour window 18% → 58%) |
+| 2026-11-24 | 2.3, 2.4 (new), 15.7, 17.6 (adapted) (asked for by the user) | 55% → 58% (5-hour window → 81%) |

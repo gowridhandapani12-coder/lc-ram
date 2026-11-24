@@ -1,0 +1,617 @@
+@@INC <title> ||| <!-- ================= TOP BAR@@<style>
+.cards2{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px}
+.cards2 button{text-align:left;max-width:100%;white-space:normal}
+.cards2 button.done{opacity:.45}
+.cards2 button.sel{outline:3px solid var(--terra)}
+</style>
+@@INC <!-- ================= TOP BAR ||| <!-- ================= SIDEBAR@@<!-- ================= SIDEBAR ================= -->
+  <aside class="side" id="side" aria-label="Course navigation">
+    <div>
+      <h4>This section</h4>
+      <div class="topiclist" id="topicList"></div>
+    </div>
+    <div class="course">
+      <h4>Chapters</h4>
+@@SIDEBAR:2.4@@
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- ================= OVERVIEW ================= -->
+    <section class="view" data-view="overview">
+      <div class="hero">
+        <div>
+          <span class="pill t">Chapter 2 · Reflection of Light · 2.4</span>
+          <h1 style="margin-top:12px">Two rules.<br>Every mirror.<br><em>Angle in = angle out.</em></h1>
+          <p class="lede">Every reflection, from a bathroom mirror to a laser bouncing off the Moon, follows the same two laws. Learn the names of the rays and angles, prove the laws with a ray box, and use them to aim light exactly where you want it.</p>
+          <div class="cta"><button class="primary" data-go="learn">Start learning</button><button data-go="labs">Open the labs</button><button data-go="quiz">Test yourself</button></div>
+        </div>
+        <div class="herobox"><canvas id="heroCanvas" aria-label="Animated ray reflecting from a plane mirror with the angles of incidence and reflection marked equal"></canvas></div>
+      </div>
+      <div class="stats">
+        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/5</b><div class="prog"><i id="stLOb"></i></div></div>
+        <div class="panel stat"><span>Flashcards you know</span><b id="stFC">0</b><div class="prog"><i id="stFCb"></i></div></div>
+        <div class="panel stat"><span>Best quiz score</span><b id="stQZ">–</b><div class="prog"><i id="stQZb"></i></div></div>
+      </div>
+      <div>
+        <div class="head" style="margin-bottom:14px"><h2>Six topics</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
+        <div class="topics" id="topicCards"></div>
+      </div>
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">By the end of this section</p><h2>You should be able to</h2></div><p style="font-size:.88rem">Tick each one when you're confident. Saved on this device.</p></div>
+        <ul class="lo-list" id="loList"></ul>
+        <p class="result" style="margin-top:10px">This page follows section 2.4 of Real World Physics (2nd edition), in Chapter 2 Reflection of Light. Before: 2.3 Types of reflection. Next: 2.5 The image produced in a plane mirror. The explanations, labs and questions here are our own.</p>
+      </div>
+    </section>
+
+    <!-- ================= LEARN ================= -->
+    <section class="view" data-view="learn" hidden>
+      <div class="head"><div><p class="eyebrow">Visual notes</p><h2>Learn</h2></div><p>Picture first, three key ideas, one common mistake. Then open the lab and try it.</p></div>
+      <div class="learn" id="learnList"></div>
+    </section>
+
+    <!-- ================= LABS ================= -->
+    <section class="view" data-view="labs" hidden>
+      <div class="head"><div><p class="eyebrow">Interactive</p><h2>Labs</h2></div><p>Change the angles and watch the rays. Every result updates live.</p></div>
+      <div class="labtabs" id="labTabs"></div>
+
+      <div class="lab" data-lab="terms">
+        <div class="labhead"><span class="pill t">Name the parts</span><p class="goal">Tap a term, then tap the numbered spot on the diagram it belongs to. Get all seven right.</p></div>
+        <div class="panel sim">
+          <canvas id="tmC" aria-label="Ray diagram of reflection at a plane mirror with seven numbered spots to label"></canvas>
+          <div class="cards2" id="tmCards"></div>
+          <div class="controls"><div class="ctl"><span class="lbl">Labeller</span><div class="btns"><button id="tmReset">Start again</button></div></div></div>
+          <div class="readout" id="tmOut"></div>
+          <div class="fbbox" id="tmFb"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Which line is drawn at 90° to the mirror?</div><div class="try"><b>2</b>Are the angles measured from the mirror or from the normal?</div><div class="try"><b>3</b>Where exactly is the point of incidence?</div></div>
+      </div>
+
+      <div class="lab" data-lab="laws" hidden>
+        <div class="labhead"><span class="pill t">Ray tracer</span><p class="goal">Change the angle of incidence. The reflected ray always leaves at the same angle to the normal, on the other side.</p></div>
+        <div class="panel sim">
+          <canvas id="lwC" aria-label="Incident and reflected rays at a plane mirror, with the normal and both angles marked"></canvas>
+          <div class="controls"><div class="ctl"><label for="lwI">Angle of incidence <output id="lwIo">35°</output></label><input type="range" id="lwI" min="0" max="85" step="1" value="35"></div></div>
+          <div class="readout" id="lwOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Set i = 0°. Where does the reflected ray go?</div><div class="try"><b>2</b>Set i = 30°. What is the angle between the two rays?</div><div class="try"><b>3</b>Set i = 80°. What angle does the ray make with the mirror itself?</div></div>
+      </div>
+
+      <div class="lab" data-lab="experiment" hidden>
+        <div class="labhead"><span class="pill t">Collect &amp; fit</span><p class="goal">The classic experiment: shine a ray box at a mirror, mark the rays, draw the normal and measure i and r with a protractor. Each reading has a small measuring error. Plot r against i.</p></div>
+        <div class="panel sim">
+          <canvas id="exC" aria-label="Ray box ray hitting a plane mirror over a protractor"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="exI">Angle of incidence <output id="exIo">20°</output></label><input type="range" id="exI" min="5" max="80" step="5" value="20"></div>
+            <div class="ctl"><span class="lbl">Data</span><div class="btns"><button class="primary" id="exRec">Measure r</button><button id="exClr">Clear</button></div></div>
+          </div>
+          <div class="datapanel">
+            <div class="tablewrap"><table><thead><tr><th>i (°)</th><th>r measured (°)</th></tr></thead><tbody id="exTable"></tbody></table></div>
+            <div class="graphbox"><canvas id="exG" aria-label="Graph of angle of reflection against angle of incidence with a line of best fit"></canvas><p class="result" id="exRes"></p></div>
+          </div>
+          <div class="readout" id="exOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Measure at least six angles. What is the gradient of the line?</div><div class="try"><b>2</b>Why doesn't every point land exactly on r = i?</div><div class="try"><b>3</b>What would the graph look like if the law were wrong?</div></div>
+      </div>
+
+      <div class="lab" data-lab="reverse" hidden>
+        <div class="labhead"><span class="pill t">Run it backwards</span><p class="goal">Light goes from A to B by reflecting off a mirror. Reverse it: light from B follows exactly the same path back to A.</p></div>
+        <div class="panel sim">
+          <canvas id="rvC" aria-label="Light travelling between points A and B by reflecting off a mirror, in either direction"></canvas>
+          <div class="controls">
+            <div class="ctl"><span class="lbl">Light starts at</span><div class="btns" id="rvD"><button data-d="0" aria-pressed="true">A</button><button data-d="1" aria-pressed="false">B</button></div></div>
+            <div class="ctl"><label for="rvI">Angle <output id="rvIo">40°</output></label><input type="range" id="rvI" min="5" max="80" step="1" value="40"></div>
+          </div>
+          <div class="readout" id="rvOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Switch between A and B. Does the path change?</div><div class="try"><b>2</b>Which angle was the angle of incidence before, and which is it now?</div><div class="try"><b>3</b>If you can see someone's eyes in a mirror, can they see yours?</div></div>
+      </div>
+
+      <div class="lab" data-lab="two" hidden>
+        <div class="labhead"><span class="pill t">Two mirrors</span><p class="goal">Two mirrors meet at a corner. A ray reflects off one and then the other. At 90° the ray comes straight back the way it came, parallel to itself.</p></div>
+        <div class="panel sim">
+          <canvas id="twC" aria-label="Ray bouncing between two mirrors that meet at an adjustable angle"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="twT">Angle between mirrors <output id="twTo">90°</output></label><input type="range" id="twT" min="60" max="130" step="1" value="90"></div>
+            <div class="ctl"><label for="twI">First angle of incidence <output id="twIo">35°</output></label><input type="range" id="twI" min="10" max="75" step="1" value="35"></div>
+          </div>
+          <div class="readout" id="twOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>At 90°, change the first angle. Does the ray still come back parallel?</div><div class="try"><b>2</b>Check: angle of incidence at mirror 2 = (angle between mirrors) − (first angle).</div><div class="try"><b>3</b>Why are bicycle reflectors made of tiny 90° corners?</div></div>
+      </div>
+
+      <div class="lab" data-lab="aim" hidden>
+        <div class="labhead"><span class="pill t">Hit the target</span><p class="goal">A lamp shines on a mirror you can tilt. Use the law of reflection to turn the mirror so the reflected ray hits the target.</p></div>
+        <div class="panel sim">
+          <canvas id="amC" aria-label="Lamp, tiltable mirror and a target; the reflected ray must hit the target"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="amP">Mirror tilt <output id="amPo">0°</output></label><input type="range" id="amP" min="-35" max="35" step="1" value="0"></div>
+            <div class="ctl"><span class="lbl">Target</span><div class="btns"><button class="primary" id="amNew">New target</button></div></div>
+          </div>
+          <div class="readout" id="amOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Hit three targets. Which way do you turn the mirror to move the ray up?</div><div class="try"><b>2</b>Turn the mirror by 5°. How far does the reflected ray turn?</div><div class="try"><b>3</b>When you hit the target, does i still equal r?</div></div>
+      </div>
+    </section>
+
+    <!-- ================= MIND MAP ================= -->
+    <section class="view" data-view="mindmap" hidden>
+      <div class="head"><div><p class="eyebrow">See the big picture</p><h2>Mind map</h2></div><p>Tap any bubble to see what it means and jump to its lab.</p></div>
+      <div class="panel pad mmdetail" id="mmDetail"></div>
+      <div class="panel mmwrap"><svg id="mm" viewBox="0 0 1100 780" role="img" aria-label="Mind map of the laws of reflection"></svg></div>
+    </section>
+
+    <!-- ================= INFOGRAPHICS ================= -->
+    <section class="view" data-view="infographics" hidden>
+      <div class="head"><div><p class="eyebrow">Picture it</p><h2>The two laws</h2></div><p>Learn them word for word.</p></div>
+      <div class="cases" id="cases"></div>
+
+      <div class="head"><div><p class="eyebrow">Three angles</p><h2>i = r every time</h2></div></div>
+      <div class="boundary">
+        <div class="panel case"><canvas class="mini" data-mini="a15"></canvas><h3>i = 15°</h3><p>r = 15°. The rays are close to the normal.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="a45"></canvas><h3>i = 45°</h3><p>r = 45°. The two rays are at 90° to each other.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="a75"></canvas><h3>i = 75°</h3><p>r = 75°. The ray just grazes the mirror.</p></div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:16px"><div><p class="eyebrow">Angle between the rays</p><h2>It's always 2 × i</h2></div><p>The angle between the incident and reflected rays, out of a maximum of 180°.</p></div>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="head"><div><p class="eyebrow">The laws at work</p><h2>Where you'll see them</h2></div></div>
+      <div class="around" id="around"></div>
+    </section>
+
+@@INC <!-- ================= FLASHCARDS ||| <!-- ================= EXAM PREP@@<!-- ================= EXAM PREP ================= -->
+    <section class="view" data-view="exam" hidden>
+      <div class="head"><div><p class="eyebrow">Get exam ready</p><h2>Exam prep</h2></div><p>How Physics is assessed, what the question words mean, and practice with feedback.</p></div>
+
+      <div class="exgrid">
+        <div class="panel pad donutbox">
+          <svg viewBox="0 0 160 160" class="donut" aria-label="Assessment split: 60% written exam, 40% Physics in Practice Investigation">
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--sage)" stroke-width="26"/>
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--terra)" stroke-width="26" stroke-dasharray="218.7 364.4" transform="rotate(-90 80 80)"/>
+            <text x="80" y="76" text-anchor="middle" class="dn1">60 / 40</text><text x="80" y="96" text-anchor="middle" class="dn2">of your grade</text>
+          </svg>
+          <div class="splits">
+            <div><i style="background:var(--terra)"></i><div><b>Written exam · 60%</b><p>Higher or Ordinary level, set by the SEC.</p></div></div>
+            <div><i style="background:var(--sage)"></i><div><b>Physics in Practice Investigation · 40%</b><p>Done in 6th year from an SEC brief.</p></div></div>
+          </div>
+        </div>
+        <div class="panel pad">
+          <h3 style="margin-bottom:10px">Top exam tips for the laws of reflection</h3>
+          <ol class="tips">
+            <li>Learn both laws <b>word for word</b>: same plane; angle of incidence = angle of reflection.</li>
+            <li>Angles are measured from the <b>normal</b>, never from the mirror.</li>
+            <li>If a question gives the angle to the <b>mirror</b>, subtract it from 90° first.</li>
+            <li>The angle <b>between</b> the incident and reflected rays is 2i.</li>
+            <li>In the experiment, draw the normal with a <b>protractor or set square</b> at 90° to the mirror line.</li>
+            <li>Repeat for <b>at least five</b> angles and show r = i each time (or plot r against i: a straight line through the origin, gradient 1).</li>
+            <li>Every ray diagram needs <b>arrows</b> on the rays and a dashed normal.</li>
+            <li>The questions here are practice questions, not official SEC papers.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Read the question</p><h2>Question words</h2></div><p>Common instructions in questions on the laws of reflection.</p></div>
+        <div class="cmds" id="cmds"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad practice">
+          <div class="head"><div><p class="eyebrow">Angle practice</p><h2>Calculation trainer</h2></div></div>
+          <div class="btns" id="prType"></div>
+          <div class="pq" id="pq"></div>
+          <div class="pa"><input id="paIn" type="text" inputmode="decimal" placeholder="Your answer" aria-label="Your answer" autocomplete="off"><span id="paUnit" class="mono"></span><button class="primary" id="paCheck">Check</button><button id="paShow">Show solution</button><button id="paNext">New question</button></div>
+          <div id="paFb"></div>
+          <p class="result" id="paScore"></p>
+        </div>
+        <div class="panel pad predict">
+          <div class="head"><div><p class="eyebrow">Quick-fire drill</p><h2>True or false?</h2></div></div>
+          <canvas id="predC" aria-label="True and false boxes; the right one lights up after you check"></canvas>
+          <p class="result" id="predQ"></p>
+          <div class="predopts" id="predOpts"><div class="btns"><button data-a="1">True</button><button data-a="0">False</button></div></div>
+          <div class="btns"><button class="primary" id="predCheck">Check</button><button id="predNext">Next one</button></div>
+          <div id="predFb"></div>
+        </div>
+      </div>
+
+@@INC <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Practice questions ||| <!-- ================= FORMULAE@@<!-- ================= FORMULAE ================= -->
+    <section class="view" data-view="formulae" hidden>
+      <div class="head"><div><p class="eyebrow">Revision</p><h2>Summary sheet</h2></div><p>The laws of reflection on one page.</p></div>
+      <div class="sheet">
+        <div class="panel fcell"><span class="pill">Law 1</span><span class="big">Incident ray, normal and reflected ray all lie in the same plane</span></div>
+        <div class="panel fcell"><span class="pill">Law 2</span><span class="big">∠i = ∠r</span><dl><dt>i</dt><dd>angle of incidence (incident ray to normal)</dd><dt>r</dt><dd>angle of reflection (reflected ray to normal)</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Normal</span><span class="big">90° to the mirror at the point of incidence</span><dl><dt>Drawn</dt><dd>as a dashed line</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Angle to mirror</span><span class="big">i = 90° − (angle to mirror)</span><div class="ex">ray at 25° to mirror → i = 65°</div></div>
+        <div class="panel fcell"><span class="pill">Between rays</span><span class="big">angle between incident and reflected = 2i</span><div class="ex">i = 30° → 60°</div></div>
+        <div class="panel fcell"><span class="pill">Reversible</span><span class="big">Light can travel either way along the same path</span></div>
+        <div class="panel fcell"><span class="pill a">Two mirrors (HL)</span><span class="big">i₂ = θ − i₁</span><dl><dt>θ</dt><dd>angle between the mirrors</dd></dl><div class="ex">θ = 90°: ray returns parallel to itself</div></div>
+        <div class="panel fcell"><span class="pill a">Turn the mirror</span><span class="big">mirror turns θ → reflected ray turns 2θ</span></div>
+        <div class="panel fcell"><span class="pill a">Experiment</span><span class="big">Ray box, plane mirror, paper, protractor</span><dl><dt>Result</dt><dd>graph of r against i: straight line through origin, gradient 1</dd></dl></div>
+      </div>
+      <footer>
+        <p>Follows the structure of section 2.4 of Real World Physics (2nd edition, Folens). All explanations, labs and questions on this page are original.</p>
+      </footer>
+    </section>
+  </main>
+</div>
+</div>
+
+@@INC <script> ||| /* ---------- icons + topics@@/* ---------- icons + topics ---------- */
+const ICON = {
+  terms:'<path d="M3 20h18M12 20V5"/><path d="M5 8l7 12 7-12"/>',
+  laws:'<path d="M3 20h18M12 20V6" stroke-dasharray="2 2"/><path d="M5 9l7 11 7-11"/><path d="M9 14a4 4 0 016 0"/>',
+  experiment:'<rect x="3" y="4" width="7" height="5" rx="1"/><path d="M10 6.5l7 11M3 20h18"/>',
+  reverse:'<path d="M4 8h13l-3-3M20 16H7l3 3"/>',
+  two:'<path d="M4 20h16M4 20V4"/><path d="M18 14L8 17 6 6"/>',
+  aim:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
+  bike:'<circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l5-8h5l2 8M11 8l-2-3"/>',
+  moon:'<path d="M20 14A8 8 0 1110 4a6 6 0 0010 10z"/>',
+  kaleido:'<path d="M12 3l9 16H3z"/><path d="M12 9l3 6H9z"/>',
+  ball:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8" cy="10" r="1.5"/><path d="M9 11l5 6 5-6"/>',
+};
+const svg = (k,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
+const TOPICS = [
+  {id:"terms", name:"Rays, normal, angles", short:"Incident ray, reflected ray, normal, angle of incidence, angle of reflection.", tint:"var(--blush)"},
+  {id:"laws", name:"The two laws", short:"Same plane; angle of incidence = angle of reflection.", tint:"var(--apricot)"},
+  {id:"experiment", name:"The experiment", short:"Ray box, mirror, protractor: show that r = i for several angles.", tint:"var(--sage)"},
+  {id:"reverse", name:"Reversibility", short:"Light can travel back along exactly the same path.", tint:"var(--cream)"},
+  {id:"two", name:"Two mirrors", short:"Follow a ray through two reflections; corner reflectors send light back.", tint:"var(--blush)"},
+  {id:"aim", name:"Using the laws", short:"Turn a mirror to send light exactly where you want it.", tint:"var(--sage)"},
+];
+const tname = id => TOPICS.find(t=>t.id===id).name;
+const LO = [
+  ["terms","define incident ray, reflected ray, normal, angle of incidence and angle of reflection"],
+  ["laws","state the two laws of reflection"],
+  ["experiment","describe an experiment to verify the laws of reflection"],
+  ["reverse","explain the reversibility of light"],
+  ["two","use the laws to solve problems with one or two mirrors"],
+];
+const LO_HEAD = {terms:"Section 2.4",laws:"Section 2.4",experiment:"Section 2.4",reverse:"Section 2.4",two:"Section 2.4"};
+
+/* ---------- glossary ---------- */
+const GLOSS = [
+  ["Reflection","","The bouncing of light off a surface.","laws"],
+  ["Laws of reflection","","1: the incident ray, the normal and the reflected ray all lie in the same plane. 2: the angle of incidence equals the angle of reflection.","laws"],
+  ["Incident ray","","The ray of light travelling towards the mirror.","terms"],
+  ["Reflected ray","","The ray of light travelling away from the mirror after reflection.","terms"],
+  ["Point of incidence","","The point on the mirror where the incident ray strikes it.","terms"],
+  ["Normal","","A line drawn at 90° to the mirror at the point of incidence.","terms"],
+  ["Angle of incidence","i","The angle between the incident ray and the normal.","terms"],
+  ["Angle of reflection","r","The angle between the reflected ray and the normal.","terms"],
+  ["Glancing angle","","The angle between a ray and the mirror surface itself; equals 90° − i.","terms"],
+  ["Plane","","A flat surface; here, the flat sheet that the three lines all lie in.","laws"],
+  ["Plane mirror","","A flat mirror.","laws"],
+  ["Perpendicular","","At right angles (90°).","terms"],
+  ["Ray","","A line with an arrow showing the path and direction of light.","terms"],
+  ["Ray diagram","","A drawing that uses rays to show where light goes.","terms"],
+  ["Ray box","","A lamp with a slit that gives a narrow ray of light.","experiment"],
+  ["Protractor","","An instrument for measuring angles in degrees.","experiment"],
+  ["Set square","","A triangle used to draw a 90° line, e.g. the normal.","experiment"],
+  ["Optical pins","","Pins used to mark the path of a ray on paper when a ray box isn't used.","experiment"],
+  ["Verify","","Show by experiment that something is true.","experiment"],
+  ["Line of best fit","","A straight line drawn through or near most plotted points.","experiment"],
+  ["Gradient","slope","Rise over run of a graph; 1 for a graph of r against i.","experiment"],
+  ["Random error","","Small unpredictable scatter in readings, e.g. reading a protractor.","experiment"],
+  ["Thick ray error","","Error from the width of the ray; mark the centre of the ray to reduce it.","experiment"],
+  ["Reversibility of light","principle of reversibility","If light travels from A to B along a path, light from B can travel to A along the same path.","reverse"],
+  ["Line of sight","","The straight path from an object to the eye.","reverse"],
+  ["Corner reflector","retroreflector","Mirrors (or prism faces) at 90° that send light back parallel to the direction it came from.","two"],
+  ["Cat's eye","","A road stud that reflects headlights back to the driver.","two"],
+  ["Deviation","","The angle a ray has been turned through.","two"],
+  ["Angle between mirrors","θ","The angle at the corner where two mirrors meet.","two"],
+  ["Kaleidoscope","","A tube with mirrors at an angle that gives repeated, symmetric images.","two"],
+  ["Periscope","","Two parallel mirrors at 45° that let you see over obstacles (more in 2.5).","two"],
+  ["Rotating mirror","","Turning a mirror by an angle θ turns the reflected ray by 2θ.","aim"],
+  ["Target","","The point you want the reflected light to reach.","aim"],
+  ["Lunar laser ranging","","Bouncing lasers off corner reflectors left on the Moon to measure its distance.","two"],
+  ["Angle of deviation","","The angle between the original direction of the ray and its final direction.","two"],
+].map(([t,aka,d,topic,f])=>({t,aka,d,topic,f,id:"g-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+t.length}));
+const glossBy = t => GLOSS.find(g=>g.t===t);
+const GL_LINKS = [["angle of incidence","Angle of incidence"],["angle of reflection","Angle of reflection"],["incident ray","Incident ray"],["reflected ray","Reflected ray"],["point of incidence","Point of incidence"],["normal","Normal"],["corner reflector","Corner reflector"],["reversibility","Reversibility of light"],["glancing angle","Glancing angle"]];
+@@INC function autoLink(str){ ||| /* ================= MODELS + DRAWINGS@@/* ================= MODELS + DRAWINGS ================= */
+const DEG = Math.PI/180;
+function pointerTap(el,fn){ el.addEventListener("pointerdown",e=>{ const r=el.getBoundingClientRect(); fn(e.clientX-r.left,e.clientY-r.top); }); }
+function arrowOnLine(ctx,x1,y1,x2,y2,col,f=0.55,s=8){ const x=x1+(x2-x1)*f, y=y1+(y2-y1)*f, L=Math.hypot(x2-x1,y2-y1)||1; arrowHead(ctx,x,y,(x2-x1)/L,(y2-y1)/L,col,s); }
+function arcAng(ctx,x,y,r,a0,a1,col,lw=2){ ctx.save(); ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.beginPath(); ctx.arc(x,y,r,Math.min(a0,a1),Math.max(a0,a1)); ctx.stroke(); ctx.restore(); }
+function mirrorLine(ctx,x1,y1,x2,y2,cp){ line(ctx,x1,y1,x2,y2,C.ink,cp?3:5); const L=Math.hypot(x2-x1,y2-y1), ux=(x2-x1)/L, uy=(y2-y1)/L, nx=-uy, ny=ux, n=Math.floor(L/(cp?9:12));
+  for(let k=0;k<=n;k++){ const px=x1+ux*k*L/n, py=y1+uy*k*L/n; line(ctx,px,py,px+(nx-ux)*(cp?5:7),py+(ny-uy)*(cp?5:7),C.muted,1); } }
+// Single-mirror law diagram. Returns key points for labelling.
+function drawLaw(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, gy=h*0.82, cx=w/2, L=Math.min(gy-18, w*0.42), i=(o.i??35)*DEG, rv=!!o.rev;
+  if(o.prot){ ctx.save(); ctx.beginPath(); ctx.arc(cx,gy,L*0.75,Math.PI,2*Math.PI); ctx.closePath(); ctx.fillStyle=C["surface-2"]; ctx.fill(); ctx.strokeStyle=C.line; ctx.stroke(); ctx.restore();
+    for(let a=0;a<=180;a+=10){ const t=(180+a)*DEG, r0=L*0.75, r1=r0-(a%30===0?14:7); line(ctx,cx+Math.cos(t)*r0,gy+Math.sin(t)*r0,cx+Math.cos(t)*r1,gy+Math.sin(t)*r1,C.muted,1); if(!cp&&a%30===0) text(ctx,String(Math.abs(90-a)),cx+Math.cos(t)*(r1-12),gy+Math.sin(t)*(r1-12)+4,C.muted,F(10),"center"); } }
+  mirrorLine(ctx,cx-L*1.1,gy,cx+L*1.1,gy,cp);
+  line(ctx,cx,gy,cx,gy-L*1.02,C.muted,1.5,[5,5]);
+  const S=[cx-Math.sin(i)*L, gy-Math.cos(i)*L], R=[cx+Math.sin(i)*L, gy-Math.cos(i)*L], col=o.col||C.terra;
+  line(ctx,S[0],S[1],cx,gy,col,cp?2.2:3); line(ctx,cx,gy,R[0],R[1],col,cp?2.2:3);
+  if(!rv){ arrowOnLine(ctx,S[0],S[1],cx,gy,col,0.55,cp?6:9); arrowOnLine(ctx,cx,gy,R[0],R[1],col,0.55,cp?6:9); }
+  else { arrowOnLine(ctx,R[0],R[1],cx,gy,col,0.55,cp?6:9); arrowOnLine(ctx,cx,gy,S[0],S[1],col,0.55,cp?6:9); }
+  const ar=L*(o.nums?0.42:cp?0.3:0.24), ia=-Math.PI/2-i, ra=-Math.PI/2+i;
+  if(o.i>0){ arcAng(ctx,cx,gy,ar,ia,-Math.PI/2,C.olive,cp?1.5:2.5); arcAng(ctx,cx,gy,ar*1.12,-Math.PI/2,ra,C.apricot,cp?1.5:2.5);
+    const la=ar+(cp?10:16); text(ctx,o.nums?"":"i",cx+Math.cos(-Math.PI/2-i/2)*la,gy+Math.sin(-Math.PI/2-i/2)*la+4,C.ink,F(cp?11:15,800),"center"); text(ctx,o.nums?"":"r",cx+Math.cos(-Math.PI/2+i/2)*la*1.08,gy+Math.sin(-Math.PI/2+i/2)*la*1.08+4,C.ink,F(cp?11:15,800),"center"); }
+  if(o.labels&&!cp){ text(ctx,rv?"reflected ray":"incident ray",(S[0]+cx)/2-14,(S[1]+gy)/2,C.ink,F(12,800),"right"); text(ctx,rv?"incident ray":"reflected ray",(R[0]+cx)/2+14,(R[1]+gy)/2,C.ink,F(12,800),"left"); text(ctx,"normal",cx+6,gy-L*1.02+12,C.muted,F(12),"left"); text(ctx,"plane mirror",cx+L*1.1,gy+20,C.muted,F(12),"right"); }
+  if(o.ab){ circle(ctx,S[0],S[1],cp?8:12,o.rev?C.surface:C.apricot,C.ink,2); text(ctx,"A",S[0],S[1]+1,C.ink,F(cp?10:13,800),"center","middle"); circle(ctx,R[0],R[1],cp?8:12,o.rev?C.apricot:C.surface,C.ink,2); text(ctx,"B",R[0],R[1]+1,C.ink,F(cp?10:13,800),"center","middle"); }
+  const la=ar+(cp?10:16);
+  return { S, R, P:[cx,gy], N:[cx,gy-L*0.95], M:[cx+L*0.95,gy], Ia:[cx+Math.cos(-Math.PI/2-i/2)*la,gy+Math.sin(-Math.PI/2-i/2)*la], Ra:[cx+Math.cos(-Math.PI/2+i/2)*la*1.08,gy+Math.sin(-Math.PI/2+i/2)*la*1.08], Sm:[(S[0]*0.75+cx*0.25),(S[1]*0.75+gy*0.25)], Rm:[(R[0]*0.75+cx*0.25),(R[1]*0.75+gy*0.25)] }; }
+// Ray tracing between mirror segments
+const reflectV = (d,n) => { const k=d[0]*n[0]+d[1]*n[1]; return [d[0]-2*k*n[0], d[1]-2*k*n[1]]; };
+function traceRay(p,d,mirrors,maxB=6){ const pts=[p.slice()], hits=[]; let cur=p.slice(), dir=d.slice(), last=-1;
+  for(let b=0;b<maxB;b++){ let best=null;
+    mirrors.forEach((m,k)=>{ if(k===last) return; const ex=m[2]-m[0], ey=m[3]-m[1], den=dir[0]*(-ey)-dir[1]*(-ex); if(Math.abs(den)<1e-9) return;
+      const qx=m[0]-cur[0], qy=m[1]-cur[1], t=(qx*(-ey)-qy*(-ex))/den, u=(dir[0]*qy-dir[1]*qx)/den; if(t>1e-6&&u>=0&&u<=1&&(!best||t<best.t)) best={t,k,ex,ey}; });
+    if(!best) break; cur=[cur[0]+dir[0]*best.t, cur[1]+dir[1]*best.t]; pts.push(cur.slice()); const L=Math.hypot(best.ex,best.ey); let n=[-best.ey/L, best.ex/L]; if(n[0]*dir[0]+n[1]*dir[1]>0) n=[-n[0],-n[1]];
+    hits.push({k:best.k, i:Math.acos(Math.min(1,-(n[0]*dir[0]+n[1]*dir[1])))/DEG}); dir=reflectV(dir,n); last=best.k; }
+  return {pts, dir, hits}; }
+function twoSetup(w,h,o){ const cp=w<440, Ox=w*0.12, Oy=h*0.88, M=Math.min(w*0.8, h*1.5), th=o.th*DEG;
+  const m1=[Ox,Oy,Ox+M,Oy], m2=[Ox,Oy,Ox+Math.cos(th)*M*2,Oy-Math.sin(th)*M*2];
+  const i=o.i*DEG, dP=Math.min(M*0.6, 0.75*(Oy-14)/Math.max(0.2,Math.tan((90-o.i)*DEG))), P=[Ox+dP,Oy], L=Math.min(Oy-12,M*0.5), S=[P[0]+Math.sin(i)*L, P[1]-Math.cos(i)*L], d=[-Math.sin(i),Math.cos(i)];
+  return {m1,m2,S,d,cp}; }
+function drawTwo(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const {m1,m2,S,d}=twoSetup(w,h,o), cp=o.compact||w<440;
+  mirrorLine(ctx,m1[2],m1[3],m1[0],m1[1],cp); mirrorLine(ctx,m2[0],m2[1],m2[2],m2[3],cp);
+  if(!cp) text(ctx,`${o.th}°`,m1[0]+26,m1[1]-8,C.muted,F(12,800),"left");
+  const tr=traceRay(S,d,[m1,m2],8), pts=tr.pts; const ext=Math.max(w,h); pts.push([pts[pts.length-1][0]+tr.dir[0]*ext, pts[pts.length-1][1]+tr.dir[1]*ext]);
+  ctx.save(); ctx.beginPath(); ctx.rect(0,0,w,h); ctx.clip();
+  if(o.ghost){ line(ctx,S[0],S[1],S[0]-d[0]*ext,S[1]-d[1]*ext,C.muted,1,[4,5]); }
+  for(let k=0;k<pts.length-1;k++){ line(ctx,pts[k][0],pts[k][1],pts[k+1][0],pts[k+1][1],C.terra,cp?2:3); const sx=pts[k+1][0]-pts[k][0], sy=pts[k+1][1]-pts[k][1], LL=Math.hypot(sx,sy); const f=k===pts.length-2? Math.min(0.5, 80/LL) : 0.5; arrowOnLine(ctx,pts[k][0],pts[k][1],pts[k+1][0],pts[k+1][1],C.terra,f,cp?6:9); }
+  ctx.restore(); circle(ctx,S[0],S[1],cp?5:7,C.apricot,C.ink,1.5);
+  return tr; }
+// Aim lab
+function aimGeom(w,h,phi){ const P=[w*0.5,h*0.8], Lp=[w*0.12,h*0.18], dl=Math.hypot(P[0]-Lp[0],P[1]-Lp[1]), d=[(P[0]-Lp[0])/dl,(P[1]-Lp[1])/dl], p=phi*DEG, n=[Math.sin(p),-Math.cos(p)], r=reflectV(d,n), i=Math.acos(Math.min(1,-(d[0]*n[0]+d[1]*n[1])))/DEG;
+  const b0=Math.atan2(-d[1],d[0]); return {P,Lp,d,n,r,i,b0}; }
+function drawAim(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, g=aimGeom(w,h,o.phi), Lm=Math.min(w*0.16,90), p=o.phi*DEG, D=Math.min(w*0.42,h*0.9);
+  const bt=g.b0+2*o.tgt*DEG, T=[g.P[0]+Math.cos(bt)*D, g.P[1]+Math.sin(bt)*D], hit=Math.abs(o.phi-o.tgt)<=1;
+  [cp?16:24,cp?10:15,cp?4:6].forEach((r,k)=>circle(ctx,T[0],T[1],r,k===1?C.surface:(hit?C.good:C.blush),C.ink,1.5));
+  mirrorLine(ctx,g.P[0]-Math.cos(p)*Lm,g.P[1]-Math.sin(p)*Lm,g.P[0]+Math.cos(p)*Lm,g.P[1]+Math.sin(p)*Lm,cp);
+  line(ctx,g.P[0],g.P[1],g.P[0]+g.n[0]*Lm*1.2,g.P[1]+g.n[1]*Lm*1.2,C.muted,1.2,[4,4]);
+  line(ctx,g.Lp[0],g.Lp[1],g.P[0],g.P[1],C.terra,cp?2:3); arrowOnLine(ctx,g.Lp[0],g.Lp[1],g.P[0],g.P[1],C.terra,0.5,cp?6:9);
+  const E=[g.P[0]+g.r[0]*D*1.3, g.P[1]+g.r[1]*D*1.3]; ctx.save(); ctx.beginPath(); ctx.rect(0,0,w,h); ctx.clip(); line(ctx,g.P[0],g.P[1],E[0],E[1],C.terra,cp?2:3); ctx.restore(); arrowOnLine(ctx,g.P[0],g.P[1],E[0],E[1],C.terra,0.25,cp?6:9);
+  circle(ctx,g.Lp[0],g.Lp[1],cp?8:12,C.apricot,C.terra,2); if(!cp) text(ctx,"lamp",g.Lp[0],g.Lp[1]-18,C.ink,F(12,800),"center");
+  if(!cp&&hit) text(ctx,"Hit!",T[0],T[1]-30,C.good,F(15,800),"center");
+  return {hit,i:g.i}; }
+
+@@INC /* ================= ROUTER ||| /* ================= OVERVIEW@@@@INC /* ================= OVERVIEW ||| let heroT=0;@@let heroT=0;
+
+/* ================= LEARN ================= */
+const LEARN = {
+  terms:{ vis:[["law",{i:40,labels:true}]], cap:"The incident ray comes in, the reflected ray goes out, and both angles are measured from the dashed normal.",
+    keys:[["→","Incident ray: the ray going towards the mirror. Reflected ray: the ray coming away."],["⊥","The normal is a line at 90° to the mirror at the point of incidence."],["∠","Angle of incidence i: incident ray to normal. Angle of reflection r: reflected ray to normal."]],
+    f:"Angles are measured from the normal", mistake:"Measuring the angle from the mirror. That's the glancing angle, 90° − i." },
+  laws:{ vis:[["law",{i:55,labels:true}]], cap:"Whatever the angle of incidence, the angle of reflection matches it on the other side of the normal.",
+    keys:[["1","Law 1: the incident ray, the normal and the reflected ray all lie in the same plane."],["2","Law 2: the angle of incidence equals the angle of reflection."],["✓","Both laws hold for every regular reflection, and at each point of a rough surface too."]],
+    f:"∠i = ∠r", mistake:"Writing 'the angle in equals the angle out'. Say angle of incidence equals angle of reflection." },
+  experiment:{ vis:[["law",{i:30,prot:true}]], cap:"Ray box, plane mirror on paper, and a protractor centred on the point of incidence.",
+    keys:[["✎","Draw a line for the mirror, then the normal at 90° to it. Shine a ray along a marked angle of incidence."],["⋯","Mark the reflected ray with dots or crosses, remove the mirror, join them and measure r."],["↻","Repeat for at least five angles. Each time r = i (within experimental error)."]],
+    f:"Graph of r against i: straight line, gradient 1", mistake:"Forgetting to repeat. One reading can't verify a law." },
+  reverse:{ vis:[["law",{i:40,ab:true,rev:true}]], cap:"Light from B follows the same path back to A: what was the reflected ray becomes the incident ray.",
+    keys:[["⇄","If light can go from A to B, it can go from B to A along the same path."],["👁","If you can see someone in a mirror, they can see you."],["i=r","The angles just swap names: the old r becomes the new i."]],
+    f:"Path A → B = path B → A", mistake:"Thinking the path changes when the light is reversed. It doesn't." },
+  two:{ vis:[["two",{th:90,i:35}]], cap:"Two mirrors at 90°: after two reflections the ray goes back parallel to the way it came.",
+    keys:[["↘↗","Apply i = r at each mirror in turn, drawing a new normal each time."],["∟","At 90° the second angle of incidence is 90° − (first angle)."],["🚲","Corner reflectors send light back towards its source: bike reflectors, cat's eyes, Moon reflectors."]],
+    f:"i₂ = θ − i₁ (θ = angle between mirrors)", mistake:"Using the same normal for both mirrors. Each mirror has its own normal." },
+  aim:{ vis:[["aim",{phi:10,tgt:10}]], cap:"Tilting the mirror tilts the normal, so the reflected ray swings round, twice as far as the mirror.",
+    keys:[["⟳","Turning a mirror turns its normal by the same angle."],["2×","The reflected ray turns through twice the angle the mirror turns."],["🎯","To aim light, make the normal bisect the angle between the incoming ray and the target."]],
+    f:"Mirror turns θ → reflected ray turns 2θ", mistake:"Expecting the reflected ray to turn by the same angle as the mirror." },
+};
+@@INC $("learnList").innerHTML ||| /* ================= INFOGRAPHICS@@/* ================= INFOGRAPHICS ================= */
+const CASES = [
+  ["laws","Law 1: same plane","var(--apricot)",["The incident ray, the normal and the reflected ray","all lie in the same plane","(the same flat sheet)","so the reflected ray never leaves the page","in a ray diagram"]],
+  ["terms","Law 2: equal angles","var(--sage)",["The angle of incidence","equals the angle of reflection","∠i = ∠r","both measured from the normal","on opposite sides of it"]],
+];
+$("cases").innerHTML = CASES.map(([i,n,tn,rows])=>`<div class="panel sh-card"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="background:${tn}">${svg(i)}</div><h3>${n}</h3></div><ul>${rows.map(r=>`<li>${r}</li>`).join("")}</ul></div>`).join("");
+$("bars").innerHTML = [15,30,45,60,75].map((a,k)=>`<div class="barrow"><span><b>i = ${a}°</b></span><div class="track"><i style="width:${(2*a/180*100).toFixed(1)}%;background:var(--${["sage","apricot","terra","sage","apricot"][k]})"></i></div><span class="v">${2*a}°</span></div>`).join("") + `<p class="result">At i = 90° the ray would just skim along the mirror; at i = 0° it goes straight back (0° between the rays).</p>`;
+const AROUND = [
+  ["bike","Bike reflectors","Hundreds of tiny 90° corners send headlight beams straight back to the driver.",[["Two mirrors","real"]],"var(--blush)"],
+  ["moon","Mirrors on the Moon","Apollo astronauts left corner reflectors; lasers bounced off them measure the Moon's distance to a few millimetres.",[["Corner reflector","neutral"]],"var(--cream)"],
+  ["kaleido","Kaleidoscopes","Mirrors at 60° give repeated reflections and a six-fold pattern.",[["Many reflections","neutral"]],"var(--sage)"],
+  ["ball","Snooker and pool","A ball bouncing off a cushion behaves much like a light ray: in = out (roughly).",[["Analogy","alert"]],"var(--apricot)"],
+];
+$("around").innerHTML = AROUND.map(([i,t,p,ch,tn])=>`<div class="panel"><div class="ico" style="background:${tn}">${svg(i)}</div><div><h3>${t}</h3><p>${p}</p><div class="chips">${chipsHTML(ch)}</div></div></div>`).join("");
+
+/* ================= MIND MAP ================= */
+const MM = [
+  {id:"terms",label:"Terms",col:"var(--blush)",leaves:[["Incident ray","Going in."],["Normal","90° to mirror."],["i and r","From the normal."]]},
+  {id:"laws",label:"Two laws",col:"var(--apricot)",leaves:[["Law 1","Same plane."],["Law 2","i = r."],["Always","Every reflection."]]},
+  {id:"experiment",label:"Experiment",col:"var(--sage)",leaves:[["Ray box","Narrow ray."],["Protractor","Measure i, r."],["Repeat","5+ angles."]]},
+  {id:"reverse",label:"Reversible",col:"var(--cream)",leaves:[["A ⇄ B","Same path."],["Eyes","See me, see you."],["Swap","r becomes i."]]},
+  {id:"two",label:"Two mirrors",col:"var(--blush)",leaves:[["Each mirror","Own normal."],["90°","Back parallel."],["Uses","Reflectors."]]},
+  {id:"aim",label:"Aiming",col:"var(--sage)",leaves:[["Tilt θ","Ray turns 2θ."],["Bisect","Normal in middle."],["Target","Hit it."]]},
+];
+@@INC let mmSel ||| /* ================= FLASHCARDS@@/* ================= FLASHCARDS ================= */
+const CARDS = [
+  ["terms","What is the incident ray?","The ray of light travelling towards the mirror."],
+  ["terms","What is the reflected ray?","The ray of light travelling away from the mirror after reflection."],
+  ["terms","What is the normal?","A line at 90° to the mirror at the point of incidence."],
+  ["terms","Define the angle of incidence.","The angle between the incident ray and the normal."],
+  ["terms","Define the angle of reflection.","The angle between the reflected ray and the normal."],
+  ["terms","A ray makes 30° with the mirror. What is i?","90° − 30° = 60°."],
+  ["laws","State the first law of reflection.","The incident ray, the normal and the reflected ray all lie in the same plane."],
+  ["laws","State the second law of reflection.","The angle of incidence equals the angle of reflection."],
+  ["laws","i = 0°. Where does the reflected ray go?","Straight back along the normal (r = 0°)."],
+  ["laws","Angle between incident and reflected rays if i = 35°?","2 × 35° = 70°."],
+  ["laws","Does diffuse reflection obey the laws?","Yes, at every point; the normals just point different ways."],
+  ["experiment","Apparatus to verify the laws of reflection?","Ray box, plane mirror, sheet of paper, protractor (and pencil, ruler, set square)."],
+  ["experiment","How is the normal drawn?","At 90° to the mirror line, at the point of incidence, using a protractor or set square."],
+  ["experiment","How is the reflected ray marked?","Mark two points along its centre, remove the mirror and join them to the point of incidence."],
+  ["experiment","Result of the experiment?","For each angle, r = i; a graph of r against i is a straight line through the origin with gradient 1."],
+  ["experiment","How is the first law shown?","The reflected ray is seen on the paper, in the same plane as the incident ray and the normal."],
+  ["experiment","Two sources of error?","The width of the ray, and reading the protractor; mark the centre of the ray and repeat."],
+  ["reverse","What is the reversibility of light?","Light travelling from A to B can travel from B to A along the same path."],
+  ["reverse","You see a friend's eyes in a mirror. Can they see yours?","Yes, because light paths are reversible."],
+  ["two","Two mirrors at 90°: what happens to the ray?","It comes back parallel to the incident ray, in the opposite direction."],
+  ["two","Mirrors at θ, first angle of incidence i₁. Second angle?","i₂ = θ − i₁."],
+  ["two","Where are corner reflectors used?","Bike reflectors, cat's eyes, road signs, and on the Moon for laser ranging."],
+  ["aim","A mirror turns 10°. How far does the reflected ray turn?","20°."],
+  ["aim","How do you aim reflected light at a target?","Turn the mirror until its normal bisects the angle between the incoming ray and the direction of the target."],
+  ["aim","Why does the ray turn twice as much as the mirror?","The normal turns by θ, so i grows by θ and r by θ: the ray turns 2θ."],
+];
+@@INC let fcKnown ||| /* ================= QUIZ@@/* ================= QUIZ ================= */
+const QUIZ = [
+  ["terms","The normal is:",["the mirror surface","a line at 90° to the mirror at the point of incidence","the reflected ray","any line through the mirror"],1,"The normal is perpendicular to the mirror at the point of incidence."],
+  ["terms","The angle of incidence is measured between:",["the incident ray and the mirror","the incident ray and the normal","the incident and reflected rays","the reflected ray and the mirror"],1,"Always from the normal."],
+  ["terms","A ray strikes a mirror at 20° to its surface. The angle of incidence is:",["20°","40°","70°","90°"],2,"i = 90° − 20° = 70°."],
+  ["laws","The second law of reflection states that:",["the angle of incidence equals the angle of reflection","light travels in straight lines","the image is as far behind as the object is in front","the reflected ray is perpendicular to the mirror"],0,"∠i = ∠r."],
+  ["laws","The first law states that the incident ray, the normal and the reflected ray:",["are equal in length","lie in the same plane","are parallel","meet at 90°"],1,"They all lie in the same plane."],
+  ["laws","If i = 25°, the angle between the incident and reflected rays is:",["25°","50°","65°","130°"],1,"2 × 25° = 50°."],
+  ["laws","A ray hits a mirror along the normal. It is reflected:",["along the mirror","straight back along its path","at 45°","not at all"],1,"i = 0°, so r = 0°."],
+  ["experiment","Which is NOT needed to verify the laws of reflection?",["Ray box","Plane mirror","Protractor","Converging lens"],3,"A lens isn't needed."],
+  ["experiment","In the experiment, the normal is drawn:",["along the mirror","at 90° to the mirror at the point of incidence","from the ray box","after removing the paper"],1,"Use a protractor or set square at the point of incidence."],
+  ["experiment","A graph of r against i from the experiment is:",["a curve","a straight line through the origin with gradient 1","a horizontal line","a straight line with gradient 2"],1,"r = i gives gradient 1 through the origin."],
+  ["experiment","Why repeat the experiment for several angles?",["To use up paper","To show the law holds for all angles, not just one","To make the ray brighter","To find the focal length"],1,"One reading can't verify a general law."],
+  ["reverse","The reversibility of light means:",["light slows down when reflected","light can travel back along the same path","mirrors reverse colours","light reverses at night"],1,"A → B and B → A follow the same path."],
+  ["two","Two plane mirrors are at 90°. A ray reflected by both leaves:",["at 90° to the original ray","parallel to the original ray, in the opposite direction","along the first mirror","in the same direction"],1,"A corner reflector sends light back parallel."],
+  ["two","Two mirrors are at 90°. The first angle of incidence is 30°. The second angle of incidence is:",["30°","45°","60°","90°"],2,"i₂ = 90° − 30° = 60°."],
+  ["aim","A mirror is turned through 15°. The reflected ray turns through:",["7.5°","15°","30°","45°"],2,"The reflected ray turns 2θ."],
+  ["aim","A bicycle reflector works because:",["it glows","its 90° corners send light back towards the source","it absorbs light","it is luminous"],1,"Corner reflection returns light to its source."],
+];
+@@INC let qz = ||| /* ================= EXAM PREP@@/* ================= EXAM PREP ================= */
+const CMDS = [
+  ["State","Give the law in words, exactly.","State the laws of reflection of light."],
+  ["Define","Give the exact meaning.","Define the angle of incidence."],
+  ["Describe","Give the method step by step, with apparatus.","Describe an experiment to verify the laws of reflection."],
+  ["Draw","A clear labelled diagram with arrows and a normal.","Draw a labelled diagram of the apparatus."],
+  ["Calculate","Show the steps and give units.","Calculate the angle between the incident and reflected rays."],
+  ["Explain","Give the reason.","Explain why a bicycle reflector sends light back to a driver."],
+];
+@@INC $("cmds").innerHTML ||| // Calculation trainer@@// Calculation trainer
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)), pick=a=>a[Math.floor(Math.random()*a.length)];
+const PTYPES = {
+  glance:{ name:"Angle to mirror", gen(){ const g=rnd(5,85);
+      return { q:`A ray of light strikes a plane mirror making an angle of <b>${g}°</b> with the mirror surface. What is the angle of reflection?`, ans:90-g, unit:"°", steps:[`Angles are measured from the normal, which is at 90° to the mirror`,`i = 90° − ${g}° = ${90-g}°`,`r = i = ${90-g}°`] }; } },
+  between:{ name:"Angle between rays", gen(){ if(Math.random()<0.5){ const i=rnd(5,85); return { q:`The angle of incidence is <b>${i}°</b>. What is the angle between the incident ray and the reflected ray?`, ans:2*i, unit:"°", steps:[`r = i = ${i}°`,`Angle between rays = i + r = ${2*i}°`] }; }
+      const b=2*rnd(5,85); return { q:`The angle between the incident ray and the reflected ray is <b>${b}°</b>. What is the angle of reflection?`, ans:b/2, unit:"°", steps:[`Angle between rays = i + r = 2r`,`r = ${b} ÷ 2 = ${b/2}°`] }; } },
+  rotate:{ name:"Turning mirror", gen(){ const t=rnd(3,30);
+      return { q:`A ray strikes a plane mirror. The mirror is turned through <b>${t}°</b> while the incident ray stays fixed. Through what angle does the reflected ray turn?`, ans:2*t, unit:"°", steps:[`The normal turns ${t}°, so i changes by ${t}° and r by ${t}°`,`Reflected ray turns 2 × ${t}° = ${2*t}°`] }; } },
+  two:{ name:"Two mirrors (HL)", gen(){ let th,i1; do{ th=pick([60,70,80,90,90,100,110,120]); i1=rnd(10,80); }while(th-i1<5||th-i1>85);
+      return { q:`Two plane mirrors meet at an angle of <b>${th}°</b>. A ray strikes the first mirror with an angle of incidence of <b>${i1}°</b> and then reflects off the second mirror. What is the angle of incidence at the second mirror?`, ans:th-i1, unit:"°", steps:[`Ray leaves mirror 1 at ${90-i1}° to its surface (90° − ${i1}°)`,`Angles in the triangle at the corner: angle to mirror 2 = 180° − ${th}° − ${90-i1}° = ${90-th+i1}°`,`i₂ = 90° − ${90-th+i1}° = ${th-i1}° (= θ − i₁)`] }; } },
+};
+@@INC let pType= ||| // Which stage is this?@@// True or false? [statement, 1 true / 0 false, why]
+const PRED = [
+  ["The angle of incidence is measured from the mirror surface.",0,"It's measured from the normal."],
+  ["The incident ray, the normal and the reflected ray all lie in the same plane.",1,"That's the first law of reflection."],
+  ["If i = 40°, then r = 40°.",1,"Second law: i = r."],
+  ["If a ray makes 40° with the mirror, the angle of reflection is 40°.",0,"i = 90° − 40° = 50°, so r = 50°."],
+  ["A ray striking a mirror along the normal is reflected straight back.",1,"i = 0° so r = 0°."],
+  ["Diffuse reflection breaks the laws of reflection.",0,"Each tiny part of the surface obeys i = r."],
+  ["Turning a mirror by 10° turns the reflected ray by 10°.",0,"It turns by 20°."],
+  ["Light from B to A follows the same path as light from A to B.",1,"Light paths are reversible."],
+  ["Two mirrors at 90° send a ray back parallel to itself.",1,"That's how corner reflectors work."],
+  ["The angle between the incident and reflected rays equals the angle of incidence.",0,"It's 2i."],
+];
+let pd = { k:-1, shown:false, sel:null, streak:0 };
+let predC=null;
+function pdNew(){ let k; do{ k=Math.floor(Math.random()*PRED.length); }while(k===pd.k); pd={...pd,k,shown:false,sel:null};
+  document.querySelectorAll("#predOpts button").forEach(b=>b.classList.remove("sel")); $("predFb").innerHTML="";
+  $("predQ").innerHTML=`<b>${PRED[k][0]}</b>`; if(predC) predC.redraw(); }
+$("predOpts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||pd.shown) return; pd.sel=+b.dataset.a; b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b)); });
+$("predCheck").addEventListener("click",()=>{
+  if(pd.sel==null){ $("predFb").innerHTML=`<div class="fb no">Pick an answer first.</div>`; return; }
+  const [,ans,why]=PRED[pd.k], ok=pd.sel===ans; pd.streak = ok? pd.streak+1 : 0; pd.shown=true; predC.redraw();
+  $("predFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Correct!":"Not quite."}</b> ${why}${ok?` Streak: ${pd.streak} 🔥`:""}</div>`;
+});
+$("predNext").addEventListener("click",pdNew);
+
+// Long questions
+const LONGQ = [
+  { title:"Verifying the laws", intro:"A student carries out an experiment to verify the laws of reflection of light.",
+    parts:[["a","State the two laws of reflection.",8,"The incident ray, the normal and the reflected ray all lie in the same plane (4). The angle of incidence equals the angle of reflection (4)."],
+      ["b","Draw a labelled diagram of the apparatus.",9,"Ray box giving a narrow ray (2), plane mirror standing on a sheet of paper (2), mirror line and normal drawn at 90° (2), incident and reflected rays with arrows (2), protractor (1)."],
+      ["c","Describe how the student found the angle of reflection.",9,"Mark two points on the centre of the reflected ray (3); remove the mirror and join them to the point of incidence (3); measure the angle between this line and the normal with a protractor (3)."],
+      ["d","The student measured r = 31° when i = 30°. Give one source of error and how to reduce it.",4,"The ray has a width / protractor reading (2): mark the centre of the ray, use a narrow slit, repeat and average (2)."]] },
+  { title:"Angles at a mirror", intro:"A narrow ray of light strikes a plane mirror making an angle of 28° with the mirror surface.",
+    parts:[["a","Define the normal.",4,"A line at 90° to the mirror at the point of incidence (4)."],
+      ["b","Calculate the angle of incidence and the angle of reflection.",8,"i = 90° − 28° = 62° (4); r = i = 62° (4)."],
+      ["c","Calculate the angle between the incident ray and the reflected ray.",6,"2 × 62° = 124° (6)."],
+      ["d","The mirror is now turned through 6° with the incident ray fixed. Through what angle does the reflected ray turn? Explain.",12,"12° (4). The normal turns 6° (4), so the angle of incidence and of reflection each change by 6°, turning the reflected ray by 12° (4)."]] },
+  { title:"Two mirrors (HL)", intro:"Two plane mirrors are fixed at 90° to each other. A ray strikes the first mirror with an angle of incidence of 25°.",
+    parts:[["a","Draw a ray diagram showing the path of the ray after reflection at both mirrors.",9,"Both mirrors at 90° (2); normal at each point of incidence (2); i = r marked at each mirror (3); final ray parallel to the incident ray, opposite direction (2)."],
+      ["b","Calculate the angle of incidence at the second mirror.",9,"The ray leaves mirror 1 at 65° to its surface (3); in the corner triangle, the angle to mirror 2 = 180° − 90° − 65° = 25° (3); i₂ = 90° − 25° = 65° (3)."],
+      ["c","Explain why the final ray is parallel to the original ray.",6,"Total turning = 2 × (90° − 25°) + 2 × (90° − 65°) = 130° + 50° = 180° (4), so it travels back parallel, in the opposite direction (2)."],
+      ["d","Give one everyday use of this arrangement.",6,"Bicycle reflectors, cat's eyes, road signs, or corner reflectors on the Moon for laser ranging (6)."]] },
+];
+@@INC $("longqs").innerHTML ||| const RAG@@const RAG = ["Define incident ray and reflected ray","Define the normal","Define angle of incidence and angle of reflection","State the first law of reflection","State the second law of reflection","Convert an angle to the mirror into i","Find the angle between incident and reflected rays","Describe the experiment to verify the laws","Draw the apparatus and the ray diagram","Explain the reversibility of light","Solve a two-mirror problem","Explain why a turned mirror turns the ray by 2θ"];
+@@INC const ragState ||| const SKILLS@@const SKILLS = [["Draw accurately","Mirror line, normal at 90°, rays with arrows.","Name the parts lab"],["Measure carefully","Read the protractor to the nearest degree from the centre of the ray.","Collect & fit lab"],["Repeat and vary","Take readings at five or more angles of incidence.","Collect & fit lab"],["Use a graph","Plot r against i; find the gradient and intercept.","Collect & fit lab"],["Evaluate","Identify sources of error and how to reduce them.","Collect & fit lab"]];
+@@INC const skState ||| /* ================= LAB STATE@@/* ================= LAB STATE + WIRING ================= */
+// Labeller
+const TERMS = ["Incident ray","Reflected ray","Normal","Angle of incidence","Angle of reflection","Plane mirror","Point of incidence"];
+const SPOTKEY = ["Sm","Rm","N","Ia","Ra","M","P"];
+const tm = {order:[], spots:[], placed:{}, sel:null, P:null};
+function tmNew(){ tm.order=TERMS.map((x,i)=>i).sort(()=>Math.random()-.5); tm.spots=TERMS.map((x,i)=>i).sort(()=>Math.random()-.5); tm.placed={}; tm.sel=null; $("tmFb").innerHTML=""; tmUpd(); }
+function tmUpd(){ const done=Object.values(tm.placed);
+  $("tmCards").innerHTML = tm.order.map(i=>{ const d=done.some(p=>p.t===i&&p.ok); return `<button data-i="${i}" class="${d?"done":""}${tm.sel===i?" sel":""}" ${d?"disabled":""}>${TERMS[i]}</button>`; }).join("");
+  const ok=done.filter(p=>p.ok).length; setReadout($("tmOut"),[["Labelled correctly",`${ok} of ${TERMS.length}`],["Selected",tm.sel==null?"tap a term":TERMS[tm.sel]],["Status",ok===TERMS.length?"All done 🎉":"Keep going"]]); if(tmC) tmC.redraw(); }
+$("tmCards").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; tm.sel=+b.dataset.i; tmUpd(); });
+$("tmReset").addEventListener("click",tmNew);
+// Laws
+const lw = {i:35};
+function lwUpd(){ $("lwIo").textContent=`${lw.i}°`; setReadout($("lwOut"),[["Angle of incidence i",`${lw.i}°`],["Angle of reflection r",`${lw.i}°`],["Angle between the rays",`${2*lw.i}°`],["Angle to the mirror",`${90-lw.i}°`]]); if(lwC) lwC.redraw(); }
+$("lwI").addEventListener("input",e=>{ lw.i=+e.target.value; lwUpd(); });
+// Experiment
+const ex = {i:20, rows:[]};
+function exFit(){ const p=ex.rows; if(p.length<2) return null; const mx=p.reduce((a,b)=>a+b[0],0)/p.length, my=p.reduce((a,b)=>a+b[1],0)/p.length; let sxy=0,sxx=0; p.forEach(([x,y])=>{ sxy+=(x-mx)*(y-my); sxx+=(x-mx)**2; }); if(!sxx) return null; const m=sxy/sxx; return {m,c:my-m*mx}; }
+function exUpd(){ $("exIo").textContent=`${ex.i}°`; const f=exFit(), last=ex.rows[ex.rows.length-1];
+  setReadout($("exOut"),[["Angle of incidence set",`${ex.i}°`],["Last reading",last?`i = ${last[0]}°, r = ${last[1]}°`:"–"],["Readings",ex.rows.length]]);
+  $("exTable").innerHTML = ex.rows.map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join("") || `<tr><td colspan="2">No readings yet. Set an angle and measure r.</td></tr>`;
+  $("exRes").innerHTML = f? `Line of best fit: <b>r = ${nf(f.m,2)} i ${f.c<0?"−":"+"} ${nf(Math.abs(f.c),1)}°</b>. Gradient ≈ 1 and intercept ≈ 0, so r = i.` : "Take at least two readings.";
+  if(exC){ exC.redraw(); exG.redraw(); } }
+$("exI").addEventListener("input",e=>{ ex.i=+e.target.value; exUpd(); });
+$("exRec").addEventListener("click",()=>{ const err=pick([-1,0,0,0,1]); ex.rows.push([ex.i, ex.i+err]); exUpd(); });
+$("exClr").addEventListener("click",()=>{ ex.rows=[]; exUpd(); });
+// Reverse
+const rv = {rev:false, i:40};
+function rvUpd(){ $("rvIo").textContent=`${rv.i}°`; setReadout($("rvOut"),[["Light travels",rv.rev?"B → mirror → A":"A → mirror → B"],["Angle of incidence",`${rv.i}° (on the ${rv.rev?"B":"A"} side)`],["Angle of reflection",`${rv.i}° (on the ${rv.rev?"A":"B"} side)`],["Path","exactly the same"]]); if(rvC) rvC.redraw(); }
+$("rvD").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; rv.rev=b.dataset.d==="1"; pressGroup([...$("rvD").children],b); rvUpd(); });
+$("rvI").addEventListener("input",e=>{ rv.i=+e.target.value; rvUpd(); });
+// Two mirrors
+const tw = {th:90, i:35, last:null};
+function twUpd(){ $("twTo").textContent=`${tw.th}°`; $("twIo").textContent=`${tw.i}°`; if(twC) twC.redraw(); twRead(); }
+function twRead(){ const h=tw.last? tw.last.hits : [];
+  const first=h.length&&h[0].k===1, i2=first? "ray hits mirror 2 first" : h.length>1? `${nf(h[1].i,0)}°` : (tw.th-tw.i>=90? "none: the ray moves away from mirror 2" : "hits mirror 2 off the screen"), pred=tw.th-tw.i;
+  setReadout($("twOut"),[["Reflections",h.length],["i at mirror 1",`${tw.i}°`],["i at mirror 2",i2],["θ − i₁",`${pred}°`],["Final ray",Math.abs(tw.th-90)<0.5&&h.length===2?"parallel to the incident ray, reversed":"not parallel"]]); }
+$("twT").addEventListener("input",e=>{ tw.th=+e.target.value; twUpd(); });
+$("twI").addEventListener("input",e=>{ tw.i=+e.target.value; twUpd(); });
+// Aim
+const am = {phi:0, tgt:12, hits:0, scored:false};
+function amNewT(){ let t; do{ t=rnd(-28,28); }while(Math.abs(t-am.phi)<6); am.tgt=t; am.scored=false; amUpd(); }
+function amUpd(){ $("amPo").textContent=`${am.phi}°`; const W=amC?amC.w||600:600, H=amC?amC.h||300:300, g=aimGeom(W,H,am.phi), hit=Math.abs(am.phi-am.tgt)<=1;
+  if(hit&&!am.scored){ am.hits++; am.scored=true; }
+  setReadout($("amOut"),[["Angle of incidence",`${nf(g.i,0)}°`],["Angle of reflection",`${nf(g.i,0)}°`],["Result",hit?"Hit! 🎯":(am.phi<am.tgt?"Miss: increase the tilt":"Miss: decrease the tilt")],["Targets hit",am.hits]]); if(amC) amC.redraw(); }
+$("amP").addEventListener("input",e=>{ am.phi=+e.target.value; amUpd(); });
+$("amNew").addEventListener("click",amNewT);
+
+/* ================= CREATE CANVASES ================= */
+let tmC=null, lwC=null, exC=null, exG=null, rvC=null, twC=null, amC=null;
+const hero = makeCanvas($("heroCanvas"), 0.75, 240, s => { const a=reduce?35:Math.round(40+30*Math.sin(heroT*0.5)); drawLaw(s.ctx,s.w,s.h,{i:a,labels:true}); }, 440);
+tmC = makeCanvas($("tmC"), 0.5, 260, s => { const K=drawLaw(s.ctx,s.w,s.h,{i:40,nums:true}); tm.P=SPOTKEY.map(k=>K[k]); const cp=s.w<440;
+  tm.spots.forEach((t,n)=>{ const [x,y]=tm.P[t], pl=tm.placed[t], r=cp?10:13; circle(s.ctx,x,y,r,pl?(pl.ok?C.sage:C.bad):(tm.sel!=null?C.apricot:C.surface),C.ink,1.5); text(s.ctx,String(n+1),x,y+1,C.ink,F(cp?10:12,800),"center","middle");
+    if(pl&&pl.ok&&!cp) text(s.ctx,TERMS[t],x+(t===1||t===4||t===5?r+4:-r-4),y-r-2,C.ink,F(11,800),t===1||t===4||t===5?"left":"right"); }); }, 420);
+pointerTap($("tmC"),(x,y)=>{ if(tm.sel==null||!tm.P) return; let best=-1,bd=1e9; tm.P.forEach(([px,py],k)=>{ const d=Math.hypot(px-x,py-y); if(d<bd){bd=d;best=k;} }); if(bd>28) return;
+  const ok=best===tm.sel; tm.placed[best]= ok? {t:tm.sel,ok} : (tm.placed[best]&&tm.placed[best].ok? tm.placed[best] : {t:tm.sel,ok});
+  $("tmFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Yes.":"Not quite."}</b> ${ok?`That's the ${TERMS[best].toLowerCase()}.`:`That spot isn't the ${TERMS[tm.sel].toLowerCase()}. Try another.`}</div>`;
+  if(!ok) setTimeout(()=>{ if(tm.placed[best]&&!tm.placed[best].ok){ delete tm.placed[best]; tmUpd(); } },900);
+  if(ok) tm.sel=null; tmUpd(); });
+lwC = makeCanvas($("lwC"), 0.5, 260, s => drawLaw(s.ctx,s.w,s.h,{i:lw.i,labels:true}), 440);
+exC = makeCanvas($("exC"), 0.45, 240, s => { drawLaw(s.ctx,s.w,s.h,{i:ex.i,prot:true}); const cp=s.w<440, gy=s.h*0.82, L=Math.min(gy-18,s.w*0.42), i=ex.i*DEG, bx=s.w/2-Math.sin(i)*L, by=gy-Math.cos(i)*L;
+  s.ctx.save(); s.ctx.translate(bx,by); s.ctx.rotate(Math.atan2(gy-by,s.w/2-bx)); rr(s.ctx,-(cp?30:44),-(cp?8:12),cp?30:44,cp?16:24,4); s.ctx.fillStyle=C.ink; s.ctx.fill(); s.ctx.restore();
+  if(!cp) text(s.ctx,"ray box",bx,by-18,C.ink,F(12,800),"center"); }, 400);
+exG = makeCanvas($("exG"), 0.7, 200, s => { bg(s.ctx,s.w,s.h); const fr=frame(s.ctx,s.w,s.h,{x0:0,x1:90,y0:0,y1:90,xl:"i (°)",yl:"r (°)",compact:true,xt:15,yt:15}), f=exFit(); if(f) line(s.ctx,fr.X(0),fr.Y(f.c),fr.X(90),fr.Y(f.c+f.m*90),C.terra,2.5); ex.rows.forEach(([a,b])=>circle(s.ctx,fr.X(a),fr.Y(b),4,C.surface,C.ink,2)); }, 320);
+rvC = makeCanvas($("rvC"), 0.5, 260, s => drawLaw(s.ctx,s.w,s.h,{i:rv.i,ab:true,rev:rv.rev,labels:true}), 420);
+twC = makeCanvas($("twC"), 0.55, 260, s => { tw.last=drawTwo(s.ctx,s.w,s.h,{th:tw.th,i:tw.i,ghost:true}); twRead(); }, 460);
+amC = makeCanvas($("amC"), 0.5, 260, s => drawAim(s.ctx,s.w,s.h,am), 440);
+predC = makeCanvas($("predC"), 0.42, 160, s => { bg(s.ctx,s.w,s.h,C["surface-2"]); const cw=(s.w-32)/2;
+  [["✓","True",1],["✗","False",0]].forEach(([sym,l,v],i)=>{ const x=16+i*cw, hit=pd.shown&&PRED[pd.k][1]===v; rr(s.ctx,x+4,16,cw-8,s.h-32,14); s.ctx.fillStyle=hit?C.terra:C.surface; s.ctx.fill(); s.ctx.strokeStyle=C.line; s.ctx.stroke();
+    text(s.ctx,sym,x+cw/2,s.h/2-2,hit?C["on-accent"]||"#fff":C.ink,F(s.w<380?18:24,800),"center"); text(s.ctx,l,x+cw/2,s.h/2+22,hit?C["on-accent"]||"#fff":C.muted,F(12),"center"); }); }, 240);
+pdNew();
+const MINI = {
+  law:(s,o)=>drawLaw(s.ctx,s.w,s.h,{...o,compact:true}),
+  two:(s,o)=>drawTwo(s.ctx,s.w,s.h,{...o,compact:true}),
+  aim:(s,o)=>drawAim(s.ctx,s.w,s.h,{...o,compact:true}),
+};
+document.querySelectorAll("canvas[data-learn]").forEach(el=>{ const [kind,o]=LEARN[el.dataset.learn].vis[+el.dataset.k]; makeCanvas(el, 0.62, 150, s=>MINI[kind](s,o), 380); });
+const INFO = { a15:["law",{i:15}], a45:["law",{i:45}], a75:["law",{i:75}] };
+document.querySelectorAll("canvas[data-mini]").forEach(el=>{ const [k,o]=INFO[el.dataset.mini]; makeCanvas(el,0.7,160,s=>MINI[k](s,{...o,bgc:C["surface-2"]})); });
+tmNew(); lwUpd(); exUpd(); rvUpd(); twUpd(); amNewT();
+
+@@INC /* ================= LOOP / THEME / START ||| </html>@@

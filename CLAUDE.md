@@ -16,7 +16,7 @@ https://gowridhandapani12-coder.github.io/lc-ram/
   https://library.folens.ie (MY FOLENS login; the user signs in, in their own Chrome). Use it only for the chapter and
   section titles, the order of topics and what each section covers. **Never copy its text, figures, worked examples or
   exercises.** All explanations, labs and questions on these pages are original.
-- Chapter list: `physics/chapters.json` (chapters 1–25 from the contents pages; sections listed for chapters 1, 2, 15 and 17 so
+- Chapter list: `physics/chapters.json` (chapters 1–25 from the contents pages; sections listed for chapters 1, 2, 4 (4.1, 4.5 only), 15 and 17 so
   far; read further contents pages to add more).
 - Assessment info follows the new Physics specification (written exam 60%, Physics in Practice Investigation 40%).
   Practice questions are labelled as not official SEC papers.

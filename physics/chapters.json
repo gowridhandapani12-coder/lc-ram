@@ -71,7 +71,18 @@
  {
   "n": "4",
   "title": "Lenses",
-  "sections": []
+  "sections": [
+   [
+    "4.1",
+    "Converging and diverging lenses",
+    "ch4-1-converging-diverging-lenses.html"
+   ],
+   [
+    "4.5",
+    "Formula for a diverging lens",
+    "ch4-5-diverging-lens-formula.html"
+   ]
+  ]
  },
  {
   "n": "5",

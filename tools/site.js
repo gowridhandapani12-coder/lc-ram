@@ -7,6 +7,7 @@ const fs = require("fs"), path = require("path");
 const ROOT = path.join(__dirname, "..");
 const SUBJECTS = [
   ["physics", "Physics", "Chapters following the Real World Physics (2nd edition) structure: measurement, mechanics, light and more."],
+  ["applied-maths", "Applied Maths", "Chapter by chapter: units and vectors, uniform acceleration, projectiles and more."],
 ];
 const START = "<!--subj-nav-->", END = "<!--/subj-nav-->";
 const CSS = `${START}<style id="subj-css">

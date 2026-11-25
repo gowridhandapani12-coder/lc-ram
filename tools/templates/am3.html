@@ -1,0 +1,555 @@
+@@INC <title> ||| <!-- ================= TOP BAR@@@@INC <!-- ================= TOP BAR ||| <!-- ================= SIDEBAR@@<!-- ================= SIDEBAR ================= -->
+  <aside class="side" id="side" aria-label="Course navigation">
+    <div>
+      <h4>This chapter</h4>
+      <div class="topiclist" id="topicList"></div>
+    </div>
+    <div class="course">
+      <h4>Chapters</h4>
+@@SIDEBAR:3@@
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- ================= OVERVIEW ================= -->
+    <section class="view" data-view="overview">
+      <div class="hero">
+        <div>
+          <span class="pill t">Applied Maths · Chapter 3</span>
+          <h1 style="margin-top:12px">Projectiles.<br>Across and up,<br><em>handled separately.</em></h1>
+          <p class="lede">A ball, a javelin, a jet of water: once launched, only gravity acts. Split the motion into i (steady speed) and j (uniform acceleration −g), and every projectile question becomes two Chapter 2 problems.</p>
+          <div class="cta"><button class="primary" data-go="learn">Start learning</button><button data-go="labs">Open the labs</button><button data-go="quiz">Test yourself</button></div>
+        </div>
+        <div class="herobox"><canvas id="heroCanvas" aria-label="Animated projectile tracing a parabola with its velocity vector"></canvas></div>
+      </div>
+      <div class="stats">
+        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/5</b><div class="prog"><i id="stLOb"></i></div></div>
+        <div class="panel stat"><span>Flashcards you know</span><b id="stFC">0</b><div class="prog"><i id="stFCb"></i></div></div>
+        <div class="panel stat"><span>Best quiz score</span><b id="stQZ">–</b><div class="prog"><i id="stQZb"></i></div></div>
+      </div>
+      <div>
+        <div class="head" style="margin-bottom:14px"><h2>Five sections</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
+        <div class="topics" id="topicCards"></div>
+      </div>
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">By the end of this chapter</p><h2>You should be able to</h2></div><p style="font-size:.88rem">Tick each one when you're confident. Saved on this device.</p></div>
+        <ul class="lo-list" id="loList"></ul>
+        <p class="result" style="margin-top:10px">This page follows the sections of Chapter 3 (Projectiles) in your Applied Maths textbook. The explanations, labs and questions here are our own. Before: Chapter 2 Uniform Acceleration.</p>
+      </div>
+    </section>
+
+    <!-- ================= LEARN ================= -->
+    <section class="view" data-view="learn" hidden>
+      <div class="head"><div><p class="eyebrow">Visual notes</p><h2>Learn</h2></div><p>Picture first, three key ideas, one common mistake. Then open the lab and try it.</p></div>
+      <div class="learn" id="learnList"></div>
+    </section>
+
+    <!-- ================= LABS ================= -->
+    <section class="view" data-view="labs" hidden>
+      <div class="head"><div><p class="eyebrow">Interactive</p><h2>Labs</h2></div><p>One lab for each section. g = 9.8 m/s²; no air resistance.</p></div>
+      <div class="labtabs" id="labTabs"></div>
+
+      <div class="lab" data-lab="why">
+        <div class="labhead"><span class="pill t">Dropped vs thrown</span><p class="goal">From the same height, one ball is dropped and one is thrown horizontally, at the same moment. Their positions are marked every 0.2 s. They are always at the same height: the horizontal speed makes no difference to the fall.</p></div>
+        <div class="panel sim">
+          <canvas id="whC" aria-label="Strobe picture of a dropped ball and a horizontally thrown ball falling side by side"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="whU">Horizontal speed <output id="whUo">8 m/s</output></label><input type="range" id="whU" min="0" max="20" step="1" value="8"></div>
+            <div class="ctl"><label for="whH">Height <output id="whHo">20 m</output></label><input type="range" id="whH" min="5" max="45" step="5" value="20"></div>
+          </div>
+          <div class="readout" id="whOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Double the horizontal speed. Does the landing time change?</div><div class="try"><b>2</b>How does the distance travelled sideways change?</div><div class="try"><b>3</b>Check the landing time with h = ½gt².</div></div>
+      </div>
+
+      <div class="lab" data-lab="vertical" hidden>
+        <div class="labhead"><span class="pill t">Up meets down</span><p class="goal">Ball A is thrown straight up from the ground at speed u. At the same moment ball B is dropped from height H directly above. Where and when do they meet?</p></div>
+        <div class="panel sim">
+          <canvas id="vtC" aria-label="Height–time graphs of a ball thrown up and a ball dropped, crossing where they meet"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="vtU">u (ball A) <output id="vtUo">20 m/s</output></label><input type="range" id="vtU" min="5" max="30" step="1" value="20"></div>
+            <div class="ctl"><label for="vtH">H (ball B) <output id="vtHo">30 m</output></label><input type="range" id="vtH" min="5" max="60" step="1" value="30"></div>
+          </div>
+          <div class="readout" id="vtOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Show that they meet at t = H ÷ u.</div><div class="try"><b>2</b>Is A going up or coming down when they meet?</div><div class="try"><b>3</b>Make H large and u small. What goes wrong?</div></div>
+      </div>
+
+      <div class="lab" data-lab="angle" hidden>
+        <div class="labhead"><span class="pill t">Fired at an angle</span><p class="goal">Launch at speed u and angle α. Slide the time to follow the projectile: its position vector r and velocity vector v, in i and j.</p></div>
+        <div class="panel sim">
+          <canvas id="anC" aria-label="Parabolic path with the projectile's position and velocity vector at the chosen time"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="anU">u <output id="anUo">20 m/s</output></label><input type="range" id="anU" min="5" max="40" step="1" value="20"></div>
+            <div class="ctl"><label for="anA">α <output id="anAo">50°</output></label><input type="range" id="anA" min="5" max="85" step="1" value="50"></div>
+            <div class="ctl"><label for="anT">Time <output id="anTo">1.0 s</output></label><input type="range" id="anT" min="0" max="1" step="0.01" value="0.32"></div>
+          </div>
+          <div class="readout" id="anOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Which velocity component never changes?</div><div class="try"><b>2</b>Where is the speed smallest? What is it there?</div><div class="try"><b>3</b>Find the time when the j component of v is zero.</div></div>
+      </div>
+
+      <div class="lab" data-lab="known" hidden>
+        <div class="labhead"><span class="pill t">Collect &amp; fit</span><p class="goal">Fix the launch angle and fire at different speeds, measuring the range each time (small error). Theory says R = u² sin 2α ÷ g, so R against u² should be a straight line with gradient sin 2α ÷ g.</p></div>
+        <div class="panel sim">
+          <canvas id="knC" aria-label="Path of the projectile at the chosen speed and angle with range, height and time marked"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="knU">u <output id="knUo">15 m/s</output></label><input type="range" id="knU" min="5" max="30" step="1" value="15"></div>
+            <div class="ctl"><label for="knA">α <output id="knAo">30°</output></label><input type="range" id="knA" min="10" max="80" step="5" value="30"></div>
+            <div class="ctl"><span class="lbl">Data</span><div class="btns"><button class="primary" id="knRec">Fire and measure R</button><button id="knClr">Clear</button></div></div>
+          </div>
+          <div class="datapanel">
+            <div class="tablewrap"><table><thead><tr><th>α</th><th>u (m/s)</th><th>u² (m²/s²)</th><th>R (m)</th></tr></thead><tbody id="knTable"></tbody></table></div>
+            <div class="graphbox"><canvas id="knG" aria-label="Graph of range against speed squared with a line of best fit"></canvas><p class="result" id="knRes"></p></div>
+          </div>
+          <div class="readout" id="knOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Record five speeds at 30°. Compare the gradient with sin 60° ÷ 9.8.</div><div class="try"><b>2</b>Use the gradient to estimate g.</div><div class="try"><b>3</b>Doubling u multiplies the range by how much?</div></div>
+      </div>
+
+      <div class="lab" data-lab="maxrange" hidden>
+        <div class="labhead"><span class="pill t">Best angle</span><p class="goal">For a fixed launch speed, the range depends on the angle: R = u² sin 2α ÷ g. It is biggest at 45°, and angles that add to 90° give the same range. Set a target to see the two angles that hit it.</p></div>
+        <div class="panel sim">
+          <canvas id="mrC" aria-label="Several trajectories at different angles with the maximum-range path highlighted and a target"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="mrU">u <output id="mrUo">20 m/s</output></label><input type="range" id="mrU" min="10" max="30" step="1" value="20"></div>
+            <div class="ctl"><label for="mrA">α <output id="mrAo">30°</output></label><input type="range" id="mrA" min="5" max="85" step="1" value="30"></div>
+            <div class="ctl"><label for="mrD">Target distance <output id="mrDo">30 m</output></label><input type="range" id="mrD" min="5" max="90" step="1" value="30"></div>
+          </div>
+          <div class="readout" id="mrOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Compare the ranges at 30° and 60°.</div><div class="try"><b>2</b>What is the maximum range in terms of u and g?</div><div class="try"><b>3</b>Move the target beyond u² ÷ g. Why can't you hit it?</div></div>
+      </div>
+    </section>
+
+    <!-- ================= MIND MAP ================= -->
+    <section class="view" data-view="mindmap" hidden>
+      <div class="head"><div><p class="eyebrow">See the big picture</p><h2>Mind map</h2></div><p>Tap any bubble to see what it means and jump to its lab.</p></div>
+      <div class="panel pad mmdetail" id="mmDetail"></div>
+      <div class="panel mmwrap"><svg id="mm" viewBox="0 0 1100 780" role="img" aria-label="Mind map of projectiles"></svg></div>
+    </section>
+
+    <!-- ================= INFOGRAPHICS ================= -->
+    <section class="view" data-view="infographics" hidden>
+      <div class="head"><div><p class="eyebrow">Picture it</p><h2>Two directions, two rules</h2></div><p>Split every projectile into i and j.</p></div>
+      <div class="cases" id="cases"></div>
+
+      <div class="head"><div><p class="eyebrow">Three launches at 20 m/s</p><h2>Angle changes everything</h2></div></div>
+      <div class="boundary">
+        <div class="panel case"><canvas class="mini" data-mini="a30"></canvas><h3>30°</h3><p>Range 35.3 m, height 5.1 m.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="a45"></canvas><h3>45°</h3><p>Range 40.8 m: the maximum.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="a60"></canvas><h3>60°</h3><p>Range 35.3 m again, height 15.3 m.</p></div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:16px"><div><p class="eyebrow">u = 20 m/s</p><h2>Range at each angle</h2></div><p>R = u² sin 2α ÷ g.</p></div>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="head"><div><p class="eyebrow">Projectiles around you</p><h2>Where you'll see them</h2></div></div>
+      <div class="around" id="around"></div>
+    </section>
+
+@@INC <!-- ================= FLASHCARDS ||| <!-- ================= EXAM PREP@@<!-- ================= EXAM PREP ================= -->
+    <section class="view" data-view="exam" hidden>
+      <div class="head"><div><p class="eyebrow">Get exam ready</p><h2>Exam prep</h2></div><p>How Applied Maths is assessed, what the question words mean, and practice with feedback.</p></div>
+
+      <div class="exgrid">
+        <div class="panel pad donutbox">
+          <svg viewBox="0 0 160 160" class="donut" aria-label="Assessment split: 80% written exam, 20% modelling project">
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--sage)" stroke-width="26"/>
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--terra)" stroke-width="26" stroke-dasharray="291.5 364.4" transform="rotate(-90 80 80)"/>
+            <text x="80" y="76" text-anchor="middle" class="dn1">80 / 20</text><text x="80" y="96" text-anchor="middle" class="dn2">of your grade</text>
+          </svg>
+          <div class="splits">
+            <div><i style="background:var(--terra)"></i><div><b>Written exam · 80%</b><p>Higher or Ordinary level, set by the SEC.</p></div></div>
+            <div><i style="background:var(--sage)"></i><div><b>Modelling project · 20%</b><p>A report on a real problem from an SEC brief, done in 6th year.</p></div></div>
+          </div>
+        </div>
+        <div class="panel pad">
+          <h3 style="margin-bottom:10px">Top exam tips for projectiles</h3>
+          <ol class="tips">
+            <li>Write the initial velocity in i and j: u cos α i + u sin α j.</li>
+            <li>i direction: <b>no acceleration</b>, so x = (u cos α)t.</li>
+            <li>j direction: a = −g, so y = (u sin α)t − ½gt² and v<sub>j</sub> = u sin α − gt.</li>
+            <li>Lands back at the same level: <b>y = 0</b>. Highest point: <b>v<sub>j</sub> = 0</b>.</li>
+            <li>Time is the link between the two directions: find t in one, use it in the other.</li>
+            <li>Derive range and time of flight from the equations; don't just quote them unless allowed.</li>
+            <li>Speed at any moment = √(v<sub>i</sub>² + v<sub>j</sub>²); direction = tan⁻¹(v<sub>j</sub> ÷ v<sub>i</sub>).</li>
+            <li>The questions here are practice questions, not official SEC papers.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Read the question</p><h2>Question words</h2></div><p>Common instructions in projectile questions.</p></div>
+        <div class="cmds" id="cmds"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad practice">
+          <div class="head"><div><p class="eyebrow">Projectile numbers</p><h2>Calculation trainer</h2></div></div>
+          <div class="btns" id="prType"></div>
+          <div class="pq" id="pq"></div>
+          <div class="pa"><input id="paIn" type="text" inputmode="decimal" placeholder="Your answer" aria-label="Your answer" autocomplete="off"><span id="paUnit" class="mono"></span><button class="primary" id="paCheck">Check</button><button id="paShow">Show solution</button><button id="paNext">New question</button></div>
+          <div id="paFb"></div>
+          <p class="result" id="paScore"></p>
+        </div>
+        <div class="panel pad predict">
+          <div class="head"><div><p class="eyebrow">Quick-fire drill</p><h2>True or false?</h2></div></div>
+          <canvas id="predC" aria-label="True and false boxes; the right one lights up after you check"></canvas>
+          <p class="result" id="predQ"></p>
+          <div class="predopts" id="predOpts"><div class="btns"><button data-a="1">True</button><button data-a="0">False</button></div></div>
+          <div class="btns"><button class="primary" id="predCheck">Check</button><button id="predNext">Next one</button></div>
+          <div id="predFb"></div>
+        </div>
+      </div>
+
+@@INC <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Practice questions ||| <!-- ================= FORMULAE@@<!-- ================= FORMULAE ================= -->
+    <section class="view" data-view="formulae" hidden>
+      <div class="head"><div><p class="eyebrow">Revision</p><h2>Formula sheet</h2></div><p>Projectiles on one page (launch and landing at the same level unless stated).</p></div>
+      <div class="sheet">
+        <div class="panel fcell"><span class="pill">Initial velocity</span><span class="big">u cos α i + u sin α j</span></div>
+        <div class="panel fcell"><span class="pill">Position</span><span class="big">r = (u cos α)t i + ((u sin α)t − ½gt²) j</span></div>
+        <div class="panel fcell"><span class="pill">Velocity</span><span class="big">v = u cos α i + (u sin α − gt) j</span></div>
+        <div class="panel fcell"><span class="pill">Time to top</span><span class="big">t = u sin α ÷ g</span><dl><dt>When</dt><dd>v<sub>j</sub> = 0</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Time of flight</span><span class="big">T = 2u sin α ÷ g</span><dl><dt>When</dt><dd>y = 0</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Max height</span><span class="big">H = u² sin² α ÷ 2g</span></div>
+        <div class="panel fcell"><span class="pill">Range</span><span class="big">R = u² sin 2α ÷ g</span><dl><dt>Max</dt><dd>u² ÷ g at α = 45°</dd><dt>Same R</dt><dd>α and 90° − α</dd></dl></div>
+        <div class="panel fcell"><span class="pill a">Horizontal launch</span><span class="big">from height h: t = √(2h ÷ g), x = u t</span></div>
+        <div class="panel fcell"><span class="pill a">Vertical launch</span><span class="big">up at u, dropped from H: meet at t = H ÷ u</span></div>
+      </div>
+      <footer>
+        <p>Follows the sections of Chapter 3 of your Applied Maths textbook. All explanations, labs and questions on this page are original. g = 9.8 m/s²; air resistance ignored.</p>
+      </footer>
+    </section>
+  </main>
+</div>
+</div>
+
+@@INC <script> ||| /* ---------- icons + topics@@/* ---------- icons + topics ---------- */
+const ICON = {
+  why:'<circle cx="6" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="12" cy="5" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="20" cy="19" r="2"/>',
+  vertical:'<path d="M8 20V4M5 7l3-3 3 3M16 4v16M13 17l3 3 3-3"/>',
+  angle:'<path d="M3 20h18M3 20q8-22 18 0"/>',
+  known:'<path d="M3 20h18M3 20q8-16 16 0"/><path d="M3 20l5-8"/><path d="M7 20a4 4 0 00-1-3"/>',
+  maxrange:'<path d="M2 20h20M2 20q5-14 10 0M2 20q10-20 20 0"/>',
+  ball:'<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v16"/>',
+  water:'<path d="M3 20h18M4 18q6-14 14 0"/><path d="M4 18v-3"/>',
+  javelin:'<path d="M3 21L21 3M17 3h4v4"/>',
+  rocket:'<path d="M12 2c4 4 5 9 3 14H9C7 11 8 6 12 2z"/><path d="M9 16l-2 4M15 16l2 4"/>',
+};
+const svg = (k,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
+const TOPICS = [
+  {id:"why", name:"Why study projectiles?", short:"Real motion in two directions: split it into i (steady) and j (gravity).", tint:"var(--blush)"},
+  {id:"vertical", name:"Launched vertically", short:"Straight up and down: one-direction motion with a = −g.", tint:"var(--apricot)"},
+  {id:"angle", name:"Fired at an angle", short:"Position and velocity in i and j at any time t.", tint:"var(--sage)"},
+  {id:"known", name:"Speed and angle known", short:"Time of flight, maximum height and range.", tint:"var(--cream)"},
+  {id:"maxrange", name:"Maximum range", short:"R = u² sin 2α ÷ g is biggest at α = 45°.", tint:"var(--blush)"},
+];
+const tname = id => TOPICS.find(t=>t.id===id).name;
+const LO = [
+  ["why","explain why horizontal and vertical motions can be treated separately"],
+  ["vertical","solve problems on projectiles launched vertically"],
+  ["angle","write the position and velocity of a projectile in i and j at time t"],
+  ["known","find the time of flight, maximum height and range from u and α"],
+  ["maxrange","show that the maximum range is u² ÷ g at 45°, and find angles for a given range"],
+];
+const LO_HEAD = {why:"3.1",vertical:"3.2",angle:"3.3",known:"3.4",maxrange:"3.5"};
+
+/* ---------- glossary ---------- */
+const GLOSS = [
+  ["Projectile","","An object moving freely under gravity alone after being launched.","why"],
+  ["Trajectory","path","The curve a projectile follows; a parabola without air resistance.","why"],
+  ["Parabola","","The curve y = ax − bx², the shape of a projectile's path.","why"],
+  ["Independence of motion","","The horizontal and vertical motions don't affect each other; only time links them.","why"],
+  ["Air resistance","drag","A force opposing motion through air; ignored in this chapter.","why"],
+  ["Model","","A simplified description; here, a particle with no air resistance and constant g.","why"],
+  ["Particle","","An object treated as a point, so its size and spin are ignored.","why"],
+  ["Acceleration due to gravity","g","9.8 m/s², downwards.","vertical"],
+  ["Vertical launch","","Projection straight up (α = 90°): motion in the j direction only.","vertical"],
+  ["Free fall","","Motion under gravity alone.","vertical"],
+  ["Relative velocity","","The velocity of one object as seen from another; for a thrown and a dropped ball it stays u.","vertical"],
+  ["Angle of projection","α","The angle between the launch velocity and the horizontal.","angle"],
+  ["Initial velocity","u","The launch speed and direction: u cos α i + u sin α j.","angle"],
+  ["Horizontal component","","u cos α: constant throughout the flight.","angle"],
+  ["Vertical component","","u sin α at launch; decreases by g every second.","angle"],
+  ["Position vector","r","x i + y j: where the projectile is relative to the launch point.","angle"],
+  ["Velocity vector","v","v<sub>i</sub> i + v<sub>j</sub> j at time t; always along the path (tangent).","angle"],
+  ["Speed","","The size of the velocity: √(v<sub>i</sub>² + v<sub>j</sub>²).","angle"],
+  ["Direction of motion","","The angle of the velocity: tan⁻¹(v<sub>j</sub> ÷ v<sub>i</sub>).","angle"],
+  ["Time of flight","T","Time from launch until it returns to the launch level: 2u sin α ÷ g.","known"],
+  ["Maximum height","H","Greatest height above the launch level: u² sin² α ÷ 2g.","known"],
+  ["Range","R","Horizontal distance to where it lands at the launch level: u² sin 2α ÷ g.","known"],
+  ["Highest point","apex","Where the vertical velocity is zero.","known"],
+  ["Double-angle formula","","sin 2α = 2 sin α cos α, used to simplify the range.","known"],
+  ["Equation of the path","","y = x tan α − gx² ÷ (2u² cos² α), from eliminating t.","known"],
+  ["Maximum range","","u² ÷ g, reached when sin 2α = 1, i.e. α = 45°.","maxrange"],
+  ["Complementary angles","","Angles adding to 90°; they give the same range.","maxrange"],
+  ["Target","","A point the projectile must hit; usually gives two possible angles.","maxrange"],
+  ["Lob","","The steeper of the two angles that hit a target: longer flight, higher path.","maxrange"],
+  ["Direct shot","","The shallower of the two angles: quicker, flatter path.","maxrange"],
+  ["Inclined plane","","A slope; projectiles on slopes come in later chapters/years.","maxrange"],
+  ["Horizontal launch","","Projection with α = 0, e.g. off a cliff or table.","why"],
+  ["Strobe photograph","","A picture showing an object's positions at equal time intervals.","why"],
+  ["Symmetry","","Without air resistance, the path up mirrors the path down.","known"],
+  ["Impact speed","","The speed on landing; at the launch level it equals the launch speed.","known"],
+].map(([t,aka,d,topic,f])=>({t,aka,d,topic,f,id:"g-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+t.length}));
+const glossBy = t => GLOSS.find(g=>g.t===t);
+const GL_LINKS = [["time of flight","Time of flight"],["maximum height","Maximum height"],["maximum range","Maximum range"],["trajectory","Trajectory"],["angle of projection","Angle of projection"],["range","Range"],["projectile","Projectile"]];
+@@INC function autoLink(str){ ||| /* ================= MODELS + DRAWINGS@@/* ================= MODELS + DRAWINGS ================= */
+const DEG = Math.PI/180, G = 9.8;
+function vec(ctx,x1,y1,x2,y2,col,lw=3,head=10){ const L=Math.hypot(x2-x1,y2-y1); if(L<1) return; line(ctx,x1,y1,x2,y2,col,lw); arrowHead(ctx,x2,y2,(x2-x1)/L,(y2-y1)/L,col,head); }
+const niceMax = v => { const c=[5,10,20,25,40,50,80,100,150,200,300,400,500]; return c.find(x=>x>=v)||Math.ceil(v/100)*100; };
+const tk = m => m<=10?2 : m<=25?5 : m<=50?10 : m<=100?20 : m<=250?50 : 100;
+function polyline(ctx,pts,col,lw=2.5,dash){ ctx.save(); ctx.strokeStyle=col; ctx.lineWidth=lw; if(dash) ctx.setLineDash(dash); ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.stroke(); ctx.restore(); }
+const proj = (u,a) => { const ux=u*Math.cos(a*DEG), uy=u*Math.sin(a*DEG), T=2*uy/G; return {ux,uy,T,H:uy*uy/(2*G),R:ux*T}; };
+// Scene in metres with equal scales: returns X, Y mappers
+function scene(ctx,w,h,Wm,Hm,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, padL=cp?10:24, padB=cp?14:24, s=Math.min((w-2*padL)/Wm,(h-padB-12)/Hm), x0=padL, y0=h-padB;
+  line(ctx,0,y0,w,y0,C.ink,2); return {X:x=>x0+x*s, Y:y=>y0-y*s, s, cp}; }
+// Dropped vs thrown
+function drawWhy(ctx,w,h,o){ const T=Math.sqrt(2*o.h/G), Wm=Math.max(o.u*T+4,o.h*0.6), sc=scene(ctx,w,h,Wm+2,o.h+2,o);
+  line(ctx,sc.X(0),sc.Y(0),sc.X(0),sc.Y(o.h),C.muted,1.5); rr(ctx,sc.X(-1.5),sc.Y(o.h),sc.X(0)-sc.X(-1.5)+2,sc.Y(0)-sc.Y(o.h),2); ctx.fillStyle=C["surface-2"]; ctx.fill();
+  const P=[]; for(let t=0;t<=T+1e-9;t+=T/80) P.push([sc.X(o.u*t+0.6),sc.Y(o.h-0.5*G*t*t)]); polyline(ctx,P,C.muted,1,[4,4]);
+  for(let t=0;t<=T+1e-9;t+=0.2){ const y=o.h-0.5*G*t*t; line(ctx,sc.X(0.6),sc.Y(y),sc.X(o.u*t+0.6),sc.Y(y),C.line,1); circle(ctx,sc.X(0.6),sc.Y(y),sc.cp?3:5,C.sage,C.ink,1); circle(ctx,sc.X(o.u*t+0.6),sc.Y(y),sc.cp?3:5,C.terra,C.ink,1); }
+  return T; }
+// Up meets down: height–time graphs
+function drawMeet(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const tB=Math.sqrt(2*o.H/G), tA=2*o.u/G, Tm=Math.max(1,Math.min(tB,tA)*1.15), Hm=niceMax(Math.max(o.H,o.u*o.u/(2*G))*1.1);
+  const fr=frame(ctx,w,h,{x0:0,x1:Tm,y0:0,y1:Hm,xl:"t (s)",yl:"height (m)",compact:o.compact||w<440,xt:Tm<=3?0.5:1,yt:tk(Hm)}), A=[],B=[];
+  for(let t=0;t<=Tm;t+=Tm/150){ const ya=o.u*t-0.5*G*t*t, yb=o.H-0.5*G*t*t; if(ya>=0) A.push([fr.X(t),fr.Y(ya)]); if(yb>=0) B.push([fr.X(t),fr.Y(yb)]); }
+  polyline(ctx,A,C.apricot,o.compact?2:3); polyline(ctx,B,C.sage,o.compact?2:3);
+  const tm=o.H/o.u, ym=o.u*tm-0.5*G*tm*tm; if(ym>=0&&tm<=Tm) circle(ctx,fr.X(tm),fr.Y(ym),o.compact?5:7,C.terra,C.ink,2); }
+// Trajectory with position and velocity at time t
+function drawAngle(ctx,w,h,o){ const p=proj(o.u,o.a), sc=scene(ctx,w,h,Math.max(p.R,p.H*1.4,5)*1.08,Math.max(p.H,p.R*0.3,3)*1.25,o), t=o.t*p.T;
+  const P=[]; for(let k=0;k<=120;k++){ const tt=p.T*k/120; P.push([sc.X(p.ux*tt),sc.Y(p.uy*tt-0.5*G*tt*tt)]); } polyline(ctx,P,C.muted,sc.cp?1.5:2,[5,4]);
+  const x=p.ux*t, y=p.uy*t-0.5*G*t*t, vx=p.ux, vy=p.uy-G*t, k=(sc.cp?1.2:2.2)*Math.min(w,h)/Math.max(30,o.u*6);
+  vec(ctx,sc.X(0),sc.Y(0),sc.X(x),sc.Y(y),C.apricot,sc.cp?1.5:2,sc.cp?6:8);
+  if(!o.noV){ vec(ctx,sc.X(x),sc.Y(y),sc.X(x)+vx*k,sc.Y(y)-vy*k,C.olive,sc.cp?2.5:3.5,sc.cp?7:10); line(ctx,sc.X(x),sc.Y(y),sc.X(x)+vx*k,sc.Y(y),C.olive,1,[3,3]); line(ctx,sc.X(x)+vx*k,sc.Y(y),sc.X(x)+vx*k,sc.Y(y)-vy*k,C.olive,1,[3,3]); }
+  circle(ctx,sc.X(x),sc.Y(y),sc.cp?5:8,C.terra,C.ink,1.5);
+  if(o.marks&&!sc.cp){ line(ctx,sc.X(p.R/2),sc.Y(0),sc.X(p.R/2),sc.Y(p.H),C.sage,1.5,[4,4]); text(ctx,`H = ${nf(p.H,1)} m`,sc.X(p.R/2)+6,sc.Y(p.H/2),C.ink,F(12,800),"left"); text(ctx,`R = ${nf(p.R,1)} m`,sc.X(p.R),sc.Y(0)+18,C.ink,F(12,800),"right"); } }
+// Several angles + target
+function drawMax(ctx,w,h,o){ const Rmax=o.u*o.u/G, sc=scene(ctx,w,h,Math.max(Rmax,o.d)*1.08,Rmax*0.55,o);
+  [15,30,45,60,75].forEach(a=>{ const p=proj(o.u,a), P=[]; for(let k=0;k<=80;k++){ const t=p.T*k/80; P.push([sc.X(p.ux*t),sc.Y(p.uy*t-0.5*G*t*t)]); } polyline(ctx,P,a===45?C.apricot:C.line,a===45?2.5:1.5); });
+  const p=proj(o.u,o.a), P=[]; for(let k=0;k<=100;k++){ const t=p.T*k/100; P.push([sc.X(p.ux*t),sc.Y(p.uy*t-0.5*G*t*t)]); } polyline(ctx,P,C.terra,sc.cp?2.5:3.5);
+  if(o.d!=null){ const hit=Math.abs(p.R-o.d)<0.6; rr(ctx,sc.X(o.d)-(sc.cp?5:8),sc.Y(0)-(sc.cp?10:16),sc.cp?10:16,sc.cp?10:16,3); ctx.fillStyle=hit?C.good:C.bad; ctx.fill(); } }
+
+@@INC /* ================= ROUTER ||| /* ================= OVERVIEW@@@@INC /* ================= OVERVIEW ||| let heroT=0;@@let heroT=0;
+
+/* ================= LEARN ================= */
+const LEARN = {
+  why:{ vis:[["why",{u:8,h:20}]], cap:"Dropped (sage) and thrown (terra) balls are at the same height at every instant.",
+    keys:[["⇄","Horizontally: no force, so constant velocity (ignoring air resistance)."],["↓","Vertically: only gravity, so uniform acceleration g downwards."],["t","The two directions are independent. Time links them."]],
+    f:"i: steady · j: a = −g", mistake:"Thinking a faster horizontal throw stays up longer. It lands at the same time." },
+  vertical:{ vis:[["meet",{u:20,H:30}]], cap:"A thrown up at 20 m/s and B dropped from 30 m meet after 1.5 s, at 19 m.",
+    keys:[["↑","Launched vertically: α = 90°, so all the motion is in the j direction."],["−g","Up positive: s = ut − ½gt², v = u − gt."],["=","Two objects: set their heights equal. The gravity terms cancel: t = H ÷ u."]],
+    f:"Meet at t = H ÷ u", mistake:"Forgetting the dropped ball also accelerates. Both fall with g, so relative motion is steady." },
+  angle:{ vis:[["angle",{u:20,a:50,t:0.3}]], cap:"At any time t, the position (apricot) and velocity (olive) split into i and j parts.",
+    keys:[["i","x = (u cos α)t; v<sub>i</sub> = u cos α, constant."],["j","y = (u sin α)t − ½gt²; v<sub>j</sub> = u sin α − gt."],["→","The velocity is always along the path; its size is √(v<sub>i</sub>² + v<sub>j</sub>²)."]],
+    f:"r = (u cos α)t i + ((u sin α)t − ½gt²) j", mistake:"Putting −½gt² in the i direction. Gravity only acts in j." },
+  known:{ vis:[["angle",{u:20,a:35,t:0.5,marks:true,noV:true}]], cap:"u = 20 m/s at 35°: up to 6.7 m high and 38.4 m long.",
+    keys:[["T","Time of flight: set y = 0 → T = 2u sin α ÷ g."],["H","Max height: set v<sub>j</sub> = 0 → t = u sin α ÷ g, H = u² sin² α ÷ 2g."],["R","Range: x at time T → R = u² sin 2α ÷ g."]],
+    f:"R = u² sin 2α ÷ g", mistake:"Using the time to the top as the time of flight. The full flight is twice as long." },
+  maxrange:{ vis:[["max",{u:20,a:45,d:null}]], cap:"At 20 m/s, 45° (apricot) goes furthest: 40.8 m. 30° and 60° tie at 35.3 m.",
+    keys:[["45°","sin 2α is biggest (= 1) when 2α = 90°: α = 45°."],["u²/g","Maximum range = u² ÷ g."],["⇋","α and 90° − α give the same range: two ways to hit most targets."]],
+    f:"R<sub>max</sub> = u² ÷ g", mistake:"Assuming a steeper launch always goes further. Above 45° the range falls again." },
+};
+@@INC $("learnList").innerHTML ||| /* ================= INFOGRAPHICS@@/* ================= INFOGRAPHICS ================= */
+const CASES = [
+  ["why","i direction (horizontal)","var(--apricot)",["Acceleration 0","Velocity u cos α, constant","Displacement x = (u cos α)t","Gives: range","Uses: time from j"]],
+  ["vertical","j direction (vertical)","var(--sage)",["Acceleration −g","Velocity u sin α − gt","Displacement y = (u sin α)t − ½gt²","Gives: height, time","Top: v<sub>j</sub> = 0 · Land: y = 0"]],
+];
+$("cases").innerHTML = CASES.map(([i,n,tn,rows])=>`<div class="panel sh-card"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="background:${tn}">${svg(i)}</div><h3>${n}</h3></div><ul>${rows.map(r=>`<li>${r}</li>`).join("")}</ul></div>`).join("");
+$("bars").innerHTML = [15,30,45,60,75].map((a,i)=>{ const R=proj(20,a).R; return `<div class="barrow"><span><b>α = ${a}°</b></span><div class="track"><i style="width:${(R/(400/G)*100).toFixed(1)}%;background:var(--${["sage","apricot","terra","apricot","sage"][i]})"></i></div><span class="v">${nf(R,1)} m</span></div>`; }).join("") + `<p class="result">Symmetric about 45°: 15° and 75° tie, as do 30° and 60°. Maximum u² ÷ g = 40.8 m.</p>`;
+const AROUND = [
+  ["ball","Kicking a ball","A goalkeeper's long kick: a flatter angle gets there quicker, a steeper one hangs in the air.",[["Two angles","neutral"]],"var(--blush)"],
+  ["javelin","Athletics","Shot put and long jump launch below 45° because the launch height and air resistance matter.",[["Model limits","alert"]],"var(--apricot)"],
+  ["water","Hoses and fountains","Each drop of water follows its own parabola; the jet's shape is the trajectory.",[["Parabola","real"]],"var(--sage)"],
+  ["rocket","Fireworks","Shells are fired so their highest point is at a safe height, then they burst.",[["Max height","neutral"]],"var(--cream)"],
+];
+$("around").innerHTML = AROUND.map(([i,t,p,ch,tn])=>`<div class="panel"><div class="ico" style="background:${tn}">${svg(i)}</div><div><h3>${t}</h3><p>${p}</p><div class="chips">${chipsHTML(ch)}</div></div></div>`).join("");
+
+/* ================= MIND MAP ================= */
+const MM = [
+  {id:"why",label:"Why",col:"var(--blush)",leaves:[["Independent","i and j."],["Gravity","Only j."],["Time","Links them."]]},
+  {id:"vertical",label:"Vertical",col:"var(--apricot)",leaves:[["α = 90°","j only."],["a = −g","Up +."],["Meet","t = H ÷ u."]]},
+  {id:"angle",label:"At an angle",col:"var(--sage)",leaves:[["u cos α","i part."],["u sin α","j part."],["r and v","At time t."]]},
+  {id:"known",label:"u and α known",col:"var(--cream)",leaves:[["T","2u sin α ÷ g."],["H","u² sin² α ÷ 2g."],["R","u² sin 2α ÷ g."]]},
+  {id:"maxrange",label:"Max range",col:"var(--blush)",leaves:[["45°","sin 2α = 1."],["u² ÷ g","Biggest R."],["Pairs","α, 90° − α."]]},
+];
+@@INC let mmSel ||| /* ================= FLASHCARDS@@/* ================= FLASHCARDS ================= */
+const CARDS = [
+  ["why","What is a projectile?","An object moving freely under gravity alone after launch."],
+  ["why","Why can i and j motion be treated separately?","Gravity acts only vertically; the horizontal velocity is unaffected (no air resistance)."],
+  ["why","A ball is dropped and another thrown horizontally from the same height. Which lands first?","Neither: they land together."],
+  ["why","What shape is a projectile's path?","A parabola."],
+  ["why","Ball thrown horizontally at 10 m/s from 19.6 m. Time to land?","19.6 = 4.9t² → t = 2 s."],
+  ["vertical","Acceleration of a vertically launched projectile (up positive)?","−9.8 m/s²."],
+  ["vertical","A thrown up at u, B dropped from H above at the same time. When do they meet?","t = H ÷ u."],
+  ["vertical","Why do the gravity terms cancel in that problem?","Both balls accelerate equally, so their relative velocity stays u."],
+  ["angle","Initial velocity in i and j?","u cos α i + u sin α j."],
+  ["angle","Position at time t?","(u cos α)t i + ((u sin α)t − ½gt²) j."],
+  ["angle","Velocity at time t?","u cos α i + (u sin α − gt) j."],
+  ["angle","Which velocity component is constant?","The horizontal (i) component, u cos α."],
+  ["angle","Speed at the highest point?","u cos α (only the horizontal part is left)."],
+  ["known","Time of flight?","T = 2u sin α ÷ g."],
+  ["known","Time to the highest point?","u sin α ÷ g."],
+  ["known","Maximum height?","u² sin² α ÷ 2g."],
+  ["known","Range?","u² sin 2α ÷ g."],
+  ["known","How is the range formula found?","Range = u cos α × T, then 2 sin α cos α = sin 2α."],
+  ["maxrange","At what angle is the range greatest?","45°."],
+  ["maxrange","Maximum range?","u² ÷ g."],
+  ["maxrange","Which angles give the same range?","Complementary ones: α and 90° − α."],
+  ["maxrange","How do you find the angles that hit a target at distance d?","sin 2α = gd ÷ u²: two solutions, α and 90° − α."],
+  ["maxrange","Why can't you hit a target further than u² ÷ g?","sin 2α can't be more than 1."],
+  ["known","Impact speed at the launch level?","The same as the launch speed u (by symmetry)."],
+];
+@@INC let fcKnown ||| /* ================= QUIZ@@/* ================= QUIZ ================= */
+const QUIZ = [
+  ["why","Ignoring air resistance, the horizontal velocity of a projectile:",["increases","decreases","stays constant","is zero"],2,"No horizontal force."],
+  ["why","A ball rolls off a 4.9 m high table at 3 m/s. It lands after:",["0.5 s","1 s","1.63 s","3 s"],1,"4.9 = 4.9t² → t = 1 s."],
+  ["why","How far from the table does it land?",["1.5 m","3 m","4.9 m","9.8 m"],1,"3 m/s × 1 s."],
+  ["vertical","A ball thrown straight up at 9.8 m/s reaches its top after:",["0.5 s","1 s","2 s","9.8 s"],1,"t = u ÷ g."],
+  ["vertical","A is thrown up at 15 m/s; B is dropped from 45 m above at the same moment. They meet after:",["1 s","2 s","3 s","4.5 s"],2,"t = H ÷ u = 45 ÷ 15."],
+  ["angle","The initial velocity of a projectile fired at 20 m/s and 30° is:",["20i + 20j","17.32i + 10j","10i + 17.32j","20i"],1,"20 cos 30° = 17.32; 20 sin 30° = 10."],
+  ["angle","At the highest point, the velocity of a projectile is:",["zero","vertical","horizontal","at angle α"],2,"Only the horizontal part remains."],
+  ["angle","The vertical velocity after t seconds is:",["u sin α","u sin α − gt","u cos α − gt","−gt only"],1,"v = u + at in j."],
+  ["known","The time of flight for u = 19.6 m/s at 30° is:",["1 s","2 s","4 s","19.6 s"],1,"2(19.6)(0.5) ÷ 9.8 = 2 s."],
+  ["known","The maximum height for u = 14 m/s at 90° is:",["5 m","10 m","14 m","20 m"],1,"14² ÷ 19.6 = 10 m."],
+  ["known","Range formula:",["u² sin α ÷ g","u² sin 2α ÷ g","2u sin α ÷ g","u² sin² α ÷ 2g"],1,"R = u² sin 2α ÷ g."],
+  ["known","The highest point is reached at:",["the start","half the time of flight","the end","one third of the flight"],1,"By symmetry."],
+  ["maxrange","The maximum range is reached at:",["30°","45°","60°","90°"],1,"sin 2α = 1."],
+  ["maxrange","Maximum range for u = 14 m/s:",["10 m","14 m","20 m","28 m"],2,"14² ÷ 9.8 = 20 m."],
+  ["maxrange","Which angle gives the same range as 25°?",["50°","65°","75°","155°"],1,"90° − 25° = 65°."],
+  ["maxrange","A target is beyond u² ÷ g. It can be hit:",["at 45°","at two angles","at no angle","at 90°"],2,"The range can't exceed u² ÷ g."],
+];
+@@INC let qz = ||| /* ================= EXAM PREP@@/* ================= EXAM PREP ================= */
+const CMDS = [
+  ["Show that","Derive the result from the equations of motion.","Show that the range is u² sin 2α ÷ g."],
+  ["Find","Work out with units.","Find the maximum height reached."],
+  ["Write down","State without long working.","Write down the initial velocity in terms of i and j."],
+  ["Hence","Use the previous result.","Hence, find the maximum range."],
+  ["Prove","A general argument.","Prove that α and 90° − α give the same range."],
+  ["Find the speed and direction","Size and angle of the velocity.","Find the speed and direction of the ball after 2 s."],
+];
+@@INC $("cmds").innerHTML ||| // Calculation trainer@@// Calculation trainer
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)), pick=a=>a[Math.floor(Math.random()*a.length)];
+const PTYPES = {
+  tof:{ name:"Time of flight", gen(){ const u=rnd(8,40), a=pick([15,20,25,30,35,40,45,50,55,60,65,70,75]), T=2*u*Math.sin(a*DEG)/G;
+      return { q:`A ball is projected at <b>${u} m/s</b> at <b>${a}°</b> to the horizontal over level ground. Find its time of flight in seconds (two decimal places).`, ans:T, unit:"s", steps:[`j: y = (${u} sin ${a}°)t − 4.9t² = 0`,`t = 2u sin α ÷ g = 2(${u})(${nf(Math.sin(a*DEG),4)}) ÷ 9.8`,`T = ${nf(T,2)} s`] }; } },
+  height:{ name:"Max height", gen(){ const u=rnd(8,40), a=pick([20,30,40,45,50,60,70,80]), H=(u*Math.sin(a*DEG))**2/(2*G);
+      return { q:`A stone is thrown at <b>${u} m/s</b> at <b>${a}°</b> to the horizontal. Find its maximum height in metres (two decimal places).`, ans:H, unit:"m", steps:[`At the top v<sub>j</sub> = 0: 0 = (u sin α)² − 2gH`,`H = (${u} sin ${a}°)² ÷ 19.6 = ${nf(u*Math.sin(a*DEG),3)}² ÷ 19.6`,`H = ${nf(H,2)} m`] }; } },
+  range:{ name:"Range", gen(){ const u=rnd(8,40), a=pick([15,20,25,30,35,40,45,50,55,60,65,70,75]), R=u*u*Math.sin(2*a*DEG)/G;
+      return { q:`A projectile is launched at <b>${u} m/s</b> at <b>${a}°</b> over level ground. Find its range in metres (two decimal places).`, ans:R, unit:"m", steps:[`R = u² sin 2α ÷ g`,`= ${u*u} × sin ${2*a}° ÷ 9.8`,`= ${nf(R,2)} m`] }; } },
+  speed:{ name:"Speed at time t", gen(){ const u=rnd(10,40), a=pick([30,40,45,50,60]), T=2*u*Math.sin(a*DEG)/G, t=Math.round(T*rnd(15,85))/100||0.5, vx=u*Math.cos(a*DEG), vy=u*Math.sin(a*DEG)-G*t, s=Math.hypot(vx,vy);
+      return { q:`A ball is kicked at <b>${u} m/s</b> at <b>${a}°</b> to the horizontal. Find its speed after <b>${t} s</b> (m/s, two decimal places).`, ans:s, unit:"m/s", steps:[`v<sub>i</sub> = ${u} cos ${a}° = ${nf(vx,3)}`,`v<sub>j</sub> = ${u} sin ${a}° − 9.8(${t}) = ${nf(vy,3)}`,`speed = √(${nf(vx,3)}² + ${nf(vy,3)}²) = ${nf(s,2)} m/s`] }; } },
+  horiz:{ name:"Horizontal launch", gen(){ const h=pick([4.9,10,19.6,20,30,44.1,50,78.4]), u=rnd(2,25), t=Math.sqrt(2*h/G), x=u*t;
+      return { q:`A ball is thrown horizontally at <b>${u} m/s</b> from the top of a cliff <b>${h} m</b> high. How far from the foot of the cliff does it land (m, two decimal places)?`, ans:x, unit:"m", steps:[`j: ${h} = 4.9t² → t = √(${h} ÷ 4.9) = ${nf(t,3)} s`,`i: x = ${u} × ${nf(t,3)}`,`x = ${nf(x,2)} m`] }; } },
+  aim:{ name:"Angle for a target (HL)", gen(){ const u=rnd(12,30), d=rnd(5,Math.floor(u*u/G*0.95)), a=Math.asin(G*d/(u*u))/2/DEG;
+      return { q:`A ball is projected at <b>${u} m/s</b> to land <b>${d} m</b> away on level ground. Find the smaller possible angle of projection (degrees, one decimal place).`, ans:a, unit:"°", steps:[`${d} = ${u*u} sin 2α ÷ 9.8`,`sin 2α = ${nf(G*d/(u*u),4)} → 2α = ${nf(2*a,2)}°`,`α = ${nf(a,1)}° (or ${nf(90-a,1)}°)`] }; } },
+};
+@@INC let pType= ||| // Which stage is this?@@// True or false? [statement, 1 true / 0 false, why]
+const PRED = [
+  ["The horizontal velocity of a projectile is constant (no air resistance).",1,"No horizontal force acts."],
+  ["At the highest point the velocity is zero.",0,"Only the vertical part is zero; the horizontal part remains."],
+  ["At the highest point the acceleration is zero.",0,"It's still g downwards."],
+  ["A ball thrown horizontally lands at the same time as one dropped from the same height.",1,"The vertical motions are identical."],
+  ["Maximum range is at 45° (level ground).",1,"sin 2α = 1."],
+  ["Launching at 60° goes further than 30° at the same speed.",0,"They give the same range."],
+  ["The time to the top is half the time of flight (level ground).",1,"By symmetry."],
+  ["The range is u² sin α ÷ g.",0,"It's u² sin 2α ÷ g."],
+  ["A projectile lands at the launch level with the same speed it started with.",1,"Symmetry: v<sub>j</sub> reverses, v<sub>i</sub> is unchanged."],
+  ["Doubling the launch speed doubles the range.",0,"Range ∝ u², so it quadruples."],
+];
+let pd = { k:-1, shown:false, sel:null, streak:0 };
+let predC=null;
+function pdNew(){ let k; do{ k=Math.floor(Math.random()*PRED.length); }while(k===pd.k); pd={...pd,k,shown:false,sel:null};
+  document.querySelectorAll("#predOpts button").forEach(b=>b.classList.remove("sel")); $("predFb").innerHTML="";
+  $("predQ").innerHTML=`<b>${PRED[k][0]}</b>`; if(predC) predC.redraw(); }
+$("predOpts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||pd.shown) return; pd.sel=+b.dataset.a; b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b)); });
+$("predCheck").addEventListener("click",()=>{
+  if(pd.sel==null){ $("predFb").innerHTML=`<div class="fb no">Pick an answer first.</div>`; return; }
+  const [,ans,why]=PRED[pd.k], ok=pd.sel===ans; pd.streak = ok? pd.streak+1 : 0; pd.shown=true; predC.redraw();
+  $("predFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Correct!":"Not quite."}</b> ${why}${ok?` Streak: ${pd.streak} 🔥`:""}</div>`;
+});
+$("predNext").addEventListener("click",pdNew);
+
+// Long questions
+const LONGQ = [
+  { title:"Range and height", intro:"A particle is projected from a point on level ground with speed u at angle α to the horizontal.",
+    parts:[["a","Write down the i and j components of its position after t seconds.",6,"x = (u cos α)t (3); y = (u sin α)t − ½gt² (3)."],
+      ["b","Show that the time of flight is 2u sin α ÷ g.",6,"y = 0 → t(u sin α − ½gt) = 0 (3); t = 0 or t = 2u sin α ÷ g (3)."],
+      ["c","Show that the range is u² sin 2α ÷ g, and deduce the maximum range.",10,"R = u cos α × 2u sin α ÷ g (3) = u²(2 sin α cos α) ÷ g = u² sin 2α ÷ g (3); max when sin 2α = 1, α = 45° (2), R<sub>max</sub> = u² ÷ g (2)."],
+      ["d","Find the maximum height in terms of u, α and g.",8,"v<sub>j</sub> = u sin α − gt = 0 → t = u sin α ÷ g (3); H = u sin α (u sin α ÷ g) − ½g(u sin α ÷ g)² (3) = u² sin² α ÷ 2g (2)."]] },
+  { title:"Over the wall", intro:"A ball is kicked from ground level at 20 m/s at 40° to the horizontal towards a wall 25 m away. Use g = 9.8 m/s².",
+    parts:[["a","Find how long the ball takes to reach the wall.",6,"x = (20 cos 40°)t = 15.32t (3); 25 ÷ 15.32 ≈ 1.63 s (3)."],
+      ["b","Find the height of the ball as it reaches the wall.",8,"y = (20 sin 40°)(1.632) − 4.9(1.632)² (4) ≈ 20.98 − 13.05 ≈ 7.93 m (4)."],
+      ["c","The wall is 6 m high. Does the ball clear it? Is it rising or falling there?",8,"Yes: 7.93 > 6 (3). v<sub>j</sub> = 12.86 − 9.8(1.632) ≈ −3.13 m/s, so it is falling (5)."],
+      ["d","Find the speed of the ball as it reaches the wall.",8,"√(15.32² + 3.13²) (5) ≈ 15.64 m/s (3)."]] },
+  { title:"Two ways to the target", intro:"A water jet leaves a nozzle at ground level at 14 m/s. It must hit a point on the ground 10 m away.",
+    parts:[["a","Show that sin 2α = 0.5.",8,"10 = 14² sin 2α ÷ 9.8 (4) → sin 2α = 98 ÷ 196 = 0.5 (4)."],
+      ["b","Find the two possible angles.",8,"2α = 30° or 150° (4) → α = 15° or 75° (4)."],
+      ["c","Find the time of flight for each, and say which hits sooner.",8,"T = 2(14) sin α ÷ 9.8: 15° → 0.74 s; 75° → 2.76 s (3 each); 15° is quicker (2)."],
+      ["d","What is the furthest point the jet can reach on the ground?",6,"14² ÷ 9.8 = 20 m, at 45° (6)."]] },
+];
+@@INC $("longqs").innerHTML ||| const RAG@@const RAG = ["Explain independence of horizontal and vertical motion","Solve horizontal-launch problems","Solve vertical-launch problems","Write the initial velocity in i and j","Write r and v at time t","Find the time to the top","Derive the time of flight","Derive the maximum height","Derive the range","Find speed and direction at time t","Show the maximum range is u² ÷ g at 45°","Find the two angles to hit a target"];
+@@INC const ragState ||| const SKILLS@@const SKILLS = [["State assumptions","Particle, no air resistance, constant g, level ground.","Dropped vs thrown lab"],["Define variables","u, α, g, t, with a diagram and axes.","Fired at an angle lab"],["Use data","Fit R against u² and compare the gradient with sin 2α ÷ g.","Collect & fit lab"],["Validate","Compare predictions with measurements; discuss air resistance.","Collect & fit lab"],["Interpret","Choose between two possible angles using time or height.","Best angle lab"]];
+@@INC const skState ||| /* ================= LAB STATE@@/* ================= LAB STATE + WIRING ================= */
+// Why
+const wh = {u:8,h:20};
+function whUpd(){ $("whUo").textContent=`${wh.u} m/s`; $("whHo").textContent=`${wh.h} m`; const T=Math.sqrt(2*wh.h/G);
+  setReadout($("whOut"),[["Both land after",`√(2h ÷ g) = ${nf(T,2)} s`],["Thrown ball lands",`${nf(wh.u*T,2)} m from the foot`],["Impact speed (thrown)",`${nf(Math.hypot(wh.u,G*T),2)} m/s`],["Impact speed (dropped)",`${nf(G*T,2)} m/s`]]); if(whC) whC.redraw(); }
+$("whU").addEventListener("input",e=>{ wh.u=+e.target.value; whUpd(); }); $("whH").addEventListener("input",e=>{ wh.h=+e.target.value; whUpd(); });
+// Vertical meet
+const vm = {u:20,H:30};
+function vmUpd(){ $("vtUo").textContent=`${vm.u} m/s`; $("vtHo").textContent=`${vm.H} m`; const t=vm.H/vm.u, y=vm.u*t-0.5*G*t*t, vA=vm.u-G*t;
+  setReadout($("vtOut"),[["Meet at t = H ÷ u",`${nf(t,2)} s`],["Height then",y>=0?`${nf(y,2)} m`:"below ground: they don't meet in the air"],["Ball A is",y<0?"–":vA>0?`still rising (${nf(vA,2)} m/s)`:`falling (${nf(-vA,2)} m/s)`],["Ball B speed then",`${nf(G*t,2)} m/s`]]); if(vtC) vtC.redraw(); }
+$("vtU").addEventListener("input",e=>{ vm.u=+e.target.value; vmUpd(); }); $("vtH").addEventListener("input",e=>{ vm.H=+e.target.value; vmUpd(); });
+// Angle
+const an = {u:20,a:50,t:0.32};
+function anUpd(){ const p=proj(an.u,an.a), t=an.t*p.T, x=p.ux*t, y=p.uy*t-0.5*G*t*t, vy=p.uy-G*t; $("anUo").textContent=`${an.u} m/s`; $("anAo").textContent=`${an.a}°`; $("anTo").textContent=`${nf(t,2)} s`;
+  setReadout($("anOut"),[["r",`${nf(x,2)}i ${y<0?"−":"+"} ${nf(Math.abs(y),2)}j m`],["v",`${nf(p.ux,2)}i ${vy<0?"−":"+"} ${nf(Math.abs(vy),2)}j m/s`],["Speed",`${nf(Math.hypot(p.ux,vy),2)} m/s`],["Direction",`${nf(Math.atan2(vy,p.ux)/DEG,1)}° to the horizontal`]]); if(anC) anC.redraw(); }
+[["anU","u"],["anA","a"],["anT","t"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ an[k]=+e.target.value; anUpd(); }));
+// Known: collect R vs u²
+const kn = {u:15,a:30,rows:[]};
+function knFit(){ const p=kn.rows.filter(r=>r[0]===kn.a).map(r=>[r[1]*r[1],r[2]]); if(p.length<2) return null; const mx=p.reduce((a,b)=>a+b[0],0)/p.length, my=p.reduce((a,b)=>a+b[1],0)/p.length; let sxy=0,sxx=0; p.forEach(([x,y])=>{ sxy+=(x-mx)*(y-my); sxx+=(x-mx)**2; }); if(!sxx) return null; const m=sxy/sxx; return {m,c:my-m*mx}; }
+function knUpd(){ $("knUo").textContent=`${kn.u} m/s`; $("knAo").textContent=`${kn.a}°`; const p=proj(kn.u,kn.a), f=knFit(), th=Math.sin(2*kn.a*DEG)/G;
+  setReadout($("knOut"),[["Time of flight",`${nf(p.T,2)} s`],["Max height",`${nf(p.H,2)} m`],["Range (theory)",`${nf(p.R,2)} m`],["Theory gradient sin 2α ÷ g",nf(th,4)]]);
+  $("knTable").innerHTML = kn.rows.map(([a,u,R])=>`<tr><td>${a}°</td><td>${u}</td><td>${u*u}</td><td>${nf(R,1)}</td></tr>`).join("") || `<tr><td colspan="4">No readings yet. Pick u and fire.</td></tr>`;
+  $("knRes").innerHTML = f? `At ${kn.a}°: <b>R ≈ ${nf(f.m,4)} u² ${f.c<0?"−":"+"} ${nf(Math.abs(f.c),2)}</b>. Theory gradient ${nf(th,4)}; your g ≈ <b>${nf(Math.sin(2*kn.a*DEG)/f.m,2)} m/s²</b>.` : `Take at least two readings at ${kn.a}°.`;
+  if(knC){ knC.redraw(); knG.redraw(); } }
+$("knU").addEventListener("input",e=>{ kn.u=+e.target.value; knUpd(); }); $("knA").addEventListener("input",e=>{ kn.a=+e.target.value; knUpd(); });
+$("knRec").addEventListener("click",()=>{ const R=proj(kn.u,kn.a).R*(1+(Math.random()-0.5)*0.04); kn.rows.push([kn.a,kn.u,Math.round(R*10)/10]); knUpd(); });
+$("knClr").addEventListener("click",()=>{ kn.rows=[]; knUpd(); });
+// Max range
+const mr = {u:20,a:30,d:30};
+function mrUpd(){ $("mrUo").textContent=`${mr.u} m/s`; $("mrAo").textContent=`${mr.a}°`; $("mrDo").textContent=`${mr.d} m`; const R=proj(mr.u,mr.a).R, Rm=mr.u*mr.u/G, sv=G*mr.d/(mr.u*mr.u);
+  const ang = sv<=1? Math.asin(sv)/2/DEG : null;
+  setReadout($("mrOut"),[["Range at this angle",`${nf(R,2)} m`],["Same range at",`${90-mr.a}°`],["Maximum range u² ÷ g",`${nf(Rm,2)} m at 45°`],["To hit the target",ang==null?"impossible: beyond the maximum range":`α = ${nf(ang,1)}° or ${nf(90-ang,1)}°`],["Now",Math.abs(R-mr.d)<0.6?"Hit! 🎯":R<mr.d?"short":"long"]]); if(mrC) mrC.redraw(); }
+[["mrU","u"],["mrA","a"],["mrD","d"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ mr[k]=+e.target.value; mrUpd(); }));
+
+/* ================= CREATE CANVASES ================= */
+let whC=null, vtC=null, anC=null, knC=null, knG=null, mrC=null;
+const hero = makeCanvas($("heroCanvas"), 0.75, 240, s => { drawAngle(s.ctx,s.w,s.h,{u:20,a:55,t:reduce?0.3:((heroT*0.25)%1)}); }, 440);
+whC = makeCanvas($("whC"), 0.5, 260, s => drawWhy(s.ctx,s.w,s.h,wh), 440);
+vtC = makeCanvas($("vtC"), 0.5, 260, s => drawMeet(s.ctx,s.w,s.h,vm), 440);
+anC = makeCanvas($("anC"), 0.5, 260, s => drawAngle(s.ctx,s.w,s.h,an), 440);
+knC = makeCanvas($("knC"), 0.42, 240, s => drawAngle(s.ctx,s.w,s.h,{u:kn.u,a:kn.a,t:0.5,marks:true,noV:true}), 380);
+knG = makeCanvas($("knG"), 0.7, 200, s => { bg(s.ctx,s.w,s.h); const fr=frame(s.ctx,s.w,s.h,{x0:0,x1:900,y0:0,y1:95,xl:"u² (m²/s²)",yl:"R (m)",compact:true,xt:300,yt:20}), f=knFit(); if(f) line(s.ctx,fr.X(0),fr.Y(f.c),fr.X(900),fr.Y(Math.min(95,f.c+f.m*900)),C.terra,2.5); kn.rows.forEach(([a,u,R])=>circle(s.ctx,fr.X(u*u),fr.Y(Math.min(95,R)),4,a===kn.a?C.surface:C["surface-2"],a===kn.a?C.ink:C.muted,2)); }, 320);
+mrC = makeCanvas($("mrC"), 0.5, 260, s => drawMax(s.ctx,s.w,s.h,mr), 440);
+predC = makeCanvas($("predC"), 0.42, 160, s => { bg(s.ctx,s.w,s.h,C["surface-2"]); const cw=(s.w-32)/2;
+  [["✓","True",1],["✗","False",0]].forEach(([sym,l,v],i)=>{ const x=16+i*cw, hit=pd.shown&&PRED[pd.k][1]===v; rr(s.ctx,x+4,16,cw-8,s.h-32,14); s.ctx.fillStyle=hit?C.terra:C.surface; s.ctx.fill(); s.ctx.strokeStyle=C.line; s.ctx.stroke();
+    text(s.ctx,sym,x+cw/2,s.h/2-2,hit?C["on-accent"]||"#fff":C.ink,F(s.w<380?18:24,800),"center"); text(s.ctx,l,x+cw/2,s.h/2+22,hit?C["on-accent"]||"#fff":C.muted,F(12),"center"); }); }, 240);
+pdNew();
+const MINI = {
+  why:(s,o)=>drawWhy(s.ctx,s.w,s.h,{...o,compact:true}),
+  meet:(s,o)=>drawMeet(s.ctx,s.w,s.h,{...o,compact:true}),
+  angle:(s,o)=>drawAngle(s.ctx,s.w,s.h,{...o,compact:true}),
+  max:(s,o)=>drawMax(s.ctx,s.w,s.h,{...o,compact:true}),
+};
+document.querySelectorAll("canvas[data-learn]").forEach(el=>{ const [kind,o]=LEARN[el.dataset.learn].vis[+el.dataset.k]; makeCanvas(el, 0.62, 150, s=>MINI[kind](s,o), 380); });
+const INFO = { a30:["max",{u:20,a:30,d:null}], a45:["max",{u:20,a:45,d:null}], a60:["max",{u:20,a:60,d:null}] };
+document.querySelectorAll("canvas[data-mini]").forEach(el=>{ const [k,o]=INFO[el.dataset.mini]; makeCanvas(el,0.7,160,s=>MINI[k](s,{...o,bgc:C["surface-2"]})); });
+whUpd(); vmUpd(); anUpd(); knUpd(); mrUpd();
+
+@@INC /* ================= LOOP / THEME / START ||| </html>@@

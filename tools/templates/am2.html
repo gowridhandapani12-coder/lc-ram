@@ -1,0 +1,679 @@
+@@INC <title> ||| <!-- ================= TOP BAR@@@@INC <!-- ================= TOP BAR ||| <!-- ================= SIDEBAR@@<!-- ================= SIDEBAR ================= -->
+  <aside class="side" id="side" aria-label="Course navigation">
+    <div>
+      <h4>This chapter</h4>
+      <div class="topiclist" id="topicList"></div>
+    </div>
+    <div class="course">
+      <h4>Chapters</h4>
+@@SIDEBAR:2@@
+    </div>
+  </aside>
+
+  <main id="main">
+    <!-- ================= OVERVIEW ================= -->
+    <section class="view" data-view="overview">
+      <div class="hero">
+        <div>
+          <span class="pill t">Applied Maths · Chapter 2</span>
+          <h1 style="margin-top:12px">Uniform acceleration.<br>Five letters,<br><em>four equations.</em></h1>
+          <p class="lede">u, v, a, s, t. Know any three and you can find the other two. Learn the equations, read time–velocity graphs, and solve the classic problems: simultaneous equations, speeding up then slowing down, two objects, and motion under gravity.</p>
+          <div class="cta"><button class="primary" data-go="learn">Start learning</button><button data-go="labs">Open the labs</button><button data-go="quiz">Test yourself</button></div>
+        </div>
+        <div class="herobox"><canvas id="heroCanvas" aria-label="Animated time–velocity graph with the area under it filling up"></canvas></div>
+      </div>
+      <div class="stats">
+        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/8</b><div class="prog"><i id="stLOb"></i></div></div>
+        <div class="panel stat"><span>Flashcards you know</span><b id="stFC">0</b><div class="prog"><i id="stFCb"></i></div></div>
+        <div class="panel stat"><span>Best quiz score</span><b id="stQZ">–</b><div class="prog"><i id="stQZb"></i></div></div>
+      </div>
+      <div>
+        <div class="head" style="margin-bottom:14px"><h2>Eight sections</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
+        <div class="topics" id="topicCards"></div>
+      </div>
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">By the end of this chapter</p><h2>You should be able to</h2></div><p style="font-size:.88rem">Tick each one when you're confident. Saved on this device.</p></div>
+        <ul class="lo-list" id="loList"></ul>
+        <p class="result" style="margin-top:10px">This page follows the sections of Chapter 2 (Uniform Acceleration) in your Applied Maths textbook. The explanations, labs and questions here are our own. Before: Chapter 1 Units &amp; Vectors. Next: Chapter 3 Projectiles.</p>
+      </div>
+    </section>
+
+    <!-- ================= LEARN ================= -->
+    <section class="view" data-view="learn" hidden>
+      <div class="head"><div><p class="eyebrow">Visual notes</p><h2>Learn</h2></div><p>Picture first, three key ideas, one common mistake. Then open the lab and try it.</p></div>
+      <div class="learn" id="learnList"></div>
+    </section>
+
+    <!-- ================= LABS ================= -->
+    <section class="view" data-view="labs" hidden>
+      <div class="head"><div><p class="eyebrow">Interactive</p><h2>Labs</h2></div><p>One lab for each section. Every result updates live. g = 9.8 m/s².</p></div>
+      <div class="labtabs" id="labTabs"></div>
+
+      <div class="lab" data-lab="uat">
+        <div class="labhead"><span class="pill t">The equations</span><p class="goal">Set the initial velocity, the acceleration and the time. The car's position is marked every second, and all four equations are checked live.</p></div>
+        <div class="panel sim">
+          <canvas id="uaC" aria-label="Car on a road with its position marked every second"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="uaU">u <output id="uaUo">4 m/s</output></label><input type="range" id="uaU" min="0" max="20" step="1" value="4"></div>
+            <div class="ctl"><label for="uaA">a <output id="uaAo">2 m/s²</output></label><input type="range" id="uaA" min="-4" max="4" step="0.5" value="2"></div>
+            <div class="ctl"><label for="uaT">t <output id="uaTo">5 s</output></label><input type="range" id="uaT" min="0" max="10" step="1" value="5"></div>
+          </div>
+          <div class="readout" id="uaOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>With a = 0, how do the gaps between the marks compare?</div><div class="try"><b>2</b>With a &gt; 0, by how much does each gap grow?</div><div class="try"><b>3</b>Make a negative. When does the car stop?</div></div>
+      </div>
+
+      <div class="lab" data-lab="vt" hidden>
+        <div class="labhead"><span class="pill t">Collect &amp; fit</span><p class="goal">A trolley rolls down a ramp with an unknown starting velocity and acceleration. Measure its velocity at different times (small error). Fit a line: the gradient is a, the intercept is u, and the area under the line is the distance.</p></div>
+        <div class="panel sim">
+          <canvas id="vtC" aria-label="Time–velocity graph with the shaded area up to the chosen time"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="vtT">Time t <output id="vtTo">2.0 s</output></label><input type="range" id="vtT" min="0" max="8" step="0.5" value="2"></div>
+            <div class="ctl"><span class="lbl">Data</span><div class="btns"><button class="primary" id="vtRec">Measure v</button><button id="vtClr">Clear</button><button id="vtNew">New trolley</button></div></div>
+          </div>
+          <div class="datapanel">
+            <div class="tablewrap"><table><thead><tr><th>t (s)</th><th>v (m/s)</th></tr></thead><tbody id="vtTable"></tbody></table></div>
+            <div class="graphbox"><canvas id="vtG" aria-label="Measured velocities with a line of best fit"></canvas><p class="result" id="vtRes"></p></div>
+          </div>
+          <div class="readout" id="vtOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Take six readings. Read u and a from the line.</div><div class="try"><b>2</b>Use the area of the trapezium to find the distance in the first 8 s.</div><div class="try"><b>3</b>Check your distance with s = ut + ½at².</div></div>
+      </div>
+
+      <div class="lab" data-lab="linear" hidden>
+        <div class="labhead"><span class="pill t">Which equation?</span><p class="goal">Pick the quantity you want and the one that isn't involved. Use the equation that leaves out the uninvolved letter. Example: a car with u = 4 m/s, a = 2 m/s², t = 5 s (so v = 14 m/s, s = 45 m).</p></div>
+        <div class="panel sim">
+          <canvas id="lnC" aria-label="Five circles for u, v, a, s, t coloured as given, wanted or not involved"></canvas>
+          <div class="controls">
+            <div class="ctl"><span class="lbl">Find</span><div class="btns" id="lnW"><button data-k="u" aria-pressed="false">u</button><button data-k="v" aria-pressed="false">v</button><button data-k="a" aria-pressed="false">a</button><button data-k="s" aria-pressed="true">s</button><button data-k="t" aria-pressed="false">t</button></div></div>
+            <div class="ctl"><span class="lbl">Not involved</span><div class="btns" id="lnX"><button data-k="u" aria-pressed="false">u</button><button data-k="v" aria-pressed="true">v</button><button data-k="a" aria-pressed="false">a</button><button data-k="s" aria-pressed="false">s</button><button data-k="t" aria-pressed="false">t</button></div></div>
+          </div>
+          <div class="readout" id="lnOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Find v without using s. Which equation?</div><div class="try"><b>2</b>Find t without using a. Rearrange it yourself first.</div><div class="try"><b>3</b>Find a without using t. Check the answer is 2.</div></div>
+      </div>
+
+      <div class="lab" data-lab="simul" hidden>
+        <div class="labhead"><span class="pill t">Two equations, two unknowns</span><p class="goal">A particle passes A, B and C in a straight line with uniform acceleration. It takes t₁ to go from A to B and t₂ from B to C. Each fact gives a line in the (u, a) plane; they cross at the answer.</p></div>
+        <div class="panel sim">
+          <canvas id="smC" aria-label="Two straight lines in the u–a plane crossing at the solution"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="smD1">|AB| <output id="smD1o">24 m</output></label><input type="range" id="smD1" min="5" max="60" step="1" value="24"></div>
+            <div class="ctl"><label for="smT1">t₁ <output id="smT1o">2 s</output></label><input type="range" id="smT1" min="1" max="8" step="1" value="2"></div>
+            <div class="ctl"><label for="smD2">|BC| <output id="smD2o">40 m</output></label><input type="range" id="smD2" min="5" max="80" step="1" value="40"></div>
+            <div class="ctl"><label for="smT2">t₂ <output id="smT2o">2 s</output></label><input type="range" id="smT2" min="1" max="8" step="1" value="2"></div>
+          </div>
+          <div class="readout" id="smOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Write the two equations from the readout. Solve them by hand.</div><div class="try"><b>2</b>Make |AB| = |BC| with equal times. What is a?</div><div class="try"><b>3</b>When are the lines parallel?</div></div>
+      </div>
+
+      <div class="lab" data-lab="accdec" hidden>
+        <div class="labhead"><span class="pill t">Speed up, slow down</span><p class="goal">A train starts from rest, accelerates at a₁, then decelerates at a₂ to stop, taking T seconds in all. The v–t graph is a triangle.</p></div>
+        <div class="panel sim">
+          <canvas id="adC" aria-label="Triangular time–velocity graph"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="adA1">a₁ <output id="adA1o">0.5 m/s²</output></label><input type="range" id="adA1" min="0.1" max="2" step="0.1" value="0.5"></div>
+            <div class="ctl"><label for="adA2">a₂ <output id="adA2o">1.0 m/s²</output></label><input type="range" id="adA2" min="0.1" max="2" step="0.1" value="1"></div>
+            <div class="ctl"><label for="adT">Total time T <output id="adTo">90 s</output></label><input type="range" id="adT" min="10" max="200" step="5" value="90"></div>
+          </div>
+          <div class="readout" id="adOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Check v<sub>max</sub> = a₁a₂T ÷ (a₁ + a₂).</div><div class="try"><b>2</b>Make a₁ = a₂. Where is the peak?</div><div class="try"><b>3</b>How does the distance compare with v<sub>max</sub> × T?</div></div>
+      </div>
+
+      <div class="lab" data-lab="two" hidden>
+        <div class="labhead"><span class="pill t">Catch up</span><p class="goal">A speeding car passes a parked police car at constant speed. The police car starts from rest (after a delay) with constant acceleration. Where the distance–time graphs cross, the police catch up.</p></div>
+        <div class="panel sim">
+          <canvas id="twC" aria-label="Distance–time graphs of a constant-speed car and an accelerating car"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="twV">Speeder's speed <output id="twVo">30 m/s</output></label><input type="range" id="twV" min="10" max="40" step="1" value="30"></div>
+            <div class="ctl"><label for="twA">Police acceleration <output id="twAo">3 m/s²</output></label><input type="range" id="twA" min="1" max="6" step="0.5" value="3"></div>
+            <div class="ctl"><label for="twD">Delay <output id="twDo">0 s</output></label><input type="range" id="twD" min="0" max="5" step="1" value="0"></div>
+          </div>
+          <div class="readout" id="twOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>With no delay, check t = 2v ÷ a.</div><div class="try"><b>2</b>At the moment they meet, how fast is the police car going?</div><div class="try"><b>3</b>When is the gap between them biggest?</div></div>
+      </div>
+
+      <div class="lab" data-lab="gravity" hidden>
+        <div class="labhead"><span class="pill t">Thrown upwards</span><p class="goal">A ball is thrown straight up with speed u. Take up as positive, so a = −9.8 m/s². It passes any height below the top twice: once going up, once coming down.</p></div>
+        <div class="panel sim">
+          <canvas id="grC" aria-label="Height–time graph of a ball thrown upwards with a chosen height marked"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="grU">u <output id="grUo">19.6 m/s</output></label><input type="range" id="grU" min="4.9" max="29.4" step="4.9" value="19.6"></div>
+            <div class="ctl"><label for="grH">Height h <output id="grHo">10 m</output></label><input type="range" id="grH" min="0" max="45" step="1" value="10"></div>
+          </div>
+          <div class="readout" id="grOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Check: time to the top = u ÷ g, maximum height = u² ÷ 2g.</div><div class="try"><b>2</b>What is the velocity at the top? And the acceleration?</div><div class="try"><b>3</b>Is the time going up equal to the time coming down?</div></div>
+      </div>
+
+      <div class="lab" data-lab="letters" hidden>
+        <div class="labhead"><span class="pill t">Test a general result</span><p class="goal">Results found with letters work for every number. Pick a result and some values: the lab compares the formula with a step-by-step simulation of the motion (0.001 s steps).</p></div>
+        <div class="panel sim">
+          <canvas id="ltC" aria-label="Two bars comparing the formula with a step-by-step simulation"></canvas>
+          <div class="controls">
+            <div class="ctl" style="grid-column:1/-1"><span class="lbl">Result</span><div class="btns" id="ltR"></div></div>
+            <div class="ctl"><label for="ltP">p <output id="ltPo">10</output></label><input type="range" id="ltP" min="1" max="30" step="1" value="10"></div>
+            <div class="ctl"><label for="ltQ">q <output id="ltQo">2</output></label><input type="range" id="ltQ" min="0.5" max="6" step="0.5" value="2"></div>
+          </div>
+          <div class="readout" id="ltOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Derive each result yourself from the suvat equations.</div><div class="try"><b>2</b>Try extreme values. Does the formula still match?</div><div class="try"><b>3</b>Why is a letter answer more useful than a number?</div></div>
+      </div>
+    </section>
+
+    <!-- ================= MIND MAP ================= -->
+    <section class="view" data-view="mindmap" hidden>
+      <div class="head"><div><p class="eyebrow">See the big picture</p><h2>Mind map</h2></div><p>Tap any bubble to see what it means and jump to its lab.</p></div>
+      <div class="panel pad mmdetail" id="mmDetail"></div>
+      <div class="panel mmwrap"><svg id="mm" viewBox="0 0 1100 780" role="img" aria-label="Mind map of uniform acceleration"></svg></div>
+    </section>
+
+    <!-- ================= INFOGRAPHICS ================= -->
+    <section class="view" data-view="infographics" hidden>
+      <div class="head"><div><p class="eyebrow">Picture it</p><h2>The four equations</h2></div><p>Each one leaves out one of the five letters.</p></div>
+      <div class="cases" id="cases"></div>
+
+      <div class="head"><div><p class="eyebrow">Three graphs</p><h2>Reading v–t graphs</h2></div></div>
+      <div class="boundary">
+        <div class="panel case"><canvas class="mini" data-mini="const"></canvas><h3>Constant velocity</h3><p>Flat line: a = 0.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="acc"></canvas><h3>Uniform acceleration</h3><p>Straight sloping line: gradient = a.</p></div>
+        <div class="panel case"><canvas class="mini" data-mini="tri"></canvas><h3>Accelerate then brake</h3><p>Triangle: area = distance.</p></div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:16px"><div><p class="eyebrow">Ball thrown up at 19.6 m/s</p><h2>Height every half second</h2></div><p>s = 19.6t − 4.9t².</p></div>
+        <div class="bars" id="bars"></div>
+      </div>
+
+      <div class="head"><div><p class="eyebrow">Uniform acceleration around you</p><h2>Where you'll see it</h2></div></div>
+      <div class="around" id="around"></div>
+    </section>
+
+@@INC <!-- ================= FLASHCARDS ||| <!-- ================= EXAM PREP@@<!-- ================= EXAM PREP ================= -->
+    <section class="view" data-view="exam" hidden>
+      <div class="head"><div><p class="eyebrow">Get exam ready</p><h2>Exam prep</h2></div><p>How Applied Maths is assessed, what the question words mean, and practice with feedback.</p></div>
+
+      <div class="exgrid">
+        <div class="panel pad donutbox">
+          <svg viewBox="0 0 160 160" class="donut" aria-label="Assessment split: 80% written exam, 20% modelling project">
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--sage)" stroke-width="26"/>
+            <circle cx="80" cy="80" r="58" fill="none" stroke="var(--terra)" stroke-width="26" stroke-dasharray="291.5 364.4" transform="rotate(-90 80 80)"/>
+            <text x="80" y="76" text-anchor="middle" class="dn1">80 / 20</text><text x="80" y="96" text-anchor="middle" class="dn2">of your grade</text>
+          </svg>
+          <div class="splits">
+            <div><i style="background:var(--terra)"></i><div><b>Written exam · 80%</b><p>Higher or Ordinary level, set by the SEC.</p></div></div>
+            <div><i style="background:var(--sage)"></i><div><b>Modelling project · 20%</b><p>A report on a real problem from an SEC brief, done in 6th year.</p></div></div>
+          </div>
+        </div>
+        <div class="panel pad">
+          <h3 style="margin-bottom:10px">Top exam tips for uniform acceleration</h3>
+          <ol class="tips">
+            <li>List u, v, a, s, t for each stage of the motion. Circle what you want.</li>
+            <li>Pick the equation that <b>leaves out</b> the letter you don't know and don't want.</li>
+            <li>Choose a positive direction and stick to it; deceleration is a negative a.</li>
+            <li>Sketch the v–t graph: gradient = acceleration, area = distance.</li>
+            <li>For points A, B, C, write <b>two equations from A</b> (A to B and A to C) and solve simultaneously.</li>
+            <li>Two objects: write s for each in terms of the <b>same t</b>, then set them equal.</li>
+            <li>Under gravity, a = −9.8 m/s² if up is positive. At the top, v = 0.</li>
+            <li>The questions here are practice questions, not official SEC papers.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Read the question</p><h2>Question words</h2></div><p>Common instructions in uniform acceleration questions.</p></div>
+        <div class="cmds" id="cmds"></div>
+      </div>
+
+      <div class="exgrid">
+        <div class="panel pad practice">
+          <div class="head"><div><p class="eyebrow">suvat numbers</p><h2>Calculation trainer</h2></div></div>
+          <div class="btns" id="prType"></div>
+          <div class="pq" id="pq"></div>
+          <div class="pa"><input id="paIn" type="text" inputmode="decimal" placeholder="Your answer" aria-label="Your answer" autocomplete="off"><span id="paUnit" class="mono"></span><button class="primary" id="paCheck">Check</button><button id="paShow">Show solution</button><button id="paNext">New question</button></div>
+          <div id="paFb"></div>
+          <p class="result" id="paScore"></p>
+        </div>
+        <div class="panel pad predict">
+          <div class="head"><div><p class="eyebrow">Quick-fire drill</p><h2>Which equation?</h2></div></div>
+          <canvas id="predC" aria-label="Four equation boxes; the right one lights up after you check"></canvas>
+          <p class="result" id="predQ"></p>
+          <div class="predopts" id="predOpts"><div class="btns"><button data-a="0">v = u + at</button><button data-a="1">s = ut + ½at²</button><button data-a="2">v² = u² + 2as</button><button data-a="3">s = ½(u + v)t</button></div></div>
+          <div class="btns"><button class="primary" id="predCheck">Check</button><button id="predNext">Next one</button></div>
+          <div id="predFb"></div>
+        </div>
+      </div>
+
+@@INC <div class="panel pad">
+        <div class="head" style="margin-bottom:14px"><div><p class="eyebrow">Practice questions ||| <!-- ================= FORMULAE@@<!-- ================= FORMULAE ================= -->
+    <section class="view" data-view="formulae" hidden>
+      <div class="head"><div><p class="eyebrow">Revision</p><h2>Formula sheet</h2></div><p>Uniform acceleration on one page.</p></div>
+      <div class="sheet">
+        <div class="panel fcell"><span class="pill">No s</span><span class="big">v = u + at</span></div>
+        <div class="panel fcell"><span class="pill">No v</span><span class="big">s = ut + ½at²</span></div>
+        <div class="panel fcell"><span class="pill">No t</span><span class="big">v² = u² + 2as</span></div>
+        <div class="panel fcell"><span class="pill">No a</span><span class="big">s = ½(u + v)t</span></div>
+        <div class="panel fcell"><span class="pill">v–t graph</span><span class="big">gradient = a · area = s</span></div>
+        <div class="panel fcell"><span class="pill">Gravity</span><span class="big">a = −g = −9.8 m/s² (up positive)</span><dl><dt>Time to top</dt><dd>u ÷ g</dd><dt>Max height</dt><dd>u² ÷ 2g</dd></dl></div>
+        <div class="panel fcell"><span class="pill a">Accelerate then brake</span><span class="big">v<sub>max</sub> = a₁a₂T ÷ (a₁ + a₂)</span><dl><dt>Distance</dt><dd>½ v<sub>max</sub> T</dd></dl></div>
+        <div class="panel fcell"><span class="pill a">Catch up from rest</span><span class="big">t = 2v ÷ a</span><dl><dt>Then</dt><dd>police speed = 2v</dd></dl></div>
+        <div class="panel fcell"><span class="pill a">nth second</span><span class="big">sₙ = u + a(n − ½)</span><dl><dt>Why</dt><dd>s after n s minus s after n − 1 s</dd></dl></div>
+      </div>
+      <footer>
+        <p>Follows the sections of Chapter 2 of your Applied Maths textbook. All explanations, labs and questions on this page are original. g = 9.8 m/s².</p>
+      </footer>
+    </section>
+  </main>
+</div>
+</div>
+
+@@INC <script> ||| /* ---------- icons + topics@@/* ---------- icons + topics ---------- */
+const ICON = {
+  uat:'<path d="M3 17h18"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M5 13h14l-2-4H8z"/>',
+  vt:'<path d="M4 4v16h16"/><path d="M4 16l14-10"/>',
+  linear:'<path d="M4 7h16M4 12h10M4 17h6"/>',
+  simul:'<path d="M4 18L20 6M4 8l16 10"/><circle cx="12" cy="12" r="1.8"/>',
+  accdec:'<path d="M4 20V4M4 20h16"/><path d="M4 20l6-12 10 12"/>',
+  two:'<path d="M4 20V4M4 20h16"/><path d="M4 20L20 8M4 20q10 0 16-14"/>',
+  gravity:'<circle cx="12" cy="6" r="3"/><path d="M12 10v10M8 16l4 4 4-4"/>',
+  letters:'<path d="M5 18l4-12 4 12M6.5 14h5M15 6v12M15 12h4"/>',
+  train:'<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M8 21l2-4M16 21l-2-4M5 11h14"/>',
+  car:'<path d="M3 13l2-5h14l2 5v4H3z"/><circle cx="7" cy="17" r="1.5"/><circle cx="17" cy="17" r="1.5"/>',
+  ball:'<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v16"/>',
+  plane:'<path d="M2 16l20-8-6 10-4-3-4 5z"/>',
+};
+const svg = (k,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
+const TOPICS = [
+  {id:"uat", name:"Uniform acceleration", short:"Velocity changes by the same amount every second; four equations link u, v, a, s, t.", tint:"var(--blush)"},
+  {id:"vt", name:"Time–velocity graphs", short:"Gradient is acceleration, area is distance.", tint:"var(--apricot)"},
+  {id:"linear", name:"Linear-equation problems", short:"Pick the equation that leaves out the letter you don't need.", tint:"var(--sage)"},
+  {id:"simul", name:"Simultaneous equations", short:"Two facts about the motion, two unknowns (usually u and a).", tint:"var(--cream)"},
+  {id:"accdec", name:"Acceleration and deceleration", short:"Speed up then slow down: a triangle on the v–t graph.", tint:"var(--blush)"},
+  {id:"two", name:"Two objects", short:"Same clock, two distance equations, set them equal.", tint:"var(--sage)"},
+  {id:"gravity", name:"Motion under gravity", short:"a = −9.8 m/s² (up positive); v = 0 at the top.", tint:"var(--apricot)"},
+  {id:"letters", name:"Letters instead of numbers", short:"Solve in general, then any numbers fit.", tint:"var(--cream)"},
+];
+const tname = id => TOPICS.find(t=>t.id===id).name;
+const LO = [
+  ["uat","state and use the four equations of uniform acceleration"],
+  ["vt","draw and interpret time–velocity graphs (gradient and area)"],
+  ["linear","choose the right equation and solve for one unknown"],
+  ["simul","set up and solve simultaneous equations for u and a"],
+  ["accdec","solve problems with an acceleration stage and a deceleration stage"],
+  ["two","solve problems involving two moving objects"],
+  ["gravity","solve problems on vertical motion under gravity"],
+  ["letters","solve problems in terms of letters and interpret the result"],
+];
+const LO_HEAD = {uat:"2.1",vt:"2.2",linear:"2.3",simul:"2.4",accdec:"2.5",two:"2.6",gravity:"2.7",letters:"2.8"};
+
+/* ---------- glossary ---------- */
+const GLOSS = [
+  ["Uniform acceleration","","Acceleration that stays constant: velocity changes by the same amount each second.","uat"],
+  ["Acceleration","a","Rate of change of velocity, in m/s².","uat"],
+  ["Deceleration","retardation","Slowing down; a negative acceleration in the direction of motion.","accdec"],
+  ["Initial velocity","u","The velocity at the start of the motion being studied.","uat"],
+  ["Final velocity","v","The velocity at the end of the motion being studied.","uat"],
+  ["Displacement","s","Distance in a given direction from the starting point.","uat"],
+  ["Time","t","How long the motion lasts.","uat"],
+  ["suvat equations","equations of motion","v = u + at, s = ut + ½at², v² = u² + 2as, s = ½(u + v)t.","uat"],
+  ["Average velocity","","Displacement ÷ time; for uniform acceleration it equals ½(u + v).","uat"],
+  ["Time–velocity graph","v–t graph","A graph of velocity against time.","vt"],
+  ["Gradient","slope","On a v–t graph, the acceleration.","vt"],
+  ["Area under the graph","","On a v–t graph, the distance travelled.","vt"],
+  ["Trapezium","","A four-sided shape with two parallel sides; area = ½(a + b)h.","vt"],
+  ["Intercept","","Where the line meets the v axis: the initial velocity u.","vt"],
+  ["Ticker tape","","A paper tape marked at equal time intervals by a moving trolley; gaps show the speed.","vt"],
+  ["Linear equation","","An equation where the unknown appears to the first power only.","linear"],
+  ["Rearrange","change the subject","Get the unknown on its own.","linear"],
+  ["Quadratic equation","","An equation with a squared unknown, e.g. finding t from s = ut + ½at².","linear"],
+  ["Simultaneous equations","","Two equations in two unknowns solved together.","simul"],
+  ["Elimination","","Solving simultaneous equations by adding or subtracting to remove one unknown.","simul"],
+  ["Substitution","","Solving by expressing one unknown in terms of the other.","simul"],
+  ["Maximum speed","v<sub>max</sub>","The top speed reached between accelerating and braking.","accdec"],
+  ["Stage","","One part of a journey with a single constant acceleration.","accdec"],
+  ["Overtake","catch up","When two objects reach the same position at the same time.","two"],
+  ["Relative distance","gap","The difference in the positions of two objects.","two"],
+  ["Common time","","Using the same t for both objects so their equations can be compared.","two"],
+  ["Acceleration due to gravity","g","9.8 m/s², downwards, near the Earth's surface.","gravity"],
+  ["Free fall","","Motion under gravity alone (no air resistance).","gravity"],
+  ["Maximum height","","Where the vertical velocity is zero: u² ÷ 2g.","gravity"],
+  ["Time of flight","","Total time before returning to the starting level: 2u ÷ g.","gravity"],
+  ["Sign convention","","Choosing one direction as positive, so velocities and accelerations against it are negative.","gravity"],
+  ["General result","","A formula in letters that holds for every value.","letters"],
+  ["Parameter","","A letter standing for a fixed but unknown value, e.g. a or T.","letters"],
+  ["Distance in the nth second","sₙ","s after n seconds minus s after (n − 1) seconds = u + a(n − ½).","letters"],
+  ["Model","","A simplified mathematical description of the motion, e.g. ignoring air resistance.","letters"],
+].map(([t,aka,d,topic,f])=>({t,aka,d,topic,f,id:"g-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+t.length}));
+const glossBy = t => GLOSS.find(g=>g.t===t);
+const GL_LINKS = [["uniform acceleration","Uniform acceleration"],["deceleration","Deceleration"],["simultaneous equations","Simultaneous equations"],["gradient","Gradient"],["maximum height","Maximum height"],["free fall","Free fall"],["average velocity","Average velocity"]];
+@@INC function autoLink(str){ ||| /* ================= MODELS + DRAWINGS@@/* ================= MODELS + DRAWINGS ================= */
+const DEG = Math.PI/180, G = 9.8;
+function vec(ctx,x1,y1,x2,y2,col,lw=3,head=10){ const L=Math.hypot(x2-x1,y2-y1); if(L<1) return; line(ctx,x1,y1,x2,y2,col,lw); arrowHead(ctx,x2,y2,(x2-x1)/L,(y2-y1)/L,col,head); }
+const niceMax = v => { const c=[5,10,20,25,40,50,80,100,150,200,300,400,500,800,1000,1500,2000,3000,5000]; return c.find(x=>x>=v)||Math.ceil(v/1000)*1000; };
+const tk = m => m<=10?2 : m<=25?5 : m<=50?10 : m<=100?20 : m<=250?50 : m<=500?100 : m<=1000?200 : 500;
+function polyline(ctx,pts,col,lw=2.5){ ctx.save(); ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.stroke(); ctx.restore(); }
+function shade(ctx,pts,col,alpha=0.35){ ctx.save(); ctx.globalAlpha=alpha; ctx.fillStyle=col; ctx.beginPath(); pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y)); ctx.closePath(); ctx.fill(); ctx.restore(); }
+// Motion strip
+function drawStrip(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, y=h*0.6, n=o.t, pos=[]; let stopT=o.a<0? -o.u/o.a : Infinity;
+  for(let k=0;k<=n;k++){ const t=Math.min(k,stopT); pos.push(o.u*t+0.5*o.a*t*t); }
+  const smax=Math.max(10,...pos), X=s=>20+s/smax*(w-50);
+  line(ctx,10,y+14,w-10,y+14,C.muted,2);
+  pos.forEach((s,k)=>{ circle(ctx,X(s),y,cp?4:6,k===n?C.terra:C.apricot,C.ink,1.2); if(!cp&&(n<=10)) text(ctx,`${k}s`,X(s),y-14,C.muted,F(10),"center"); });
+  const vt=o.u+o.a*Math.min(n,stopT), xe=X(pos[n]);
+  rr(ctx,xe-(cp?12:20),y+(cp?-28:-44),cp?24:40,cp?12:20,4); ctx.fillStyle=C.terra; ctx.fill();
+  if(Math.abs(vt)>0.01) vec(ctx,xe,y-(cp?40:62),xe+Math.sign(vt)*Math.min(w*0.25,Math.abs(vt)*(cp?3:6)),y-(cp?40:62),C.olive,cp?2:3,cp?6:9);
+  if(!cp) text(ctx,`s = ${nf(pos[n],1)} m`,xe,y+36,C.ink,F(12,800),"center"); }
+// Generic v–t graph from a list of [t,v] corners
+function drawVT(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const pts=o.pts, tm=niceMax(Math.max(...pts.map(p=>p[0]))), vm=niceMax(Math.max(1,...pts.map(p=>p[1])));
+  const fr=frame(ctx,w,h,{x0:0,x1:tm,y0:0,y1:vm,xl:"t (s)",yl:"v (m/s)",compact:o.compact||w<440,xt:tk(tm),yt:tk(vm)});
+  const P=pts.map(([t,v])=>[fr.X(t),fr.Y(v)]); shade(ctx,[[fr.X(pts[0][0]),fr.Y(0)],...P,[fr.X(pts[pts.length-1][0]),fr.Y(0)]],C.apricot,0.3); polyline(ctx,P,C.terra,o.compact?2:3); return fr; }
+// suvat circles
+const LETTERS = ["u","v","a","s","t"];
+function drawWheel(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, r=Math.min(h*0.22,w*0.08), cy=h*0.45, gap=(w-40)/5;
+  LETTERS.forEach((L,i)=>{ const x=20+gap*(i+0.5), st=L===o.want?"want":L===o.out?"out":"given", col=st==="want"?C.terra:st==="out"?C["surface-2"]:C.sage;
+    circle(ctx,x,cy,r,col,C.ink,2); text(ctx,L,x,cy+1,st==="want"?(C["on-accent"]||"#fff"):C.ink,F(cp?16:26,800),"center","middle");
+    text(ctx,st==="want"?"find":st==="out"?"not used":"given",x,cy+r+(cp?14:20),C.muted,F(cp?10:12),"center"); }); }
+// Simultaneous: lines in the (u, a) plane
+function simLines(o){ const T=o.t1+o.t2; return [[o.t1,0.5*o.t1*o.t1,o.d1],[T,0.5*T*T,o.d1+o.d2]]; } // p·u + q·a = r
+function simSolve(o){ const [[p1,q1,r1],[p2,q2,r2]]=simLines(o), D=p1*q2-p2*q1; return Math.abs(D)<1e-12? null : {u:(r1*q2-r2*q1)/D, a:(p1*r2-p2*r1)/D}; }
+function drawSim(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const sol=simSolve(o)||{u:0,a:0}, U=Math.max(10,Math.abs(sol.u)*1.6), A=Math.max(4,Math.abs(sol.a)*1.6);
+  const fr=frame(ctx,w,h,{x0:-U,x1:U,y0:-A,y1:A,xl:"u (m/s)",yl:"a (m/s²)",compact:o.compact||w<440,xt:tk(U),yt:tk(A)});
+  line(ctx,fr.X(-U),fr.Y(0),fr.X(U),fr.Y(0),C.muted,1); line(ctx,fr.X(0),fr.Y(-A),fr.X(0),fr.Y(A),C.muted,1);
+  simLines(o).forEach(([p,q,r],k)=>{ const a1=(r-p*(-U))/q, a2=(r-p*U)/q; ctx.save(); ctx.beginPath(); ctx.rect(fr.X(-U),fr.Y(A),fr.X(U)-fr.X(-U),fr.Y(-A)-fr.Y(A)); ctx.clip(); line(ctx,fr.X(-U),fr.Y(a1),fr.X(U),fr.Y(a2),k?C.sage:C.apricot,o.compact?2:3); ctx.restore(); });
+  circle(ctx,fr.X(sol.u),fr.Y(sol.a),o.compact?5:7,C.terra,C.ink,2); }
+// Two objects
+function meetTime(v,a,d){ // v t = ½ a (t − d)², t > d
+  const A=0.5*a, B=-(a*d+v), Cc=0.5*a*d*d, disc=B*B-4*A*Cc; return (-B+Math.sqrt(disc))/(2*A); }
+function drawTwo(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const tm=meetTime(o.v,o.a,o.d), T=niceMax(tm*1.25), S=niceMax(o.v*T);
+  const fr=frame(ctx,w,h,{x0:0,x1:T,y0:0,y1:S,xl:"t (s)",yl:"s (m)",compact:o.compact||w<440,xt:tk(T),yt:tk(S)});
+  const A=[],B=[]; for(let t=0;t<=T;t+=T/200){ A.push([fr.X(t),fr.Y(Math.min(S,o.v*t))]); const sb=t<o.d?0:0.5*o.a*(t-o.d)**2; if(sb<=S) B.push([fr.X(t),fr.Y(sb)]); }
+  polyline(ctx,A,C.apricot,o.compact?2:3); polyline(ctx,B,C.sage,o.compact?2:3); circle(ctx,fr.X(tm),fr.Y(o.v*tm),o.compact?5:7,C.terra,C.ink,2);
+  if(!(o.compact||w<440)){ text(ctx,"speeder",A[A.length-1][0]-6,A[A.length-1][1]+18,C.apricot,F(12,800),"right"); text(ctx,"police",fr.X(tm)+10,fr.Y(o.v*tm)+18,C.sage,F(12,800),"left"); } return tm; }
+// Gravity
+function drawGrav(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const T=2*o.u/G, H=o.u*o.u/(2*G), Tm=niceMax(T*1.05)>T*2? Math.ceil(T)+1 : niceMax(T*1.05), Hm=niceMax(Math.max(H*1.1,(o.h||0)+1));
+  const fr=frame(ctx,w,h,{x0:0,x1:Tm,y0:0,y1:Hm,xl:"t (s)",yl:"height (m)",compact:o.compact||w<440,xt:Tm<=6?1:2,yt:tk(Hm)});
+  const P=[]; for(let t=0;t<=T;t+=T/150) P.push([fr.X(t),fr.Y(o.u*t-0.5*G*t*t)]); P.push([fr.X(T),fr.Y(0)]); polyline(ctx,P,C.terra,o.compact?2:3);
+  circle(ctx,fr.X(T/2),fr.Y(H),o.compact?4:6,C.olive,C.ink,1.5);
+  if(o.h!=null&&o.h<=H){ line(ctx,fr.X(0),fr.Y(o.h),fr.X(Tm),fr.Y(o.h),C.muted,1.2,[5,4]); const d=Math.sqrt(o.u*o.u-2*G*o.h); [(o.u-d)/G,(o.u+d)/G].forEach(t=>circle(ctx,fr.X(t),fr.Y(o.h),o.compact?4:6,C.apricot,C.ink,1.5)); } }
+// Formula vs simulation bars
+function drawBars2(ctx,w,h,o){ bg(ctx,w,h,o.bgc); const cp=o.compact||w<440, m=Math.max(o.f,o.s,1e-9)*1.15, bw=Math.min(120,w*0.22), base=h-30, top=24;
+  [["formula",o.f,C.apricot],["simulation",o.s,C.sage]].forEach(([n,v,col],i)=>{ const x=w/2+(i?20:-20-bw), bh=(base-top)*v/m; rr(ctx,x,base-bh,bw,bh,8); ctx.fillStyle=col; ctx.fill(); text(ctx,nf(v,3),x+bw/2,base-bh-8,C.ink,F(cp?11:14,800),"center"); text(ctx,n,x+bw/2,base+18,C.muted,F(cp?10:12),"center"); }); }
+
+@@INC /* ================= ROUTER ||| /* ================= OVERVIEW@@@@INC /* ================= OVERVIEW ||| let heroT=0;@@let heroT=0;
+
+/* ================= LEARN ================= */
+const LEARN = {
+  uat:{ vis:[["strip",{u:2,a:2,t:6}]], cap:"u = 2 m/s, a = 2 m/s²: the gaps between the one-second marks grow by 2 m each time.",
+    keys:[["a","Uniform acceleration: velocity changes by a m/s every second."],["4","v = u + at, s = ut + ½at², v² = u² + 2as, s = ½(u + v)t."],["±","Pick a positive direction. Slowing down means a is negative."]],
+    f:"v = u + at", mistake:"Using these equations when the acceleration changes. Split the motion into stages instead." },
+  vt:{ vis:[["vt",{pts:[[0,4],[8,20]]}]], cap:"From 4 m/s to 20 m/s in 8 s: gradient 2 m/s², shaded area 96 m.",
+    keys:[["/","The gradient of a v–t graph is the acceleration."],["▱","The area under it is the distance travelled."],["⌁","A straight line means uniform acceleration; a flat line means constant velocity."]],
+    f:"a = gradient · s = area", mistake:"Reading the distance off the v axis. Distance is an area, not a height." },
+  linear:{ vis:[["wheel",{want:"s",out:"v"}]], cap:"Want s, don't know v and don't need it: use s = ut + ½at², the equation without v.",
+    keys:[["5","Each equation uses four of the five letters."],["✗","Find the letter you don't know and don't want; use the equation without it."],["=","Substitute, then solve the linear equation for the unknown."]],
+    f:"Leave out the letter you don't need", mistake:"Plugging in a value you haven't found yet. Only use what you know." },
+  simul:{ vis:[["sim",{d1:24,t1:2,d2:40,t2:2}]], cap:"Two facts give two lines in the (u, a) plane; they cross at u = 8 m/s, a = 4 m/s².",
+    keys:[["A→B","Write s = ut + ½at² from A to B."],["A→C","Write it again from A to C, using the total distance and total time."],["⊕","Solve the pair: eliminate u (or a)."]],
+    f:"Use the same starting point (A) for both", mistake:"Using u at A for the B-to-C stage. At B the velocity is different." },
+  accdec:{ vis:[["vt",{pts:[[0,0],[60,30],[90,0]]}]], cap:"Accelerate at 0.5 m/s² for 60 s, brake at 1 m/s² for 30 s: peak 30 m/s, distance 1350 m.",
+    keys:[["△","Starts and ends at rest: the v–t graph is a triangle."],["v","t₁ = v ÷ a₁ and t₂ = v ÷ a₂, with t₁ + t₂ = T."],["½","Distance = ½ × base × height = ½ v<sub>max</sub> T."]],
+    f:"v<sub>max</sub> = a₁a₂T ÷ (a₁ + a₂)", mistake:"Using one suvat equation for the whole journey. The acceleration changes halfway." },
+  two:{ vis:[["two",{v:30,a:3,d:0}]], cap:"A speeder at 30 m/s and a police car accelerating at 3 m/s² from rest meet after 20 s, 600 m on.",
+    keys:[["⏱","Use the same t for both objects (adjust for any delay)."],["=","They meet when their displacements from the same point are equal."],["⇅","The gap is biggest when their velocities are equal."]],
+    f:"vt = ½at² → t = 2v ÷ a", mistake:"Giving the root t = 0 as the answer. That's when they start level." },
+  gravity:{ vis:[["grav",{u:19.6,h:10}]], cap:"Thrown up at 19.6 m/s: top after 2 s at 19.6 m, back down after 4 s. 10 m is passed twice.",
+    keys:[["↓","a = −9.8 m/s² taking up as positive, the whole time (going up and coming down)."],["0","At the highest point, v = 0 (but a is still −9.8)."],["⇅","Going up and coming down take the same time (no air resistance)."]],
+    f:"H = u² ÷ 2g · t<sub>top</sub> = u ÷ g", mistake:"Saying the acceleration is zero at the top. Only the velocity is zero." },
+  letters:{ vis:[["bars",{f:600,s:600}]], cap:"A letter result like t = 2v ÷ a gives the same answer as a step-by-step simulation, for any numbers.",
+    keys:[["x","Treat letters like numbers: substitute, rearrange, factorise."],["∀","The result works for every value: you can see how each quantity matters."],["✓","Check a letter answer with simple numbers or units."]],
+    f:"Solve in general, then substitute", mistake:"Cancelling terms that are added, not multiplied." },
+};
+@@INC $("learnList").innerHTML ||| /* ================= INFOGRAPHICS@@/* ================= INFOGRAPHICS ================= */
+const CASES = [
+  ["uat","Without s or v","var(--apricot)",["v = u + at (no s)","s = ut + ½at² (no v)","Good for: time questions","Units: m/s, m/s², s","Check: a = (v − u) ÷ t"]],
+  ["vt","Without t or a","var(--sage)",["v² = u² + 2as (no t)","s = ½(u + v)t (no a)","Good for: braking distances","½(u + v) = average velocity","Check: s = average velocity × t"]],
+];
+$("cases").innerHTML = CASES.map(([i,n,tn,rows])=>`<div class="panel sh-card"><div style="display:flex;gap:10px;align-items:center"><div class="ico" style="background:${tn}">${svg(i)}</div><h3>${n}</h3></div><ul>${rows.map(r=>`<li>${r}</li>`).join("")}</ul></div>`).join("");
+$("bars").innerHTML = [0.5,1,1.5,2,2.5,3,3.5].map((t,i)=>{ const s=19.6*t-4.9*t*t; return `<div class="barrow"><span><b>t = ${t} s</b></span><div class="track"><i style="width:${(s/19.6*100).toFixed(1)}%;background:var(--${["sage","apricot","terra"][i%3]})"></i></div><span class="v">${nf(s,2)} m</span></div>`; }).join("") + `<p class="result">Symmetric: the heights at 1.5 s and 2.5 s match, as do 1 s and 3 s.</p>`;
+const AROUND = [
+  ["train","Trains and trams","Timetables assume steady acceleration out of a station and steady braking into the next.",[["Accel–decel","neutral"]],"var(--blush)"],
+  ["car","Stopping distances","Braking distance = v² ÷ 2a: double the speed, four times the distance.",[["v² = u² + 2as","alert"]],"var(--apricot)"],
+  ["ball","Sport","A ball thrown straight up and caught at the same height spends equal times rising and falling.",[["Gravity","real"]],"var(--sage)"],
+  ["plane","Take-off","A plane accelerates down the runway until it reaches take-off speed; the runway length follows from v² = 2as.",[["Uniform a","neutral"]],"var(--cream)"],
+];
+$("around").innerHTML = AROUND.map(([i,t,p,ch,tn])=>`<div class="panel"><div class="ico" style="background:${tn}">${svg(i)}</div><div><h3>${t}</h3><p>${p}</p><div class="chips">${chipsHTML(ch)}</div></div></div>`).join("");
+
+/* ================= MIND MAP ================= */
+const MM = [
+  {id:"uat",label:"suvat",col:"var(--blush)",leaves:[["Five letters","u v a s t."],["Four equations","Each misses one."],["Direction","Pick +."]]},
+  {id:"vt",label:"v–t graphs",col:"var(--apricot)",leaves:[["Gradient","= a."],["Area","= s."],["Straight","Uniform a."]]},
+  {id:"linear",label:"One unknown",col:"var(--sage)",leaves:[["Leave out","Unneeded letter."],["Substitute","Knowns."],["Solve","Linear."]]},
+  {id:"simul",label:"Simultaneous",col:"var(--cream)",leaves:[["A→B","Equation 1."],["A→C","Equation 2."],["Solve","u and a."]]},
+  {id:"accdec",label:"Speed up/slow",col:"var(--blush)",leaves:[["Triangle","v–t."],["v<sub>max</sub>","Peak."],["Area","½vT."]]},
+  {id:"two",label:"Two objects",col:"var(--sage)",leaves:[["Same t","Common clock."],["Equal s","Meet."],["Equal v","Max gap."]]},
+  {id:"gravity",label:"Gravity",col:"var(--apricot)",leaves:[["a = −g","Up +."],["Top","v = 0."],["Symmetric","Up = down."]]},
+  {id:"letters",label:"Letters",col:"var(--cream)",leaves:[["General","Any values."],["Rearrange","Like numbers."],["Check","Units."]]},
+];
+@@INC let mmSel ||| /* ================= FLASHCARDS@@/* ================= FLASHCARDS ================= */
+const CARDS = [
+  ["uat","The four equations of uniform acceleration?","v = u + at; s = ut + ½at²; v² = u² + 2as; s = ½(u + v)t."],
+  ["uat","What does a = 3 m/s² mean?","The velocity increases by 3 m/s every second."],
+  ["uat","u = 5 m/s, a = 2 m/s², t = 4 s. Find v.","v = 5 + 8 = 13 m/s."],
+  ["vt","What does the gradient of a v–t graph give?","The acceleration."],
+  ["vt","What does the area under a v–t graph give?","The distance travelled."],
+  ["vt","4 m/s to 12 m/s in 4 s: distance?","Trapezium: ½(4 + 12) × 4 = 32 m."],
+  ["linear","How do you choose which equation to use?","Use the one that leaves out the letter you don't know and don't need."],
+  ["linear","u = 0, a = 4 m/s², s = 50 m. Find v.","v² = 0 + 2(4)(50) = 400 → v = 20 m/s."],
+  ["linear","u = 20 m/s, v = 0, s = 40 m. Find a.","0 = 400 + 80a → a = −5 m/s²."],
+  ["simul","A particle passes A, B, C. How do you set up the equations?","Use s = ut + ½at² from A to B, and from A to C, with u = velocity at A."],
+  ["simul","Unknowns in a typical A, B, C problem?","u (velocity at A) and a."],
+  ["accdec","Train: accelerates from rest at a₁, brakes at a₂ to rest, total time T. v<sub>max</sub>?","a₁a₂T ÷ (a₁ + a₂)."],
+  ["accdec","Distance for that journey?","½ v<sub>max</sub> T (area of the triangle)."],
+  ["accdec","a₁ = 1, a₂ = 2 m/s², T = 30 s. v<sub>max</sub>?","1 × 2 × 30 ÷ 3 = 20 m/s."],
+  ["two","How do you find when two objects meet?","Write each displacement in terms of the same t and set them equal."],
+  ["two","When is the gap between a chaser and a target biggest?","When their velocities are equal."],
+  ["two","Car at 20 m/s passes a police car that starts from rest at 2 m/s². When do they meet?","20t = t² → t = 20 s."],
+  ["gravity","Acceleration of a ball thrown upwards (up positive)?","−9.8 m/s² throughout."],
+  ["gravity","Maximum height for a ball thrown up at u?","u² ÷ 2g."],
+  ["gravity","Time to reach the top?","u ÷ g."],
+  ["gravity","What is the velocity at the top?","Zero."],
+  ["letters","Why solve with letters?","The result works for all values and shows how each quantity affects the answer."],
+  ["letters","Distance in the nth second?","u + a(n − ½)."],
+  ["letters","Ball thrown up at u returns after?","2u ÷ g."],
+];
+@@INC let fcKnown ||| /* ================= QUIZ@@/* ================= QUIZ ================= */
+const QUIZ = [
+  ["uat","Which equation doesn't contain t?",["v = u + at","s = ut + ½at²","v² = u² + 2as","s = ½(u + v)t"],2,"v² = u² + 2as."],
+  ["uat","u = 3 m/s, a = 2 m/s², t = 5 s. s =",["25 m","40 m","15 m","28 m"],1,"3(5) + ½(2)(25) = 15 + 25 = 40 m."],
+  ["vt","The gradient of a v–t graph is:",["distance","acceleration","speed","time"],1,"Gradient = change in v ÷ change in t."],
+  ["vt","A v–t graph is a straight line from (0, 10) to (5, 0). The distance is:",["50 m","25 m","10 m","2 m"],1,"Triangle: ½ × 5 × 10."],
+  ["linear","A car brakes from 30 m/s to rest at 6 m/s². Distance?",["5 m","75 m","90 m","180 m"],1,"0 = 900 − 12s → s = 75 m."],
+  ["linear","u = 0, a = 2 m/s², s = 100 m. t =",["5 s","10 s","50 s","100 s"],1,"100 = t² → t = 10 s."],
+  ["simul","A particle covers 10 m in the first 2 s and 30 m in the next 2 s. Its acceleration is:",["2.5 m/s²","5 m/s²","10 m/s²","20 m/s²"],1,"10 = 2u + 2a; 40 = 4u + 8a → a = 5, u = 0."],
+  ["simul","In an A, B, C problem the two unknowns are usually:",["s and t","u and a","v and s","t and a"],1,"Velocity at A and acceleration."],
+  ["accdec","From rest, accelerate at 2 m/s² for 10 s, then brake to rest in 5 s. Braking deceleration?",["2 m/s²","4 m/s²","10 m/s²","20 m/s²"],1,"Peak 20 m/s, lost in 5 s."],
+  ["accdec","The distance for the journey above is:",["100 m","150 m","200 m","300 m"],1,"½ × 15 × 20 = 150 m."],
+  ["two","Two objects meet when they have the same:",["velocity","acceleration","position at the same time","speed"],2,"Same place, same time."],
+  ["two","The gap between a chasing car (accelerating from rest) and a car at constant speed is biggest when:",["they meet","their speeds are equal","the chaser starts","never"],1,"After that, the chaser is faster."],
+  ["gravity","A ball is thrown up at 14.7 m/s. Time to the top:",["1 s","1.5 s","3 s","14.7 s"],1,"14.7 ÷ 9.8 = 1.5 s."],
+  ["gravity","At the top of its flight a ball thrown straight up has:",["zero velocity and zero acceleration","zero velocity and acceleration 9.8 m/s² down","maximum velocity","zero acceleration"],1,"Gravity still acts."],
+  ["letters","A ball thrown up at u lands back at the same level after:",["u ÷ g","2u ÷ g","u² ÷ g","u ÷ 2g"],1,"0 = ut − ½gt² → t = 2u ÷ g."],
+  ["letters","Distance travelled in the 3rd second from rest with a = 4 m/s²:",["10 m","18 m","8 m","12 m"],0,"4(3 − ½) = 10 m."],
+];
+@@INC let qz = ||| /* ================= EXAM PREP@@/* ================= EXAM PREP ================= */
+const CMDS = [
+  ["Find","Work out the value, with units.","Find the acceleration of the car."],
+  ["Show that","Prove the given result.","Show that the maximum speed is a₁a₂T ÷ (a₁ + a₂)."],
+  ["Draw a v–t graph","A labelled sketch with key values.","Draw a speed–time graph of the motion."],
+  ["Hence","Use the previous answer.","Hence, find the distance travelled."],
+  ["In terms of","Give the answer using letters.","Find the time taken in terms of u and g."],
+  ["Prove","Give a full general argument.","Prove that the distance travelled in the nth second is u + a(n − ½)."],
+];
+@@INC $("cmds").innerHTML ||| // Calculation trainer@@// Calculation trainer
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)), pick=a=>a[Math.floor(Math.random()*a.length)];
+const PTYPES = {
+  v:{ name:"Find v", gen(){ const u=rnd(0,20), a=pick([0.5,1,1.5,2,2.5,3,4]), t=rnd(2,12), v=u+a*t;
+      return { q:`A car moving at <b>${u} m/s</b> accelerates uniformly at <b>${a} m/s²</b> for <b>${t} s</b>. Find its final speed in m/s.`, ans:v, unit:"m/s", steps:[`No s needed: v = u + at`,`v = ${u} + ${a} × ${t}`,`v = ${nf(v,2)} m/s`] }; } },
+  s:{ name:"Find s", gen(){ const u=rnd(0,15), a=pick([0.5,1,2,3,4]), t=rnd(2,10), s=u*t+0.5*a*t*t;
+      return { q:`A cyclist starts at <b>${u} m/s</b> and accelerates at <b>${a} m/s²</b> for <b>${t} s</b>. How far does she travel (m)?`, ans:s, unit:"m", steps:[`No v needed: s = ut + ½at²`,`s = ${u}(${t}) + ½(${a})(${t})²`,`s = ${u*t} + ${0.5*a*t*t} = ${nf(s,2)} m`] }; } },
+  brake:{ name:"Braking", gen(){ const u=pick([10,12,15,18,20,24,25,30]), a=pick([2,2.5,3,4,5,6,8]), s=u*u/(2*a);
+      return { q:`A car travelling at <b>${u} m/s</b> brakes with a deceleration of <b>${a} m/s²</b>. Find its braking distance in metres (one decimal place).`, ans:s, unit:"m", steps:[`No t needed: v² = u² + 2as with v = 0, a = −${a}`,`0 = ${u*u} − ${2*a}s`,`s = ${u*u} ÷ ${2*a} = ${nf(s,1)} m`] }; } },
+  simul:{ name:"A, B, C (find a)", gen(){ const u=rnd(0,10), a=pick([1,2,3,4,0.5]), t1=rnd(2,5), t2=rnd(2,5), d1=u*t1+0.5*a*t1*t1, T=t1+t2, d2=u*T+0.5*a*T*T-d1;
+      return { q:`A particle moving with uniform acceleration covers <b>${d1} m</b> from A to B in <b>${t1} s</b> and <b>${d2} m</b> from B to C in <b>${t2} s</b>. Find its acceleration (m/s²).`, ans:a, unit:"m/s²", steps:[`A→B: ${d1} = ${t1}u + ${0.5*t1*t1}a`,`A→C: ${d1+d2} = ${T}u + ${0.5*T*T}a`,`Solve simultaneously: u = ${u} m/s, a = ${a} m/s²`] }; } },
+  accdec:{ name:"Accel–decel", gen(){ const a1=pick([0.5,1,1.5,2]), a2=pick([1,2,2.5,3,4]), T=rnd(10,60), vm=a1*a2*T/(a1+a2);
+      return { q:`A lift starts from rest, accelerates at <b>${a1} m/s²</b>, then decelerates at <b>${a2} m/s²</b> to rest. The whole trip takes <b>${T} s</b>. Find its maximum speed (m/s, two decimal places).`, ans:vm, unit:"m/s", steps:[`t₁ = v ÷ ${a1}, t₂ = v ÷ ${a2}, t₁ + t₂ = ${T}`,`v(1/${a1} + 1/${a2}) = ${T}`,`v = ${a1} × ${a2} × ${T} ÷ (${a1} + ${a2}) = ${nf(vm,2)} m/s`] }; } },
+  grav:{ name:"Max height", gen(){ const u=pick([4.9,7,9.8,12,14,14.7,19.6,21,24.5,29.4]), H=u*u/(2*G);
+      return { q:`A ball is thrown vertically upwards at <b>${u} m/s</b>. Find its maximum height in metres (two decimal places). Use g = 9.8 m/s².`, ans:H, unit:"m", steps:[`At the top v = 0: 0 = u² − 2gH`,`H = ${u}² ÷ (2 × 9.8)`,`H = ${nf(H,2)} m`] }; } },
+  two:{ name:"Two objects", gen(){ const v=rnd(10,35), a=pick([1,1.5,2,2.5,3,4,5]), t=2*v/a;
+      return { q:`A car travelling at a constant <b>${v} m/s</b> passes a motorbike just as the motorbike starts from rest with acceleration <b>${a} m/s²</b>. After how many seconds does the motorbike catch the car? (two decimal places)`, ans:t, unit:"s", steps:[`Car: s = ${v}t. Bike: s = ½(${a})t²`,`${v}t = ${a/2}t² → t(${a/2}t − ${v}) = 0`,`t = 0 (start) or t = ${v} ÷ ${a/2} = ${nf(t,2)} s`] }; } },
+};
+@@INC let pType= ||| // Which stage is this?@@// Which equation? [situation, 0 v=u+at / 1 s=ut+½at² / 2 v²=u²+2as / 3 s=½(u+v)t, why]
+const PRED = [
+  ["Know u, a, t. Want v.",0,"s isn't involved: v = u + at."],
+  ["Know u, a, t. Want s.",1,"v isn't involved: s = ut + ½at²."],
+  ["Know u, v, a. Want s.",2,"t isn't involved: v² = u² + 2as."],
+  ["Know u, v, t. Want s.",3,"a isn't involved: s = ½(u + v)t."],
+  ["Know u, v, t. Want a.",0,"s isn't involved: v = u + at."],
+  ["Know u, a, s. Want v.",2,"t isn't involved."],
+  ["Know s, u, v. Want t.",3,"a isn't involved."],
+  ["Know u, s, t. Want a.",1,"v isn't involved."],
+  ["A car brakes from 25 m/s to rest at 5 m/s². Find the distance.",2,"No time given or wanted."],
+  ["A stone is dropped from rest. Find how far it falls in 3 s.",1,"No final velocity given or wanted."],
+  ["A train speeds up from 10 to 30 m/s in 40 s. Find the distance.",3,"No acceleration given or wanted."],
+  ["A ball thrown up at 15 m/s. When does it reach the top?",0,"At the top v = 0; no s needed."],
+];
+let pd = { k:-1, shown:false, sel:null, streak:0 };
+let predC=null;
+function pdNew(){ let k; do{ k=Math.floor(Math.random()*PRED.length); }while(k===pd.k); pd={...pd,k,shown:false,sel:null};
+  document.querySelectorAll("#predOpts button").forEach(b=>b.classList.remove("sel")); $("predFb").innerHTML="";
+  $("predQ").innerHTML=`<b>${PRED[k][0]}</b>`; if(predC) predC.redraw(); }
+$("predOpts").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b||pd.shown) return; pd.sel=+b.dataset.a; b.parentElement.querySelectorAll("button").forEach(x=>x.classList.toggle("sel",x===b)); });
+$("predCheck").addEventListener("click",()=>{
+  if(pd.sel==null){ $("predFb").innerHTML=`<div class="fb no">Pick an answer first.</div>`; return; }
+  const [,ans,why]=PRED[pd.k], ok=pd.sel===ans; pd.streak = ok? pd.streak+1 : 0; pd.shown=true; predC.redraw();
+  $("predFb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b style="color:var(--${ok?"good":"bad"})">${ok?"Correct!":"Not quite."}</b> ${why}${ok?` Streak: ${pd.streak} 🔥`:""}</div>`;
+});
+$("predNext").addEventListener("click",pdNew);
+
+// Long questions
+const LONGQ = [
+  { title:"Points A, B and C", intro:"A particle moves in a straight line with uniform acceleration. It passes A, B and C. |AB| = 24 m and |BC| = 40 m. It takes 2 s to go from A to B and 2 s from B to C.",
+    parts:[["a","Write down two equations in u (the speed at A) and a.",10,"A→B: 24 = 2u + 2a (5). A→C: 64 = 4u + 8a (5)."],
+      ["b","Solve them to find u and a.",10,"From the first, u = 12 − a (3); 64 = 48 − 4a + 8a → a = 4 m/s² (4); u = 8 m/s (3)."],
+      ["c","Find the speed at C.",5,"v = 8 + 4(4) = 24 m/s (5)."],
+      ["d","How far beyond C does it travel in the next second?",5,"s = 24(1) + ½(4)(1) = 26 m (5)."]] },
+  { title:"Train between stations", intro:"A train starts from rest at station P and accelerates uniformly at a m/s² to a speed v. It immediately decelerates uniformly at 2a m/s² and comes to rest at station Q. The journey takes T seconds.",
+    parts:[["a","Draw a speed–time graph of the motion.",5,"Triangle from (0, 0) up to (t₁, v) and down to (T, 0); the down slope steeper (5)."],
+      ["b","Show that v = 2aT ÷ 3.",10,"t₁ = v ÷ a, t₂ = v ÷ 2a (4); v ÷ a + v ÷ 2a = T → 3v ÷ 2a = T (4) → v = 2aT ÷ 3 (2)."],
+      ["c","Find the distance |PQ| in terms of a and T.",8,"Area = ½ × T × v = ½ × T × 2aT ÷ 3 = aT² ÷ 3 (8)."],
+      ["d","If |PQ| = 1200 m and T = 60 s, find a and v.",7,"a × 3600 ÷ 3 = 1200 → a = 1 m/s² (4); v = 2(1)(60) ÷ 3 = 40 m/s (3)."]] },
+  { title:"Catch-up and gravity", intro:"Answer each part. Use g = 9.8 m/s².",
+    parts:[["a","A speeding car at 25 m/s passes a stationary police car, which sets off 2 s later with acceleration 5 m/s². Show that the police car catches up after t seconds (from when the speeder passed), where t² − 14t + 4 = 0.",10,"Speeder: 25t (2); police: ½(5)(t − 2)² (2); 25t = 2.5(t² − 4t + 4) (3) → 10t = t² − 4t + 4 → t² − 14t + 4 = 0 (3)."],
+      ["b","Solve to find t, and how far they have gone.",6,"t = 7 + √45 ≈ 13.71 s (the other root is before the police car moves) (3); distance ≈ 25 × 13.71 ≈ 342.7 m (3)."],
+      ["c","A ball is thrown up from ground level at 24.5 m/s. Find its maximum height and when it lands.",8,"H = 24.5² ÷ 19.6 = 30.625 m (4); time = 2u ÷ g = 5 s (4)."],
+      ["d","For how long is the ball higher than 20 m?",6,"20 = 24.5t − 4.9t² → t² − 5t + 4.08 = 0 (2); t ≈ 1.03 s or 3.97 s (2); time above 20 m ≈ 2.94 s (2)."]] },
+];
+@@INC $("longqs").innerHTML ||| const RAG@@const RAG = ["State the four equations","Choose the right equation","Rearrange for one unknown","Use a v–t graph: gradient and area","Set up A, B, C simultaneous equations","Solve two equations in u and a","Accelerate–decelerate problems","Find v<sub>max</sub> and total distance","Two-object meeting problems","Find the biggest gap","Vertical motion: max height, time","Work with letters instead of numbers"];
+@@INC const ragState ||| const SKILLS@@const SKILLS = [["Define variables","List u, v, a, s, t with units and a positive direction.","Which equation? lab"],["Make assumptions","Constant acceleration; no air resistance; point particles.","Thrown upwards lab"],["Use data","Fit a line to measured velocities; read a and u.","Collect & fit lab"],["Solve the model","Pick equations; solve linear, simultaneous or quadratic.","Two equations lab"],["Interpret","Reject impossible roots (negative times, before the start).","Catch up lab"]];
+@@INC const skState ||| /* ================= LAB STATE@@/* ================= LAB STATE + WIRING ================= */
+// suvat
+const ua = {u:4,a:2,t:5};
+function uaUpd(){ $("uaUo").textContent=`${ua.u} m/s`; $("uaAo").textContent=`${ua.a} m/s²`; $("uaTo").textContent=`${ua.t} s`; const v=ua.u+ua.a*ua.t, s=ua.u*ua.t+0.5*ua.a*ua.t**2, stop=ua.a<0? -ua.u/ua.a : null;
+  setReadout($("uaOut"),[["v = u + at",`${nf(v,2)} m/s`],["s = ut + ½at²",`${nf(s,2)} m`],["v² = u² + 2as",`${nf(v*v,2)} = ${nf(ua.u**2+2*ua.a*s,2)} ✓`],["s = ½(u + v)t",`${nf(0.5*(ua.u+v)*ua.t,2)} m ✓`],["Note",stop!=null&&stop<ua.t?`stops at t = ${nf(stop,2)} s; the equations then describe it reversing`:"–"]]); if(uaC) uaC.redraw(); }
+[["uaU","u"],["uaA","a"],["uaT","t"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ ua[k]=+e.target.value; uaUpd(); }));
+// v–t data
+const vt = {t:2, u:3, a:1.5, rows:[]};
+function vtFit(){ const p=vt.rows; if(p.length<2) return null; const mx=p.reduce((a,b)=>a+b[0],0)/p.length, my=p.reduce((a,b)=>a+b[1],0)/p.length; let sxy=0,sxx=0; p.forEach(([x,y])=>{ sxy+=(x-mx)*(y-my); sxx+=(x-mx)**2; }); if(!sxx) return null; const m=sxy/sxx; return {m,c:my-m*mx}; }
+function vtUpd(){ $("vtTo").textContent=`${nf(vt.t,1)} s`; const f=vtFit();
+  setReadout($("vtOut"),[["Trolley","u and a hidden"],["Readings",vt.rows.length],["Area so far (from your fit)",f?`${nf(f.c*vt.t+0.5*f.m*vt.t*vt.t,1)} m`:"–"]]);
+  $("vtTable").innerHTML = vt.rows.map(([t,v])=>`<tr><td>${nf(t,1)}</td><td>${nf(v,2)}</td></tr>`).join("") || `<tr><td colspan="2">No readings yet. Pick a time and measure v.</td></tr>`;
+  $("vtRes").innerHTML = f? `Line of best fit: <b>v ≈ ${nf(f.c,2)} + ${nf(f.m,2)}t</b>. So u ≈ ${nf(f.c,2)} m/s and a ≈ ${nf(f.m,2)} m/s². Distance in 8 s ≈ ${nf(8*f.c+32*f.m,1)} m.` : "Take at least two readings.";
+  if(vtC){ vtC.redraw(); vtG.redraw(); } }
+$("vtT").addEventListener("input",e=>{ vt.t=+e.target.value; vtUpd(); });
+$("vtRec").addEventListener("click",()=>{ const v=(vt.u+vt.a*vt.t)+(Math.random()-0.5)*0.4; vt.rows.push([vt.t,Math.round(v*100)/100]); vtUpd(); });
+$("vtClr").addEventListener("click",()=>{ vt.rows=[]; vtUpd(); });
+$("vtNew").addEventListener("click",()=>{ vt.u=rnd(0,6); vt.a=pick([0.5,1,1.5,2,2.5]); vt.rows=[]; vtUpd(); });
+// Which equation
+const EQS = { s:["v = u + at","v = u + at"], v:["s = ut + ½at²","s = ut + ½at²"], t:["v² = u² + 2as","v² = u² + 2as"], a:["s = ½(u + v)t","s = ½(u + v)t"], u:["s = vt − ½at²","s = vt − ½at²"] };
+const KNOWN = {u:4, v:14, a:2, s:45, t:5};
+const SOLVE = { // [want][out] -> [rearranged, value]
+  v:{ s:["v = u + at = 4 + 2(5)",14], t:["v = √(u² + 2as) = √(16 + 180)",14], a:["v = 2s ÷ t − u = 90 ÷ 5 − 4",14], u:["v = (s + ½at²) ÷ t = (45 + 25) ÷ 5",14] },
+  s:{ v:["s = ut + ½at² = 20 + 25",45], t:["s = (v² − u²) ÷ 2a = (196 − 16) ÷ 4",45], a:["s = ½(u + v)t = ½(18)(5)",45], u:["s = vt − ½at² = 70 − 25",45] },
+  a:{ s:["a = (v − u) ÷ t = 10 ÷ 5",2], v:["a = 2(s − ut) ÷ t² = 2(45 − 20) ÷ 25",2], t:["a = (v² − u²) ÷ 2s = 180 ÷ 90",2], u:["a = 2(vt − s) ÷ t² = 2(70 − 45) ÷ 25",2] },
+  t:{ s:["t = (v − u) ÷ a = 10 ÷ 2",5], a:["t = 2s ÷ (u + v) = 90 ÷ 18",5], v:["t² + 4t − 45 = 0 → (t + 9)(t − 5) = 0",5], u:["t² − 14t + 45 = 0 → t = 5 (or 9: check v!)",5] },
+  u:{ s:["u = v − at = 14 − 10",4], a:["u = 2s ÷ t − v = 18 − 14",4], t:["u = √(v² − 2as) = √(196 − 180)",4], v:["u = (s − ½at²) ÷ t = (45 − 25) ÷ 5",4] },
+};
+const ln = {want:"s", out:"v"};
+function lnUpd(){ const ok=ln.want!==ln.out, eq=EQS[ln.out][0], sol=ok? SOLVE[ln.want][ln.out] : null, given=LETTERS.filter(L=>L!==ln.want&&L!==ln.out);
+  setReadout($("lnOut"),[["Given",given.map(L=>`${L} = ${KNOWN[L]}`).join(", ")],["Use",ok?`${eq} (the one without ${ln.out})`:"pick a different letter to leave out"],["Working",ok?sol[0]:"–"],["Answer",ok?`${ln.want} = ${sol[1]}`:"–"]]); if(lnC) lnC.redraw(); }
+$("lnW").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; ln.want=b.dataset.k; pressGroup([...$("lnW").children],b); lnUpd(); });
+$("lnX").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; ln.out=b.dataset.k; pressGroup([...$("lnX").children],b); lnUpd(); });
+// Simultaneous
+const sm = {d1:24,t1:2,d2:40,t2:2};
+function smUpd(){ ["D1","T1","D2","T2"].forEach(k=>$("sm"+k+"o").textContent=`${sm[k.toLowerCase()]} ${k[0]==="D"?"m":"s"}`); const [[p1,q1,r1],[p2,q2,r2]]=simLines(sm), s=simSolve(sm);
+  setReadout($("smOut"),[["A→B",`${r1} = ${p1}u + ${q1}a`],["A→C",`${r2} = ${p2}u + ${q2}a`],["Solution",s?`u = ${nf(s.u,2)} m/s, a = ${nf(s.a,2)} m/s²`:"no unique solution"],["Speed at C",s?`${nf(s.u+s.a*(sm.t1+sm.t2),2)} m/s`:"–"]]); if(smC) smC.redraw(); }
+[["smD1","d1"],["smT1","t1"],["smD2","d2"],["smT2","t2"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ sm[k]=+e.target.value; smUpd(); }));
+// Accel–decel
+const ad = {a1:0.5,a2:1,T:90};
+function adPts(o){ const vm=o.a1*o.a2*o.T/(o.a1+o.a2); return [[0,0],[vm/o.a1,vm],[o.T,0]]; }
+function adUpd(){ $("adA1o").textContent=`${nf(ad.a1,1)} m/s²`; $("adA2o").textContent=`${nf(ad.a2,1)} m/s²`; $("adTo").textContent=`${ad.T} s`; const vm=ad.a1*ad.a2*ad.T/(ad.a1+ad.a2);
+  setReadout($("adOut"),[["v<sub>max</sub> = a₁a₂T ÷ (a₁ + a₂)",`${nf(vm,2)} m/s`],["Accelerating for",`${nf(vm/ad.a1,1)} s`],["Braking for",`${nf(vm/ad.a2,1)} s`],["Distance = ½ v<sub>max</sub> T",`${nf(vm*ad.T/2,1)} m`]]); if(adC) adC.redraw(); }
+[["adA1","a1"],["adA2","a2"],["adT","T"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ ad[k]=+e.target.value; adUpd(); }));
+// Two objects
+const tw = {v:30,a:3,d:0};
+function twUpd(){ $("twVo").textContent=`${tw.v} m/s`; $("twAo").textContent=`${tw.a} m/s²`; $("twDo").textContent=`${tw.d} s`; const t=meetTime(tw.v,tw.a,tw.d), tg=tw.d+tw.v/tw.a, gap=tw.v*tg-0.5*tw.a*(tg-tw.d)**2;
+  setReadout($("twOut"),[["They meet at",`t = ${nf(t,2)} s`],["Distance from the start",`${nf(tw.v*t,1)} m`],["Police speed then",`${nf(tw.a*(t-tw.d),1)} m/s`],["Biggest gap",`${nf(gap,1)} m at t = ${nf(tg,1)} s`]]); if(twC) twC.redraw(); }
+[["twV","v"],["twA","a"],["twD","d"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ tw[k]=+e.target.value; twUpd(); }));
+// Gravity
+const gr = {u:19.6,h:10};
+function grUpd(){ $("grUo").textContent=`${nf(gr.u,1)} m/s`; $("grHo").textContent=`${gr.h} m`; const H=gr.u*gr.u/(2*G), d=gr.u*gr.u-2*G*gr.h;
+  setReadout($("grOut"),[["Time to top u ÷ g",`${nf(gr.u/G,2)} s`],["Max height u² ÷ 2g",`${nf(H,2)} m`],["Back to start 2u ÷ g",`${nf(2*gr.u/G,2)} s`],[`At ${gr.h} m`,d>=0?`t = ${nf((gr.u-Math.sqrt(d))/G,2)} s and ${nf((gr.u+Math.sqrt(d))/G,2)} s`:"never reached"]]); if(grC) grC.redraw(); }
+$("grU").addEventListener("input",e=>{ gr.u=+e.target.value; grUpd(); }); $("grH").addEventListener("input",e=>{ gr.h=+e.target.value; grUpd(); });
+// Letters
+const RESULTS = [
+  {n:"Catch-up time t = 2p ÷ q", p:"p = car speed (m/s)", q:"q = chaser's acceleration (m/s²)", f:(p,q)=>2*p/q, sim:(p,q)=>{ let t=0,s1=0,s2=0,v2=0,dt=0.001; do{ t+=dt; s1+=p*dt; v2+=q*dt; s2+=v2*dt-0.5*q*dt*dt; }while(s2<s1&&t<1e4); return t; }},
+  {n:"Max height p² ÷ 2g", p:"p = launch speed (m/s)", q:"q unused", f:(p)=>p*p/(2*G), sim:(p)=>{ let v=p,s=0,dt=0.001; while(v>0){ s+=v*dt-0.5*G*dt*dt; v-=G*dt; } return s; }},
+  {n:"Stopping distance p² ÷ 2q", p:"p = speed (m/s)", q:"q = deceleration (m/s²)", f:(p,q)=>p*p/(2*q), sim:(p,q)=>{ let v=p,s=0,dt=0.001; while(v>0){ s+=v*dt-0.5*q*dt*dt; v-=q*dt; } return s; }},
+  {n:"Distance in the pth second (from rest) q(p − ½)", p:"p = which second", q:"q = acceleration (m/s²)", f:(p,q)=>q*(p-0.5), sim:(p,q)=>{ let v=0,s=0,dt=0.001,sA=0; for(let t=0;t<p-1e-9;t+=dt){ if(Math.abs(t-(p-1))<dt/2) sA=s; s+=v*dt+0.5*q*dt*dt; v+=q*dt; } if(p===1) sA=0; return s-sA; }},
+];
+const lt = {k:0,p:10,q:2};
+$("ltR").innerHTML = RESULTS.map((r,i)=>`<button data-i="${i}" aria-pressed="${i===0}">${r.n}</button>`).join("");
+function ltUpd(){ $("ltPo").textContent=lt.p; $("ltQo").textContent=lt.q; const R=RESULTS[lt.k], f=R.f(lt.p,lt.q), s=R.sim(lt.p,lt.q);
+  setReadout($("ltOut"),[["Letters",`${R.p}; ${R.q}`],["Formula",nf(f,3)],["Simulation",nf(s,3)],["Difference",`${nf(Math.abs(f-s)/Math.max(f,1e-9)*100,2)}%`]]); if(ltC) ltC.redraw(); }
+$("ltR").addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; lt.k=+b.dataset.i; pressGroup([...$("ltR").children],b); ltUpd(); });
+$("ltP").addEventListener("input",e=>{ lt.p=+e.target.value; ltUpd(); }); $("ltQ").addEventListener("input",e=>{ lt.q=+e.target.value; ltUpd(); });
+
+/* ================= CREATE CANVASES ================= */
+let uaC=null, vtC=null, vtG=null, lnC=null, smC=null, adC=null, twC=null, grC=null, ltC=null;
+const hero = makeCanvas($("heroCanvas"), 0.75, 240, s => { const T=reduce?8:2+((heroT*1.2)%8); drawVT(s.ctx,s.w,s.h,{pts:[[0,4],[T,4+2*T]]}); }, 440);
+uaC = makeCanvas($("uaC"), 0.3, 180, s => drawStrip(s.ctx,s.w,s.h,ua), 260);
+vtC = makeCanvas($("vtC"), 0.42, 240, s => { const fr=drawVT(s.ctx,s.w,s.h,{pts:[[0,vt.u],[vt.t,vt.u+vt.a*vt.t]]}); }, 380);
+vtG = makeCanvas($("vtG"), 0.7, 200, s => { bg(s.ctx,s.w,s.h); const fr=frame(s.ctx,s.w,s.h,{x0:0,x1:8,y0:0,y1:30,xl:"t (s)",yl:"v (m/s)",compact:true,xt:2,yt:5}), f=vtFit(); if(f) line(s.ctx,fr.X(0),fr.Y(f.c),fr.X(8),fr.Y(f.c+8*f.m),C.terra,2.5); vt.rows.forEach(([t,v])=>circle(s.ctx,fr.X(t),fr.Y(v),4,C.surface,C.ink,2)); }, 320);
+lnC = makeCanvas($("lnC"), 0.28, 160, s => drawWheel(s.ctx,s.w,s.h,ln), 240);
+smC = makeCanvas($("smC"), 0.5, 260, s => drawSim(s.ctx,s.w,s.h,sm), 440);
+adC = makeCanvas($("adC"), 0.45, 240, s => drawVT(s.ctx,s.w,s.h,{pts:adPts(ad)}), 400);
+twC = makeCanvas($("twC"), 0.5, 260, s => drawTwo(s.ctx,s.w,s.h,tw), 440);
+grC = makeCanvas($("grC"), 0.5, 260, s => drawGrav(s.ctx,s.w,s.h,gr), 440);
+ltC = makeCanvas($("ltC"), 0.35, 200, s => { const R=RESULTS[lt.k]; drawBars2(s.ctx,s.w,s.h,{f:R.f(lt.p,lt.q),s:R.sim(lt.p,lt.q)}); }, 300);
+predC = makeCanvas($("predC"), 0.42, 160, s => { bg(s.ctx,s.w,s.h,C["surface-2"]); const cw=(s.w-24)/4, cp=s.w<440;
+  [["no s"],["no v"],["no t"],["no a"]].forEach(([l],i)=>{ const x=12+i*cw, hit=pd.shown&&PRED[pd.k][1]===i; rr(s.ctx,x+3,16,cw-6,s.h-32,12); s.ctx.fillStyle=hit?C.terra:C.surface; s.ctx.fill(); s.ctx.strokeStyle=C.line; s.ctx.stroke();
+    text(s.ctx,["v","s","v²","s"][i],x+cw/2,s.h/2-2,hit?C["on-accent"]||"#fff":C.ink,F(cp?16:22,800),"center"); text(s.ctx,l,x+cw/2,s.h/2+20,hit?C["on-accent"]||"#fff":C.muted,F(cp?10:12),"center"); }); }, 240);
+pdNew();
+const MINI = {
+  strip:(s,o)=>drawStrip(s.ctx,s.w,s.h,{...o,compact:true}),
+  vt:(s,o)=>drawVT(s.ctx,s.w,s.h,{...o,compact:true}),
+  wheel:(s,o)=>drawWheel(s.ctx,s.w,s.h,{...o,compact:true}),
+  sim:(s,o)=>drawSim(s.ctx,s.w,s.h,{...o,compact:true}),
+  two:(s,o)=>drawTwo(s.ctx,s.w,s.h,{...o,compact:true}),
+  grav:(s,o)=>drawGrav(s.ctx,s.w,s.h,{...o,compact:true}),
+  bars:(s,o)=>drawBars2(s.ctx,s.w,s.h,{...o,compact:true}),
+};
+document.querySelectorAll("canvas[data-learn]").forEach(el=>{ const [kind,o]=LEARN[el.dataset.learn].vis[+el.dataset.k]; makeCanvas(el, kind==="strip"||kind==="wheel"?0.4:0.62, 150, s=>MINI[kind](s,o), 380); });
+const INFO = { const:["vt",{pts:[[0,10],[10,10]]}], acc:["vt",{pts:[[0,2],[10,20]]}], tri:["vt",{pts:[[0,0],[6,18],[10,0]]}] };
+document.querySelectorAll("canvas[data-mini]").forEach(el=>{ const [k,o]=INFO[el.dataset.mini]; makeCanvas(el,0.7,160,s=>MINI[k](s,{...o,bgc:C["surface-2"]})); });
+uaUpd(); vtUpd(); lnUpd(); smUpd(); adUpd(); twUpd(); grUpd(); ltUpd();
+
+@@INC /* ================= LOOP / THEME / START ||| </html>@@

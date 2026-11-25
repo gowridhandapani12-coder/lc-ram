@@ -8,7 +8,8 @@ https://gowridhandapani12-coder.github.io/lc-ram/
 
 | Folder | Subject | Structure |
 |--------|---------|-----------|
-| `physics/` | Physics | Chapters and sections of *Real World Physics*, 2nd edition (Folens). Plan: `physics/COURSE-PLAN.md` |
+| `physics/` | Physics | Chapters and sections of *Real World Physics*, 2nd edition (Folens). One page per section. Plan: `physics/COURSE-PLAN.md` |
+| `applied-maths/` | Applied Maths | Chapters of the user's Applied Maths textbook (titles given by the user). One page per chapter, sections as topics. Plan: `applied-maths/COURSE-PLAN.md` |
 
 ## Source material and copyright
 
@@ -24,14 +25,17 @@ https://gowridhandapani12-coder.github.io/lc-ram/
 ## How pages are built
 
 - `tools/templates/<page>.html` + `<page>.json` → `node tools/build-page.js tools/templates/<page>.html tools/templates/<page>.json`
-  writes `physics/<file>.html`. Templates contain only the page's own data, labs and text; `@@INC start ||| end@@`
+  writes `<subject>/<file>.html` (config `subject`, default `physics`; sidebar from `<subject>/chapters.json`;
+  `bookNote` sets the sidebar footnote). Applied Maths templates are `tools/templates/am<n>.html`; they keep the
+  80/20 exam split and "Modelling project skills" (the 40% / Investigation swaps only happen for physics). Templates contain only the page's own data, labs and text; `@@INC start ||| end@@`
   copies the shared blocks (head/CSS, top bar, flashcards, quiz, glossary, router, theme) from
   `tools/reference-page.html` (a copy of the Study Lab's Applied Maths 1.1 page), and `@@SIDEBAR:<section>@@` becomes
   the chapter list from `physics/chapters.json`. Rebuild older pages after adding one so their sidebars link to it.
 - Pages that already exist in the Study Lab can be adapted instead: `node tools/adapt-page.js ../leaving-cert-study/physics/<page>.html tools/templates/<page>.json`
   (swaps the localStorage prefix, branding and sidebar; see `ch15-7.json`). Re-run it after adding pages.
 - Then `node tools/site.js` adds the subject tabs and regenerates `index.html` and `physics/index.html`.
-- File names: `ch<chapter>-<section>-<slug>.html`. localStorage prefix `lr<chapter><section>-` (e.g. `lr13-`);
+- File names: physics `ch<chapter>-<section>-<slug>.html`, prefix `lr<chapter><section>-` (e.g. `lr13-`); applied
+  maths `ch<chapter>-<slug>.html`, prefix `lra<chapter>-`;
   theme/font keys `lr-theme` / `lr-font`.
 
 ## Run it locally

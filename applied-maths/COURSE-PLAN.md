@@ -8,7 +8,7 @@ page with its own lab. Chapters are built as the user asks. Sidebar data: `chapt
 |---------|-------|------|--------|
 | 1 | Units & Vectors (8 sections) | `ch1-units-vectors.html` | Done (2026-11-25) |
 | 2 | Uniform Acceleration (8 sections) | `ch2-uniform-acceleration.html` | Done (2026-11-25) |
-| 3 | Projectiles (5 sections) | `ch3-projectiles.html` | Done (2026-11-25) |
+| 3 | Projectiles (8 sections) | `ch3-projectiles.html` | Done (2026-11-25; 3.6–3.8 added 2026-11-26) |
 
 ## Chapter 1 contents
 
@@ -29,13 +29,16 @@ equations, two unknowns ((u, a) plane) · Speed up, slow down · Catch up · Thr
 
 ## Chapter 3 contents
 
-Sections: why study projectiles · launched vertically · fired at an angle · speed and angle known · maximum range.
+Sections: why study projectiles · launched vertically · fired at an angle · speed and angle known · maximum range ·
+equation of the path · inclined plane · range and impact on a slope (3.6–3.8 are our own additions to complete the chapter).
 Labs: Dropped vs thrown (strobe) · Up meets down · Fired at an angle (r and v at time t) · Collect & fit (R against
-u², g from the gradient) · Best angle (range vs angle, target angles). 5 goals, 24 flashcards, 16 quiz questions,
-35 glossary terms, 6 trainer types, "true or false?" drill, 3 long questions.
+u², g from the gradient) · Best angle (range vs angle, target angles) · Clear the wall (path equation, angles through a point) · Tilt the axes
+(inclined plane) · Hitting the slope (max range, right-angle strike). 8 goals, 35 flashcards, 22 quiz questions,
+42 glossary terms, 9 trainer types, "true or false?" drill, 4 long questions.
 
 ## Run log
 
 | Date | Built | Weekly usage before → after |
 |------|-------|-----------------------------|
 | 2026-11-25 | Subject set up; chapters 1–3 (asked for by the user) | 60% → 62% (5-hour window 6% → 20%) |
+| 2026-11-26 | Chapter 3 completed: 3.6 path equation, 3.7 inclined plane, 3.8 range and impact on a slope | 64% (5-hour window 14%) |

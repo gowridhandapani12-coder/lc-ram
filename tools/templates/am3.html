@@ -23,12 +23,12 @@
         <div class="herobox"><canvas id="heroCanvas" aria-label="Animated projectile tracing a parabola with its velocity vector"></canvas></div>
       </div>
       <div class="stats">
-        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/5</b><div class="prog"><i id="stLOb"></i></div></div>
+        <div class="panel stat"><span>Goals ticked</span><b id="stLO">0/8</b><div class="prog"><i id="stLOb"></i></div></div>
         <div class="panel stat"><span>Flashcards you know</span><b id="stFC">0</b><div class="prog"><i id="stFCb"></i></div></div>
         <div class="panel stat"><span>Best quiz score</span><b id="stQZ">–</b><div class="prog"><i id="stQZb"></i></div></div>
       </div>
       <div>
-        <div class="head" style="margin-bottom:14px"><h2>Five sections</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
+        <div class="head" style="margin-bottom:14px"><h2>Eight sections</h2><p>Each one has a visual summary, a lab, flashcards and quiz questions.</p></div>
         <div class="topics" id="topicCards"></div>
       </div>
       <div class="panel pad">
@@ -120,6 +120,51 @@
         </div>
         <div class="tries"><div class="try"><b>1</b>Compare the ranges at 30° and 60°.</div><div class="try"><b>2</b>What is the maximum range in terms of u and g?</div><div class="try"><b>3</b>Move the target beyond u² ÷ g. Why can't you hit it?</div></div>
       </div>
+
+      <div class="lab" data-lab="path" hidden>
+        <div class="labhead"><span class="pill t">Clear the wall</span><p class="goal">Eliminate t and the path becomes y = x tan α − gx² ÷ (2u² cos² α). Put in the wall's distance and height: is the ball above the wall there? Writing 1 ÷ cos² α = 1 + tan² α turns the path into a quadratic in tan α, which gives the two angles that just clear the top.</p></div>
+        <div class="panel sim">
+          <canvas id="ptC" aria-label="Parabolic path of a ball and a wall it must clear"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="ptU">u <output id="ptUo">20 m/s</output></label><input type="range" id="ptU" min="10" max="30" step="1" value="20"></div>
+            <div class="ctl"><label for="ptA">α <output id="ptAo">40°</output></label><input type="range" id="ptA" min="5" max="85" step="1" value="40"></div>
+            <div class="ctl"><label for="ptD">Wall distance <output id="ptDo">25 m</output></label><input type="range" id="ptD" min="5" max="60" step="1" value="25"></div>
+            <div class="ctl"><label for="ptH">Wall height <output id="ptHo">6 m</output></label><input type="range" id="ptH" min="1" max="20" step="1" value="6"></div>
+          </div>
+          <div class="readout" id="ptOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Check the height at the wall by putting x = d into the path equation.</div><div class="try"><b>2</b>Set α to each angle that just clears it. Where does the ball pass?</div><div class="try"><b>3</b>Move the wall far away. When is there no angle that works?</div></div>
+      </div>
+
+      <div class="lab" data-lab="incline" hidden>
+        <div class="labhead"><span class="pill t">Tilt the axes</span><p class="goal">The ball is fired up a slope inclined at β, at angle θ to the slope. Take i along the slope and j perpendicular to it. Gravity then has two components: −g sin β i and −g cos β j. The ball lands on the slope when its j displacement is zero.</p></div>
+        <div class="panel sim">
+          <canvas id="icC" aria-label="Projectile fired up an inclined plane with axes along and perpendicular to the plane"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="icU">u <output id="icUo">20 m/s</output></label><input type="range" id="icU" min="10" max="30" step="1" value="20"></div>
+            <div class="ctl"><label for="icB">Slope β <output id="icBo">20°</output></label><input type="range" id="icB" min="0" max="40" step="1" value="20"></div>
+            <div class="ctl"><label for="icT">θ (to the slope) <output id="icTo">30°</output></label><input type="range" id="icT" min="5" max="80" step="1" value="30"></div>
+            <div class="ctl"><label for="icS">Time <output id="icSo">0 s</output></label><input type="range" id="icS" min="0" max="1" step="0.01" value="0.4"></div>
+          </div>
+          <div class="readout" id="icOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Set β = 0. Do you get the level-ground answers back?</div><div class="try"><b>2</b>Show that the time of flight is 2u sin θ ÷ (g cos β).</div><div class="try"><b>3</b>Why does the ball slow down along the slope as well as across it?</div></div>
+      </div>
+
+      <div class="lab" data-lab="strike" hidden>
+        <div class="labhead"><span class="pill t">Hitting the slope</span><p class="goal">Two classic questions: which θ gives the greatest range up the slope, and which θ makes the ball hit the slope at right angles? Try to find each one, then use the buttons to check.</p></div>
+        <div class="panel sim">
+          <canvas id="stC" aria-label="Projectile on an inclined plane showing its velocity as it strikes the plane"></canvas>
+          <div class="controls">
+            <div class="ctl"><label for="stU">u <output id="stUo">20 m/s</output></label><input type="range" id="stU" min="10" max="30" step="1" value="20"></div>
+            <div class="ctl"><label for="stB">Slope β <output id="stBo">20°</output></label><input type="range" id="stB" min="5" max="40" step="1" value="20"></div>
+            <div class="ctl"><label for="stT">θ (to the slope) <output id="stTo">30°</output></label><input type="range" id="stT" min="5" max="80" step="0.1" value="30"></div>
+            <div class="ctl"><span class="lbl">Jump to</span><div class="btns"><button id="stMax">Maximum range</button><button id="stPerp">Right angles</button></div></div>
+          </div>
+          <div class="readout" id="stOut"></div>
+        </div>
+        <div class="tries"><div class="try"><b>1</b>Find the best θ for β = 20°. Compare it with 45° − β ÷ 2.</div><div class="try"><b>2</b>At right angles, the velocity along the slope is zero at impact. Check that the readout agrees.</div><div class="try"><b>3</b>Make θ large. Which way is the ball moving when it lands?</div></div>
+      </div>
     </section>
 
     <!-- ================= MIND MAP ================= -->
@@ -176,6 +221,7 @@
             <li>Time is the link between the two directions: find t in one, use it in the other.</li>
             <li>Derive range and time of flight from the equations; don't just quote them unless allowed.</li>
             <li>Speed at any moment = √(v<sub>i</sub>² + v<sub>j</sub>²); direction = tan⁻¹(v<sub>j</sub> ÷ v<sub>i</sub>).</li>
+            <li>On an inclined plane, take i along the plane and j perpendicular to it; split both u and g into those directions.</li>
             <li>The questions here are practice questions, not official SEC papers.</li>
           </ol>
         </div>
@@ -219,6 +265,11 @@
         <div class="panel fcell"><span class="pill">Range</span><span class="big">R = u² sin 2α ÷ g</span><dl><dt>Max</dt><dd>u² ÷ g at α = 45°</dd><dt>Same R</dt><dd>α and 90° − α</dd></dl></div>
         <div class="panel fcell"><span class="pill a">Horizontal launch</span><span class="big">from height h: t = √(2h ÷ g), x = u t</span></div>
         <div class="panel fcell"><span class="pill a">Vertical launch</span><span class="big">up at u, dropped from H: meet at t = H ÷ u</span></div>
+        <div class="panel fcell"><span class="pill">Equation of the path</span><span class="big">y = x tan α − gx²(1 + tan² α) ÷ 2u²</span><dl><dt>From</dt><dd>eliminating t</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Inclined plane (β)</span><span class="big">a = −g sin β i − g cos β j</span><dl><dt>i</dt><dd>along the plane</dd><dt>j</dt><dd>perpendicular to it</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Up the plane (θ to plane)</span><span class="big">T = 2u sin θ ÷ (g cos β)</span><dl><dt>Range</dt><dd>2u² sin θ cos(θ + β) ÷ (g cos² β)</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Max range up the plane</span><span class="big">θ = 45° − β ÷ 2</span><dl><dt>R<sub>max</sub></dt><dd>u² ÷ (g(1 + sin β))</dd></dl></div>
+        <div class="panel fcell"><span class="pill">Strikes at right angles</span><span class="big">tan θ = 1 ÷ (2 tan β)</span><dl><dt>When</dt><dd>v along the plane = 0 at impact</dd></dl></div>
       </div>
       <footer>
         <p>Follows the sections of Chapter 3 of your Applied Maths textbook. All explanations, labs and questions on this page are original. g = 9.8 m/s²; air resistance ignored.</p>
@@ -238,6 +289,9 @@ const ICON = {
   ball:'<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4v16"/>',
   water:'<path d="M3 20h18M4 18q6-14 14 0"/><path d="M4 18v-3"/>',
   javelin:'<path d="M3 21L21 3M17 3h4v4"/>',
+  path:'<path d="M3 20h18M3 20q9-22 18 0"/><path d="M14 20v-9h3v9"/>',
+  incline:'<path d="M3 20h18L21 9z"/><path d="M5 19q6-14 12-7"/>',
+  strike:'<path d="M3 20h18L21 9z"/><path d="M15 6l-1 6"/><path d="M12 10l2 2 2-1"/>',
   rocket:'<path d="M12 2c4 4 5 9 3 14H9C7 11 8 6 12 2z"/><path d="M9 16l-2 4M15 16l2 4"/>',
 };
 const svg = (k,extra="") => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICON[k]}</svg>`;
@@ -247,6 +301,9 @@ const TOPICS = [
   {id:"angle", name:"Fired at an angle", short:"Position and velocity in i and j at any time t.", tint:"var(--sage)"},
   {id:"known", name:"Speed and angle known", short:"Time of flight, maximum height and range.", tint:"var(--cream)"},
   {id:"maxrange", name:"Maximum range", short:"R = u² sin 2α ÷ g is biggest at α = 45°.", tint:"var(--blush)"},
+  {id:"path", name:"The equation of the path", short:"Eliminate t: y = x tan α − gx²(1 + tan² α) ÷ 2u².", tint:"var(--apricot)"},
+  {id:"incline", name:"Projectiles on an inclined plane", short:"Axes along and across the slope; gravity splits into g sin β and g cos β.", tint:"var(--sage)"},
+  {id:"strike", name:"Range and impact on a slope", short:"Maximum range up the plane, and striking it at right angles.", tint:"var(--cream)"},
 ];
 const tname = id => TOPICS.find(t=>t.id===id).name;
 const LO = [
@@ -255,8 +312,11 @@ const LO = [
   ["angle","write the position and velocity of a projectile in i and j at time t"],
   ["known","find the time of flight, maximum height and range from u and α"],
   ["maxrange","show that the maximum range is u² ÷ g at 45°, and find angles for a given range"],
+  ["path","find the equation of the path and use it to find angles that pass through a given point"],
+  ["incline","find the time of flight and range of a projectile up an inclined plane"],
+  ["strike","find the maximum range up a plane and the angle needed to strike it at right angles"],
 ];
-const LO_HEAD = {why:"3.1",vertical:"3.2",angle:"3.3",known:"3.4",maxrange:"3.5"};
+const LO_HEAD = {why:"3.1",vertical:"3.2",angle:"3.3",known:"3.4",maxrange:"3.5",path:"3.6",incline:"3.7",strike:"3.8"};
 
 /* ---------- glossary ---------- */
 const GLOSS = [
@@ -284,20 +344,27 @@ const GLOSS = [
   ["Range","R","Horizontal distance to where it lands at the launch level: u² sin 2α ÷ g.","known"],
   ["Highest point","apex","Where the vertical velocity is zero.","known"],
   ["Double-angle formula","","sin 2α = 2 sin α cos α, used to simplify the range.","known"],
-  ["Equation of the path","","y = x tan α − gx² ÷ (2u² cos² α), from eliminating t.","known"],
+  ["Equation of the path","","y = x tan α − gx² ÷ (2u² cos² α), from eliminating t.","path"],
   ["Maximum range","","u² ÷ g, reached when sin 2α = 1, i.e. α = 45°.","maxrange"],
   ["Complementary angles","","Angles adding to 90°; they give the same range.","maxrange"],
   ["Target","","A point the projectile must hit; usually gives two possible angles.","maxrange"],
   ["Lob","","The steeper of the two angles that hit a target: longer flight, higher path.","maxrange"],
   ["Direct shot","","The shallower of the two angles: quicker, flatter path.","maxrange"],
-  ["Inclined plane","","A slope; projectiles on slopes come in later chapters/years.","maxrange"],
+  ["Inclined plane","β","A slope at angle β to the horizontal; projectiles can be fired up or down it.","incline"],
+  ["Angle to the plane","θ","The angle between the launch velocity and the inclined plane.","incline"],
+  ["Rotated axes","","i along the plane, j perpendicular to it, chosen so landing means j displacement = 0.","incline"],
+  ["Component of gravity","","g sin β down the plane and g cos β into the plane.","incline"],
+  ["Range on the plane","","Distance along the plane from launch to landing: 2u² sin θ cos(θ + β) ÷ (g cos² β).","incline"],
+  ["Strike at right angles","","Hitting the plane perpendicularly: the velocity along the plane is zero at impact.","strike"],
+  ["Maximum range on a plane","","u² ÷ (g(1 + sin β)), at θ = 45° − β ÷ 2 to the plane.","strike"],
+  ["Quadratic in tan α","","The path equation with sec² α = 1 + tan² α; its roots give the launch angles.","path"],
   ["Horizontal launch","","Projection with α = 0, e.g. off a cliff or table.","why"],
   ["Strobe photograph","","A picture showing an object's positions at equal time intervals.","why"],
   ["Symmetry","","Without air resistance, the path up mirrors the path down.","known"],
   ["Impact speed","","The speed on landing; at the launch level it equals the launch speed.","known"],
 ].map(([t,aka,d,topic,f])=>({t,aka,d,topic,f,id:"g-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+t.length}));
 const glossBy = t => GLOSS.find(g=>g.t===t);
-const GL_LINKS = [["time of flight","Time of flight"],["maximum height","Maximum height"],["maximum range","Maximum range"],["trajectory","Trajectory"],["angle of projection","Angle of projection"],["range","Range"],["projectile","Projectile"]];
+const GL_LINKS = [["inclined plane","Inclined plane"],["equation of the path","Equation of the path"],["time of flight","Time of flight"],["maximum height","Maximum height"],["maximum range","Maximum range"],["trajectory","Trajectory"],["angle of projection","Angle of projection"],["range","Range"],["projectile","Projectile"]];
 @@INC function autoLink(str){ ||| /* ================= MODELS + DRAWINGS@@/* ================= MODELS + DRAWINGS ================= */
 const DEG = Math.PI/180, G = 9.8;
 function vec(ctx,x1,y1,x2,y2,col,lw=3,head=10){ const L=Math.hypot(x2-x1,y2-y1); if(L<1) return; line(ctx,x1,y1,x2,y2,col,lw); arrowHead(ctx,x2,y2,(x2-x1)/L,(y2-y1)/L,col,head); }
@@ -333,6 +400,33 @@ function drawMax(ctx,w,h,o){ const Rmax=o.u*o.u/G, sc=scene(ctx,w,h,Math.max(Rma
   [15,30,45,60,75].forEach(a=>{ const p=proj(o.u,a), P=[]; for(let k=0;k<=80;k++){ const t=p.T*k/80; P.push([sc.X(p.ux*t),sc.Y(p.uy*t-0.5*G*t*t)]); } polyline(ctx,P,a===45?C.apricot:C.line,a===45?2.5:1.5); });
   const p=proj(o.u,o.a), P=[]; for(let k=0;k<=100;k++){ const t=p.T*k/100; P.push([sc.X(p.ux*t),sc.Y(p.uy*t-0.5*G*t*t)]); } polyline(ctx,P,C.terra,sc.cp?2.5:3.5);
   if(o.d!=null){ const hit=Math.abs(p.R-o.d)<0.6; rr(ctx,sc.X(o.d)-(sc.cp?5:8),sc.Y(0)-(sc.cp?10:16),sc.cp?10:16,sc.cp?10:16,3); ctx.fillStyle=hit?C.good:C.bad; ctx.fill(); } }
+// Equation of the path + wall
+const pathY = (u,a,x) => x*Math.tan(a*DEG) - G*x*x/(2*u*u*Math.cos(a*DEG)**2);
+function wallAngles(u,d,h){ const k=G*d*d/(2*u*u), disc=d*d-4*k*(h+k); if(disc<0) return null; const r=Math.sqrt(disc); return [Math.atan((d-r)/(2*k))/DEG, Math.atan((d+r)/(2*k))/DEG]; }
+function drawPath(ctx,w,h,o){ const p=proj(o.u,o.a), Wm=Math.max(p.R,o.d+3)*1.08, Hm=Math.max(p.H,o.h,3)*1.25, sc=scene(ctx,w,h,Wm,Hm,o);
+  const ww=Math.max(sc.cp?4:7, sc.s*0.6); rr(ctx,sc.X(o.d)-ww/2,sc.Y(o.h),ww,sc.Y(0)-sc.Y(o.h),2); ctx.fillStyle=C.muted; ctx.fill();
+  const P=[]; for(let k=0;k<=160;k++){ const x=Wm*k/160, y=pathY(o.u,o.a,x); if(y<-0.01||x>p.R+1e-9) break; P.push([sc.X(x),sc.Y(y)]); } polyline(ctx,P,C.terra,sc.cp?2.5:3.5);
+  const yd=pathY(o.u,o.a,o.d);
+  if(yd>=0&&o.d<=p.R){ line(ctx,sc.X(o.d),sc.Y(o.h),sc.X(o.d),sc.Y(yd),C.sage,1.5,[4,4]); circle(ctx,sc.X(o.d),sc.Y(yd),sc.cp?4:7,yd>o.h?C.good:C.bad,C.ink,1.5);
+    if(!sc.cp) text(ctx,"y = "+nf(yd,2)+" m",sc.X(o.d)+10,sc.Y(yd)-8,C.ink,F(12,800),"left"); } }
+// Inclined plane: beta (plane), th (to plane), t fraction of flight
+function incl(o){ const b=o.b*DEG, th=o.th*DEG, a=b+th, T=2*o.u*Math.sin(th)/(G*Math.cos(b)), R=2*o.u*o.u*Math.sin(th)*Math.cos(a)/(G*Math.cos(b)**2);
+  return {b,th,a,T,R,ux:o.u*Math.cos(a),uy:o.u*Math.sin(a), vAlong:o.u*Math.cos(th)-G*Math.sin(b)*T, vPerp:-o.u*Math.sin(th)}; }
+function drawIncline(ctx,w,h,o){ const q=incl(o), pts=[]; let ymax=0, xmax=0;
+  for(let k=0;k<=140;k++){ const t=q.T*k/140, x=q.ux*t, y=q.uy*t-0.5*G*t*t; pts.push([x,y]); ymax=Math.max(ymax,y); xmax=Math.max(xmax,x); }
+  const L=Math.max(q.R,2)*1.2, Wm=Math.max(L*Math.cos(q.b),xmax,4)*1.08, Hm=Math.max(L*Math.sin(q.b),ymax,2)*1.2, sc=scene(ctx,w,h,Wm,Hm,o);
+  ctx.beginPath(); ctx.moveTo(sc.X(0),sc.Y(0)); ctx.lineTo(sc.X(L*Math.cos(q.b)),sc.Y(L*Math.sin(q.b))); ctx.lineTo(sc.X(L*Math.cos(q.b)),sc.Y(0)); ctx.closePath(); ctx.fillStyle=C["surface-2"]; ctx.fill();
+  line(ctx,sc.X(0),sc.Y(0),sc.X(L*Math.cos(q.b)),sc.Y(L*Math.sin(q.b)),C.ink,2.5);
+  polyline(ctx,pts.map(([x,y])=>[sc.X(x),sc.Y(y)]),o.strike?C.terra:C.muted,sc.cp?2:2.5,o.strike?null:[5,4]);
+  const ex=Math.cos(q.b), ey=Math.sin(q.b), nx=-Math.sin(q.b), ny=Math.cos(q.b), A=(sc.cp?26:44);
+  if(o.axes){ vec(ctx,sc.X(0),sc.Y(0),sc.X(0)+ex*A,sc.Y(0)-ey*A,C.sage,2,7); vec(ctx,sc.X(0),sc.Y(0),sc.X(0)+nx*A,sc.Y(0)-ny*A,C.sage,2,7);
+    if(!sc.cp){ text(ctx,"i",sc.X(0)+ex*(A+10),sc.Y(0)-ey*(A+10),C.ink,F(13,800),"center"); text(ctx,"j",sc.X(0)+nx*(A+10),sc.Y(0)-ny*(A+10),C.ink,F(13,800),"center"); } }
+  const k=(sc.cp?1:1.8)*Math.min(w,h)/Math.max(30,o.u*6);
+  if(o.strike){ const xL=q.R*ex, yL=q.R*ey, vx=q.ux, vy=q.uy-G*q.T;
+    line(ctx,sc.X(xL),sc.Y(yL),sc.X(xL)+nx*A,sc.Y(yL)-ny*A,C.sage,1.5,[4,4]);
+    vec(ctx,sc.X(xL)-vx*k,sc.Y(yL)+vy*k,sc.X(xL),sc.Y(yL),C.olive,sc.cp?2.5:3.5,sc.cp?7:10); circle(ctx,sc.X(xL),sc.Y(yL),sc.cp?4:7,C.terra,C.ink,1.5); }
+  else { const t=(o.t??0.5)*q.T, x=q.ux*t, y=q.uy*t-0.5*G*t*t, vx=q.ux, vy=q.uy-G*t;
+    vec(ctx,sc.X(x),sc.Y(y),sc.X(x)+vx*k,sc.Y(y)-vy*k,C.olive,sc.cp?2:3,sc.cp?6:9); circle(ctx,sc.X(x),sc.Y(y),sc.cp?5:8,C.terra,C.ink,1.5); } }
 
 @@INC /* ================= ROUTER ||| /* ================= OVERVIEW@@@@INC /* ================= OVERVIEW ||| let heroT=0;@@let heroT=0;
 
@@ -353,6 +447,15 @@ const LEARN = {
   maxrange:{ vis:[["max",{u:20,a:45,d:null}]], cap:"At 20 m/s, 45° (apricot) goes furthest: 40.8 m. 30° and 60° tie at 35.3 m.",
     keys:[["45°","sin 2α is biggest (= 1) when 2α = 90°: α = 45°."],["u²/g","Maximum range = u² ÷ g."],["⇋","α and 90° − α give the same range: two ways to hit most targets."]],
     f:"R<sub>max</sub> = u² ÷ g", mistake:"Assuming a steeper launch always goes further. Above 45° the range falls again." },
+  path:{ vis:[["path",{u:20,a:40,d:25,h:6}]], cap:"At 20 m/s and 40°, the ball is 7.9 m up when it reaches a wall 25 m away: it clears 6 m.",
+    keys:[["t","From x = (u cos α)t, t = x ÷ (u cos α). Put this into y."],["y(x)","y = x tan α − gx² ÷ (2u² cos² α): a parabola."],["tan α","Use 1 ÷ cos² α = 1 + tan² α to get a quadratic in tan α: two angles through any reachable point."]],
+    f:"y = x tan α − gx²(1 + tan² α) ÷ 2u²", mistake:"Writing cos² α in the numerator. It divides: the gx² term is over 2u² cos² α." },
+  incline:{ vis:[["incline",{u:20,b:20,th:30,t:0.45,axes:true}]], cap:"Fired at 30° to a 20° slope: axes along (i) and across (j) the slope.",
+    keys:[["i, j","i along the slope, j perpendicular to it. Initial velocity u cos θ i + u sin θ j."],["g","Gravity splits: −g sin β i − g cos β j. Both directions now have acceleration."],["j = 0","Lands on the slope when the j displacement is zero: T = 2u sin θ ÷ (g cos β)."]],
+    f:"T = 2u sin θ ÷ (g cos β)", mistake:"Using a = 0 along the slope. Gravity has a component g sin β down the slope." },
+  strike:{ vis:[["incline",{u:20,b:20,th:53.9,t:1,strike:true}]], cap:"θ ≈ 53.9° to a 20° slope: tan θ = 1 ÷ (2 tan 20°), so the ball strikes the plane at right angles.",
+    keys:[["45° − β÷2","Range up the slope is greatest at θ = 45° − β ÷ 2: R<sub>max</sub> = u² ÷ (g(1 + sin β))."],["⊥","At right angles: the i (along-slope) velocity is zero at impact."],["tan θ","Then u cos θ = g sin β × T gives tan θ = 1 ÷ (2 tan β)."]],
+    f:"tan θ = 1 ÷ (2 tan β)", mistake:"Setting the j velocity to zero for a right-angle strike. It is the velocity along the plane that must be zero." },
 };
 @@INC $("learnList").innerHTML ||| /* ================= INFOGRAPHICS@@/* ================= INFOGRAPHICS ================= */
 const CASES = [
@@ -376,6 +479,9 @@ const MM = [
   {id:"angle",label:"At an angle",col:"var(--sage)",leaves:[["u cos α","i part."],["u sin α","j part."],["r and v","At time t."]]},
   {id:"known",label:"u and α known",col:"var(--cream)",leaves:[["T","2u sin α ÷ g."],["H","u² sin² α ÷ 2g."],["R","u² sin 2α ÷ g."]]},
   {id:"maxrange",label:"Max range",col:"var(--blush)",leaves:[["45°","sin 2α = 1."],["u² ÷ g","Biggest R."],["Pairs","α, 90° − α."]]},
+  {id:"path",label:"Path",col:"var(--apricot)",leaves:[["Eliminate t","x gives t."],["y(x)","Parabola."],["tan α","Quadratic."]]},
+  {id:"incline",label:"Inclined plane",col:"var(--sage)",leaves:[["Axes","Along, across."],["g sin β","Down slope."],["T","j = 0."]]},
+  {id:"strike",label:"On the slope",col:"var(--cream)",leaves:[["Max R","45° − β÷2."],["⊥","v along = 0."],["tan θ","1 ÷ 2 tan β."]]},
 ];
 @@INC let mmSel ||| /* ================= FLASHCARDS@@/* ================= FLASHCARDS ================= */
 const CARDS = [
@@ -403,6 +509,17 @@ const CARDS = [
   ["maxrange","How do you find the angles that hit a target at distance d?","sin 2α = gd ÷ u²: two solutions, α and 90° − α."],
   ["maxrange","Why can't you hit a target further than u² ÷ g?","sin 2α can't be more than 1."],
   ["known","Impact speed at the launch level?","The same as the launch speed u (by symmetry)."],
+  ["path","How do you get the equation of the path?","Find t from x = (u cos α)t and substitute it into the y equation."],
+  ["path","Equation of the path?","y = x tan α − gx² ÷ (2u² cos² α)."],
+  ["path","Why use 1 ÷ cos² α = 1 + tan² α?","It turns the path into a quadratic in tan α, so you can solve for the angle."],
+  ["incline","Which axes for an inclined plane?","i along the plane and j perpendicular to it."],
+  ["incline","Acceleration on a plane inclined at β (up the plane positive)?","−g sin β i − g cos β j."],
+  ["incline","When does the projectile land on the plane?","When its j (perpendicular) displacement is zero."],
+  ["incline","Time of flight up a plane?","T = 2u sin θ ÷ (g cos β), θ measured from the plane."],
+  ["strike","Angle to the plane for maximum range up it?","θ = 45° − β ÷ 2."],
+  ["strike","Maximum range up a plane inclined at β?","u² ÷ (g(1 + sin β))."],
+  ["strike","Condition to strike the plane at right angles?","The velocity along the plane (i) is zero at impact."],
+  ["strike","Angle to strike at right angles?","tan θ = 1 ÷ (2 tan β)."],
 ];
 @@INC let fcKnown ||| /* ================= QUIZ@@/* ================= QUIZ ================= */
 const QUIZ = [
@@ -422,6 +539,12 @@ const QUIZ = [
   ["maxrange","Maximum range for u = 14 m/s:",["10 m","14 m","20 m","28 m"],2,"14² ÷ 9.8 = 20 m."],
   ["maxrange","Which angle gives the same range as 25°?",["50°","65°","75°","155°"],1,"90° − 25° = 65°."],
   ["maxrange","A target is beyond u² ÷ g. It can be hit:",["at 45°","at two angles","at no angle","at 90°"],2,"The range can't exceed u² ÷ g."],
+  ["path","The equation of the path is found by:",["setting y = 0","eliminating t between x and y","setting v<sub>j</sub> = 0","adding x and y"],1,"t = x ÷ (u cos α), substituted into y."],
+  ["path","Using 1 ÷ cos² α = 1 + tan² α, the path equation becomes a quadratic in:",["x","t","tan α","sin α"],2,"Solve it for the angles through a point."],
+  ["incline","On a plane inclined at 30°, the acceleration perpendicular to the plane is about:",["9.8 m/s²","4.9 m/s²","8.49 m/s²","0"],2,"g cos 30° ≈ 8.49 m/s²."],
+  ["incline","A particle fired up a plane lands on it when:",["its i displacement is zero","its j displacement is zero","its speed is zero","t = u ÷ g"],1,"j is perpendicular to the plane."],
+  ["strike","The maximum range up a plane inclined at 20° is at an angle to the plane of:",["45°","35°","25°","20°"],1,"45° − 20° ÷ 2 = 35°."],
+  ["strike","To strike the plane at right angles, at impact:",["the velocity along the plane is zero","the velocity perpendicular to it is zero","the speed is zero","t = T ÷ 2"],0,"Only the perpendicular part remains."],
 ];
 @@INC let qz = ||| /* ================= EXAM PREP@@/* ================= EXAM PREP ================= */
 const CMDS = [
@@ -447,6 +570,12 @@ const PTYPES = {
       return { q:`A ball is thrown horizontally at <b>${u} m/s</b> from the top of a cliff <b>${h} m</b> high. How far from the foot of the cliff does it land (m, two decimal places)?`, ans:x, unit:"m", steps:[`j: ${h} = 4.9t² → t = √(${h} ÷ 4.9) = ${nf(t,3)} s`,`i: x = ${u} × ${nf(t,3)}`,`x = ${nf(x,2)} m`] }; } },
   aim:{ name:"Angle for a target (HL)", gen(){ const u=rnd(12,30), d=rnd(5,Math.floor(u*u/G*0.95)), a=Math.asin(G*d/(u*u))/2/DEG;
       return { q:`A ball is projected at <b>${u} m/s</b> to land <b>${d} m</b> away on level ground. Find the smaller possible angle of projection (degrees, one decimal place).`, ans:a, unit:"°", steps:[`${d} = ${u*u} sin 2α ÷ 9.8`,`sin 2α = ${nf(G*d/(u*u),4)} → 2α = ${nf(2*a,2)}°`,`α = ${nf(a,1)}° (or ${nf(90-a,1)}°)`] }; } },
+  path:{ name:"Equation of the path", gen(){ const u=rnd(12,35), a=pick([25,30,35,40,45,50,55,60,65]), R=proj(u,a).R, x=rnd(2,Math.max(3,Math.floor(R*0.9))), y=pathY(u,a,x);
+      return { q:`A ball is projected at <b>${u} m/s</b> at <b>${a}°</b> to the horizontal. Use the equation of its path to find its height when it is <b>${x} m</b> away horizontally (m, two decimal places).`, ans:y, unit:"m", steps:[`y = x tan α − gx² ÷ (2u² cos² α)`,`= ${x} tan ${a}° − 9.8(${x})² ÷ (2 × ${u*u} × cos² ${a}°)`,`= ${nf(x*Math.tan(a*DEG),3)} − ${nf(G*x*x/(2*u*u*Math.cos(a*DEG)**2),3)} = ${nf(y,2)} m`] }; } },
+  incR:{ name:"Range up a plane (HL)", gen(){ const u=rnd(10,30), b=pick([10,15,20,25,30]), th=pick([15,20,25,30,35,40].filter(x=>x+b<80)), q=incl({u,b,th});
+      return { q:`A particle is projected up a plane inclined at <b>${b}°</b> to the horizontal, with speed <b>${u} m/s</b> at <b>${th}°</b> to the plane. Find its range along the plane (m, two decimal places).`, ans:q.R, unit:"m", steps:[`j (across the plane): (${u} sin ${th}°)t − ½(9.8 cos ${b}°)t² = 0 → T = ${nf(q.T,4)} s`,`i (along the plane): R = (${u} cos ${th}°)T − ½(9.8 sin ${b}°)T²`,`R = ${nf(q.R,2)} m`] }; } },
+  perp:{ name:"Strike at right angles (HL)", gen(){ const b=pick([10,15,20,25,30,35,40]), th=Math.atan(1/(2*Math.tan(b*DEG)))/DEG;
+      return { q:`A particle is projected up a plane inclined at <b>${b}°</b> to the horizontal and strikes the plane at right angles. Find the angle of projection measured from the plane (degrees, one decimal place).`, ans:th, unit:"°", steps:[`At impact v along the plane = 0: u cos θ = (g sin β)T, with T = 2u sin θ ÷ (g cos β)`,`cos θ cos β = 2 sin θ sin β → tan θ = 1 ÷ (2 tan ${b}°) = ${nf(1/(2*Math.tan(b*DEG)),4)}`,`θ = ${nf(th,1)}°`] }; } },
 };
 @@INC let pType= ||| // Which stage is this?@@// True or false? [statement, 1 true / 0 false, why]
 const PRED = [
@@ -460,6 +589,11 @@ const PRED = [
   ["The range is u² sin α ÷ g.",0,"It's u² sin 2α ÷ g."],
   ["A projectile lands at the launch level with the same speed it started with.",1,"Symmetry: v<sub>j</sub> reverses, v<sub>i</sub> is unchanged."],
   ["Doubling the launch speed doubles the range.",0,"Range ∝ u², so it quadruples."],
+  ["The equation of the path comes from eliminating t.",1,"t = x ÷ (u cos α), substituted into y."],
+  ["On an inclined plane, the acceleration along the plane is g.",0,"It's g sin β down the plane; g cos β is across it."],
+  ["To strike a plane at right angles, the velocity along the plane is zero at impact.",1,"Only the perpendicular part is left."],
+  ["The greatest range up an inclined plane is at 45° to the plane.",0,"It's at 45° − β ÷ 2 to the plane."],
+  ["A projectile lands on an inclined plane when its displacement perpendicular to the plane is zero.",1,"That's the j direction with tilted axes."],
 ];
 let pd = { k:-1, shown:false, sel:null, streak:0 };
 let predC=null;
@@ -491,8 +625,14 @@ const LONGQ = [
       ["b","Find the two possible angles.",8,"2α = 30° or 150° (4) → α = 15° or 75° (4)."],
       ["c","Find the time of flight for each, and say which hits sooner.",8,"T = 2(14) sin α ÷ 9.8: 15° → 0.74 s; 75° → 2.76 s (3 each); 15° is quicker (2)."],
       ["d","What is the furthest point the jet can reach on the ground?",6,"14² ÷ 9.8 = 20 m, at 45° (6)."]] },
+  { title:"Up the slope (HL)", intro:"A particle is projected up a plane inclined at 30° to the horizontal. Its speed is 20 m/s at 30° to the plane. Take i along the plane and j perpendicular to it; g = 9.8 m/s².",
+    parts:[["a","Write the initial velocity and the acceleration in terms of i and j.",6,"u = 20 cos 30° i + 20 sin 30° j = 17.32i + 10j (3); a = −9.8 sin 30° i − 9.8 cos 30° j = −4.9i − 8.49j (3)."],
+      ["b","Find the time of flight.",6,"j: 10t − 4.24t² = 0 (3) → t = 10 ÷ 4.244 ≈ 2.36 s (3)."],
+      ["c","Find the range along the plane.",8,"R = 17.32(2.357) − 2.45(2.357)² (4) ≈ 40.82 − 13.61 ≈ 27.21 m (4)."],
+      ["d","Show that this is the maximum range up the plane for this speed.",6,"Max at θ = 45° − β ÷ 2 = 45° − 15° = 30° (3); R<sub>max</sub> = u² ÷ (g(1 + sin 30°)) = 400 ÷ 14.7 ≈ 27.21 m (3)."],
+      ["e","At what angle to the plane should it be fired to strike the plane at right angles?",8,"v along = 0 at impact: u cos θ = g sin β × 2u sin θ ÷ (g cos β) (4) → tan θ = 1 ÷ (2 tan 30°) = 0.866 → θ ≈ 40.9° (4)."]] },
 ];
-@@INC $("longqs").innerHTML ||| const RAG@@const RAG = ["Explain independence of horizontal and vertical motion","Solve horizontal-launch problems","Solve vertical-launch problems","Write the initial velocity in i and j","Write r and v at time t","Find the time to the top","Derive the time of flight","Derive the maximum height","Derive the range","Find speed and direction at time t","Show the maximum range is u² ÷ g at 45°","Find the two angles to hit a target"];
+@@INC $("longqs").innerHTML ||| const RAG@@const RAG = ["Explain independence of horizontal and vertical motion","Solve horizontal-launch problems","Solve vertical-launch problems","Write the initial velocity in i and j","Write r and v at time t","Find the time to the top","Derive the time of flight","Derive the maximum height","Derive the range","Find speed and direction at time t","Show the maximum range is u² ÷ g at 45°","Find the two angles to hit a target","Find the equation of the path","Use the path to find angles through a point","Resolve u and g along and across an inclined plane","Find the time of flight and range up a plane","Find the maximum range up a plane","Find the angle to strike a plane at right angles"];
 @@INC const ragState ||| const SKILLS@@const SKILLS = [["State assumptions","Particle, no air resistance, constant g, level ground.","Dropped vs thrown lab"],["Define variables","u, α, g, t, with a diagram and axes.","Fired at an angle lab"],["Use data","Fit R against u² and compare the gradient with sin 2α ÷ g.","Collect & fit lab"],["Validate","Compare predictions with measurements; discuss air resistance.","Collect & fit lab"],["Interpret","Choose between two possible angles using time or height.","Best angle lab"]];
 @@INC const skState ||| /* ================= LAB STATE@@/* ================= LAB STATE + WIRING ================= */
 // Why
@@ -527,9 +667,29 @@ function mrUpd(){ $("mrUo").textContent=`${mr.u} m/s`; $("mrAo").textContent=`${
   const ang = sv<=1? Math.asin(sv)/2/DEG : null;
   setReadout($("mrOut"),[["Range at this angle",`${nf(R,2)} m`],["Same range at",`${90-mr.a}°`],["Maximum range u² ÷ g",`${nf(Rm,2)} m at 45°`],["To hit the target",ang==null?"impossible: beyond the maximum range":`α = ${nf(ang,1)}° or ${nf(90-ang,1)}°`],["Now",Math.abs(R-mr.d)<0.6?"Hit! 🎯":R<mr.d?"short":"long"]]); if(mrC) mrC.redraw(); }
 [["mrU","u"],["mrA","a"],["mrD","d"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ mr[k]=+e.target.value; mrUpd(); }));
+// Path
+const pt = {u:20,a:40,d:25,h:6};
+function ptUpd(){ $("ptUo").textContent=`${pt.u} m/s`; $("ptAo").textContent=`${pt.a}°`; $("ptDo").textContent=`${pt.d} m`; $("ptHo").textContent=`${pt.h} m`;
+  const p=proj(pt.u,pt.a), c=G/(2*pt.u*pt.u*Math.cos(pt.a*DEG)**2), yd=pathY(pt.u,pt.a,pt.d), w=wallAngles(pt.u,pt.d,pt.h);
+  setReadout($("ptOut"),[["Path",`y = ${nf(Math.tan(pt.a*DEG),3)}x − ${nf(c,4)}x²`],["Height at the wall",pt.d>p.R?"it has already landed":`${nf(yd,2)} m`],["Clears the wall?",pt.d<=p.R&&yd>pt.h?"Yes ✓":"No ✗"],["Angles that just clear the top",w?`α = ${nf(w[0],1)}° or ${nf(w[1],1)}°`:"none: too far or too high for this speed"]]); if(ptC) ptC.redraw(); }
+[["ptU","u"],["ptA","a"],["ptD","d"],["ptH","h"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ pt[k]=+e.target.value; ptUpd(); }));
+// Incline
+const ic = {u:20,b:20,th:30,t:0.4,axes:true};
+function icUpd(){ if(ic.th+ic.b>85){ ic.th=85-ic.b; $("icT").value=ic.th; } $("icUo").textContent=`${ic.u} m/s`; $("icBo").textContent=`${ic.b}°`; $("icTo").textContent=`${ic.th}°`;
+  const q=incl(ic), t=ic.t*q.T, sx=ic.u*Math.cos(q.th)*t-0.5*G*Math.sin(q.b)*t*t, sy=ic.u*Math.sin(q.th)*t-0.5*G*Math.cos(q.b)*t*t; $("icSo").textContent=`${nf(t,2)} s`;
+  setReadout($("icOut"),[["u",`${nf(ic.u*Math.cos(q.th),2)}i + ${nf(ic.u*Math.sin(q.th),2)}j`],["a",`−${nf(G*Math.sin(q.b),2)}i − ${nf(G*Math.cos(q.b),2)}j`],["Time of flight",`${nf(q.T,2)} s`],["Range along the plane",q.R>=0?`${nf(q.R,2)} m`:`lands ${nf(-q.R,2)} m behind the launch point`],["Now (along, across)",`${nf(sx,2)} m, ${nf(sy,2)} m`]]); if(icC) icC.redraw(); }
+[["icU","u"],["icB","b"],["icT","th"],["icS","t"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ ic[k]=+e.target.value; icUpd(); }));
+// Strike
+const st = {u:20,b:20,th:30,strike:true};
+function stUpd(){ if(st.th+st.b>85){ st.th=85-st.b; $("stT").value=st.th; } $("stUo").textContent=`${st.u} m/s`; $("stBo").textContent=`${st.b}°`; $("stTo").textContent=`${nf(st.th,1)}°`;
+  const q=incl(st), thM=45-st.b/2, Rm=st.u*st.u/(G*(1+Math.sin(q.b))), thP=Math.atan(1/(2*Math.tan(q.b)))/DEG, imp=Math.atan2(-q.vPerp,q.vAlong)/DEG;
+  setReadout($("stOut"),[["Range up the plane",`${nf(q.R,2)} m`],["Best θ = 45° − β ÷ 2",`${nf(thM,1)}° → R<sub>max</sub> = ${nf(Rm,2)} m`],["Right angles: tan θ = 1 ÷ (2 tan β)",`θ = ${nf(thP,1)}°`],["Velocity at impact",`${nf(q.vAlong,2)}i − ${nf(-q.vPerp,2)}j m/s`],["Hits the plane at",`${nf(imp,1)}°${Math.abs(imp-90)<0.3?" : right angles ✓":imp>90?" (moving back down the slope)":""}`]]); if(stC) stC.redraw(); }
+[["stU","u"],["stB","b"],["stT","th"]].forEach(([id,k])=>$(id).addEventListener("input",e=>{ st[k]=+e.target.value; stUpd(); }));
+$("stMax").addEventListener("click",()=>{ st.th=Math.round((45-st.b/2)*10)/10; $("stT").value=st.th; stUpd(); });
+$("stPerp").addEventListener("click",()=>{ st.th=Math.round(Math.atan(1/(2*Math.tan(st.b*DEG)))/DEG*10)/10; $("stT").value=st.th; stUpd(); });
 
 /* ================= CREATE CANVASES ================= */
-let whC=null, vtC=null, anC=null, knC=null, knG=null, mrC=null;
+let whC=null, vtC=null, anC=null, knC=null, knG=null, mrC=null, ptC=null, icC=null, stC=null;
 const hero = makeCanvas($("heroCanvas"), 0.75, 240, s => { drawAngle(s.ctx,s.w,s.h,{u:20,a:55,t:reduce?0.3:((heroT*0.25)%1)}); }, 440);
 whC = makeCanvas($("whC"), 0.5, 260, s => drawWhy(s.ctx,s.w,s.h,wh), 440);
 vtC = makeCanvas($("vtC"), 0.5, 260, s => drawMeet(s.ctx,s.w,s.h,vm), 440);
@@ -537,6 +697,9 @@ anC = makeCanvas($("anC"), 0.5, 260, s => drawAngle(s.ctx,s.w,s.h,an), 440);
 knC = makeCanvas($("knC"), 0.42, 240, s => drawAngle(s.ctx,s.w,s.h,{u:kn.u,a:kn.a,t:0.5,marks:true,noV:true}), 380);
 knG = makeCanvas($("knG"), 0.7, 200, s => { bg(s.ctx,s.w,s.h); const fr=frame(s.ctx,s.w,s.h,{x0:0,x1:900,y0:0,y1:95,xl:"u² (m²/s²)",yl:"R (m)",compact:true,xt:300,yt:20}), f=knFit(); if(f) line(s.ctx,fr.X(0),fr.Y(f.c),fr.X(900),fr.Y(Math.min(95,f.c+f.m*900)),C.terra,2.5); kn.rows.forEach(([a,u,R])=>circle(s.ctx,fr.X(u*u),fr.Y(Math.min(95,R)),4,a===kn.a?C.surface:C["surface-2"],a===kn.a?C.ink:C.muted,2)); }, 320);
 mrC = makeCanvas($("mrC"), 0.5, 260, s => drawMax(s.ctx,s.w,s.h,mr), 440);
+ptC = makeCanvas($("ptC"), 0.5, 260, s => drawPath(s.ctx,s.w,s.h,pt), 440);
+icC = makeCanvas($("icC"), 0.55, 260, s => drawIncline(s.ctx,s.w,s.h,ic), 460);
+stC = makeCanvas($("stC"), 0.55, 260, s => drawIncline(s.ctx,s.w,s.h,st), 460);
 predC = makeCanvas($("predC"), 0.42, 160, s => { bg(s.ctx,s.w,s.h,C["surface-2"]); const cw=(s.w-32)/2;
   [["✓","True",1],["✗","False",0]].forEach(([sym,l,v],i)=>{ const x=16+i*cw, hit=pd.shown&&PRED[pd.k][1]===v; rr(s.ctx,x+4,16,cw-8,s.h-32,14); s.ctx.fillStyle=hit?C.terra:C.surface; s.ctx.fill(); s.ctx.strokeStyle=C.line; s.ctx.stroke();
     text(s.ctx,sym,x+cw/2,s.h/2-2,hit?C["on-accent"]||"#fff":C.ink,F(s.w<380?18:24,800),"center"); text(s.ctx,l,x+cw/2,s.h/2+22,hit?C["on-accent"]||"#fff":C.muted,F(12),"center"); }); }, 240);
@@ -546,10 +709,12 @@ const MINI = {
   meet:(s,o)=>drawMeet(s.ctx,s.w,s.h,{...o,compact:true}),
   angle:(s,o)=>drawAngle(s.ctx,s.w,s.h,{...o,compact:true}),
   max:(s,o)=>drawMax(s.ctx,s.w,s.h,{...o,compact:true}),
+  path:(s,o)=>drawPath(s.ctx,s.w,s.h,{...o,compact:true}),
+  incline:(s,o)=>drawIncline(s.ctx,s.w,s.h,{...o,compact:true}),
 };
 document.querySelectorAll("canvas[data-learn]").forEach(el=>{ const [kind,o]=LEARN[el.dataset.learn].vis[+el.dataset.k]; makeCanvas(el, 0.62, 150, s=>MINI[kind](s,o), 380); });
 const INFO = { a30:["max",{u:20,a:30,d:null}], a45:["max",{u:20,a:45,d:null}], a60:["max",{u:20,a:60,d:null}] };
 document.querySelectorAll("canvas[data-mini]").forEach(el=>{ const [k,o]=INFO[el.dataset.mini]; makeCanvas(el,0.7,160,s=>MINI[k](s,{...o,bgc:C["surface-2"]})); });
-whUpd(); vmUpd(); anUpd(); knUpd(); mrUpd();
+whUpd(); vmUpd(); anUpd(); knUpd(); mrUpd(); ptUpd(); icUpd(); stUpd();
 
 @@INC /* ================= LOOP / THEME / START ||| </html>@@
